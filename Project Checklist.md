@@ -1,9 +1,9 @@
 Quiz Project Checklist
 ==================
 ## Start
-- [ ] Fork project
-- [ ] Clone repo
-- [ ] Plan Project
+- [x] Fork project
+- [x] Clone repo
+- [x] Plan Project
 
 ## Code
 - [ ] Replace the 'quiz selector' with link add feature

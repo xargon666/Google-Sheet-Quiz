@@ -7,12 +7,12 @@ Quiz Project Checklist
 
 ## Code
 - [ ] Replace the 'quiz selector' with link add feature
-	- [ ] Access Local Storage for previous quiz data
-	- [ ] Create Form
-		- [ ] Enter Name
-		- [ ] Enter Link
-		- [ ] Passing Grade (percentage)
-	- [ ] Save form data to localStorage
+	- [x] Access Local Storage for previous quiz data
+	- [x] Create Form
+		- [x] Enter Name
+		- [x] Enter Link
+		- [x] Passing Grade (percentage)
+	- [x] Save form data to localStorage
 	- [ ] Navigate to Quiz
 - [ ] Update Google Apps script for your format
 - [ ] Add Link to Readme for same quiz data and google sheet format

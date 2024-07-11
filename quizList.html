@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Generator | List</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="shortcut icon" href="./static/images/favicon.png" type="image/x-icon">
+    </head>
+
+    <body>
+        <header>
+            <a href="index.html">
+                <h1>Quiz Generator</h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="quizList.html" class="active">Quizzes</a>
+                <a href="#">About</a>
+            </nav>
+        </header>
+        <!-- QUIZ LIST PAGE ==================================================================================== -->
+        <article>
+            <!-- Instructions -->
+            <section class="instructions">
+                <div class="container">
+                    <h2>Instructions</h2>
+                    <p>Select from the list of available quizzes.</p>
+                    <p>
+                        The data is stored in your browser localStorage from
+                        previous sessions.
+                    </p>
+                    <p>
+                        To add a new quiz: <br />Select <b>Add New Quiz</b> -
+                        found at the base of the list
+                    </p>
+                </div>
+            </section>
+
+            <!-- List -->
+            <section id="quiz-list-section" class="main-section">
+                <div id="quiz-list-container" class="container">
+                    <h2>Quiz List</h2>
+                    <div id="quiz-list">
+                        <a
+                            id="add-new-quiz-btn"
+                            class="app-button secondary-button"
+                            href="addQuizForm.html"
+                        >
+                            Add New Quiz
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </body>
+
+    <script src="./scripts/quizlist.js"></script>
+</html>

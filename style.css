@@ -5,11 +5,17 @@
     padding: 0;
 }
 
+/* ------------- Variables ----------- */
+:root {
+    --primary-color: #ff4742;
+    --secondary-color: #2fee95;
+}
+
 body {
     background-color: whitesmoke;
 }
 
-/* -------------- Header ------------- */
+/* --------------- Header --------------- */
 
 header {
     display: flex;
@@ -17,21 +23,22 @@ header {
     align-items: center;
     background: white;
     height: 50px;
+    margin-bottom: 2rem;
 }
 
 header nav {
-    height: 100%;
     display: flex;
+    height: 100%;
 }
 
 header a {
     text-decoration: none;
-    color: red;
+    color: var(--primary-color);
     padding-left: 1rem;
 }
 
 header nav a {
-    color: red;
+    color: var(--primary-color);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -44,21 +51,20 @@ header nav a:hover {
 }
 
 header nav a.active {
-    background-color: #ff4742;
+    background-color: var(--primary-color);
     color: white;
 }
 
-/* ----------- Main Body ----------- */
+/* --------------- Main Body --------------- */
 
 article {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    padding: 50px;
+    padding: 0 50px;
 }
 
 section {
-    margin: 2rem;
+    margin: 1rem;
 }
 
 .container {
@@ -78,66 +84,88 @@ h2 {
     margin-bottom: 1rem;
 }
 
-.question {
-    padding: 10px;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+.main-section {
+    order: 1;
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 0%;
 }
 
-.main {
-    border: 5px solid #ff4742;
-    border-radius: 23px;
-    padding: 20px;
-    width: auto;
-    margin: auto;
+.instructions {
+    max-width: 550px;
+    order: 2;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
+}
+
+.instructions p {
+    margin-bottom: 1rem;
+}
+
+/* ------------- Text ----------- */
+
+h1 {
+  text-shadow: 2px 2px rgb(109, 4, 4);
+}
+
+h1,
+h2 {
+    color: var(--primary-color);
 }
 
 /* ------------- Unique Sections ----------- */
 
-#add-quiz-form form label {
-    width: 150px;
+#attribution {
+  margin-top: 1rem;
+  padding-left: 3px;
+}
+
+#quiz-list a {
+  display:block;
+  width:fit-content
+}
+
+/* Quiz Form  */
+
+#add-quiz-form-section {
+    flex: 2;
+}
+
+#add-quiz-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#add-quiz-form .form-field {
+    width: 100%;
+}
+
+#add-quiz-form label {
+    min-width: 150px;
     text-align: right;
 }
 
-#add-quiz-form form {
-    display: flex;
-    flex-direction: column;
-    width: 350px;
-}
-
-#add-quiz-form input[type="submit"] {
-    margin-top: 1rem;
+#add-quiz-form input {
+    padding: 0 3px;
     width: 100%;
-}
-
-#quiz-list-container {
-  align-items: center;
-}
-
-#quiz-list {
-  width: 100%
-}
-#quiz-list button {
-    width: 100%;
-}
-
-#quiz-list-section {
-    flex:2;
-}
-
-#instructions {
-  flex:1;
-}
-
-#instructions p {
-    margin-bottom: 1rem;
 }
 
 /* --------------- Buttons & Inputs ---------------- */
 
 .button-group {
     display: flex;
-    margin-top: 2rem;
+    margin-top: 10px;
+}
+
+.button-group > * {
+    flex: 1;
+    width: 200px;
+}
+
+.button-group > :first-child {
+    margin-right: 1rem;
 }
 
 .app-button {
@@ -152,11 +180,13 @@ h2 {
     font-weight: 800;
     text-decoration: none;
     text-align: center;
+    font-size: 1rem;
 
     touch-action: manipulation;
-    margin: 0.5rem;
     margin-bottom: 5px;
     padding: 0.4rem 1rem;
+    min-height: 2rem;
+    min-width: fit-content;
 }
 
 .app-button:hover {
@@ -166,8 +196,8 @@ h2 {
     outline: 2.5px solid #333;
 }
 
-.app-button:active {
-    background-color: #2fee95;
+.secondary-button:active {
+    background-color: var(--secondary-color);
 }
 
 .primary-button {
@@ -178,6 +208,11 @@ h2 {
         rgba(255, 123, 119, 1) 100%
     );
 }
+
+.primary-button:active {
+  background-color: var(--primary-color);
+}
+
 .secondary-button {
     background: rgb(8, 170, 97);
     background: linear-gradient(
@@ -185,6 +220,15 @@ h2 {
         rgba(8, 170, 97, 1) 0%,
         rgba(47, 238, 149, 1) 100%
     );
+}
+
+.secondary-button:active {
+  background-color: var(--secondary-color);
+}
+
+/* Subtle on-click transition */
+.app-button:not(:active) {
+  transition: background-color 175ms ease-in-out;
 }
 
 input {
@@ -200,12 +244,6 @@ input {
     margin-bottom: 0.5rem;
 }
 
-.percent-sign {
-    position: absolute;
-    right: -1.2rem;
-    pointer-events: none;
-}
-
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: block;
@@ -213,4 +251,50 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
+}
+
+/* -------------- Unique Buttons -------------- */
+
+#add-new-quiz-btn {
+    margin-top: 1rem;
+    min-width: 50%;
+}
+
+/* --------------- Break Point ---------------- */
+@media only screen and (max-width: 750px) {
+    h2 {
+        font-size: large;
+    }
+
+    header {
+        display: none;
+    }
+
+    .app-button {
+        font-size: small;
+    }
+
+    article {
+        flex-direction: column;
+    }
+
+    .instruction {
+        order: 1;
+    }
+
+    .main-section {
+        order: 2;
+    }
+
+    #quiz-list > a {
+      width:100%;
+    }
+
+    .button-group {
+      flex-direction:column;
+    }
+
+    .button-group > * {
+      width:100%;
+    }
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Generator | Form</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="shortcut icon" href="./static/images/favicon.png" type="image/x-icon">
+    </head>
+
+    <body>
+        <header>
+            <a href="index.html">
+                <h1>Quiz Generator</h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a class="active" href="">Quizzes</a>
+                <a href="#">About</a>
+            </nav>
+        </header>
+        <!-- QUIZ FORM PAGE ==================================================================================== -->
+        <article>
+            <!-- Instructions -->
+            <section class="instructions">
+                <div class="container">
+                    <h2>Instructions</h2>
+                    <p>
+                        Enter the name of your quiz, a link to the data, and the
+                        passing grade.
+                    </p>
+                    <p>
+                        The data link must meet the requirements to correctly
+                        import quiz data from your Google Sheet.
+                    </p>
+                    <p>
+                        Full instructions can be found on the GitHub page for
+                        this site.
+                    </p>
+                </div>
+            </section>
+            <!-- Form -->
+            <section id="add-quiz-form-section" class="main-section">
+                <div class="container">
+                    <form id="add-quiz-form">
+                        <div class="form-field">
+                            <label for="quiz-name" required>Quiz Name</label>
+                            <input
+                                type="text"
+                                name="quiz-name"
+                                id="quiz-name"
+                                placeholder="Enter Name..."
+                                required
+                            />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="quiz-link">Google Sheets Link</label>
+                            <input
+                                type="text"
+                                name="quiz-link"
+                                id="quiz-link"
+                                placeholder="Enter Google Sheets Link..."
+                                required
+                            />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="quiz-pass">Passing Grade %</label>
+                            <input
+                                type="number"
+                                name="quiz-pass"
+                                id="quiz-pass"
+                                value="85"
+                            />
+                        </div>
+
+                        <div class="button-group">
+                            <a
+                                href="quizList.html"
+                                class="app-button primary-button"
+                                >Cancel</a
+                            >
+                            <input
+                                type="submit"
+                                value="Submit"
+                                class="secondary-button app-button"
+                            />
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </article>
+    </body>
+    <script src="./scripts/localStorage.js"></script>
+</html>

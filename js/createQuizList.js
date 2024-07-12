@@ -36,7 +36,6 @@ function goToQuiz(id) {
     window.location.href = `./quiz.html?${id}`
 }
 
-// LAUNCH CODE ================================================================
 
 getQuizData()
 createQuizList()

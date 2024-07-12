@@ -20,11 +20,11 @@ Quiz Project Checklist
 	- [x] Add CSS Loading Screen to replace existing .gif
 	- [x] Update for multiple choice Radio Buttons
 	- [x] Create Submit Answer Code
-	- [ ] Update for Checkbox questions
+	- [x] Update for Checkbox questions
 	- [ ] Answer's stored in array till end of quiz = Needs Testing
-	- [ ] Remove instant feedback - Optional?
+	- [x] Remove instant feedback
 	- [ ] Add a final scrore screen
-		- [ ] Final Score
+		- [x] Final Score
 		- [ ] List all correct question/answers
 		- [ ] List all incorrect question/answers
 - [ ] Add in depth instructions and template files

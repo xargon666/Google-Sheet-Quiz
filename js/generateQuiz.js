@@ -1,13 +1,14 @@
 import { getQuizData, quizData } from '../js/getQuizData.js'
 
 // VARIABLE BLOCK =============================================================
-
+const loaded = false
 const loader = document.getElementById('loader')
 const quizWrapper = document.getElementById('quiz-wrapper')
 const quizName = document.getElementById('quiz-name')
 const quizPass = document.getElementById('quiz-pass')
 const startQuizButton = document.getElementById('start-quiz-button')
 const quizInfo = document.getElementById('quiz-info')
+const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
 const index = parseInt(parent.document.URL.substring(parent.document.URL.indexOf('?') + 1, parent.document.URL.length));
 
@@ -29,6 +30,16 @@ const game = {
 
 // FUNCTION BLOCK =============================================================
 
+function toggleLoader(toggle) {
+    if (toggle) {
+        loader.style.display = "none"
+        quizWrapper.style.display = "flex"
+    } else {
+        loader.style.display = "block"
+        quizWrapper.style.display = "none"
+    }
+}
+
 function generateQuiz() {
     getQuizData()
     const quiz = quizData.find((quiz) => quiz.id === index)
@@ -42,8 +53,7 @@ function generateQuiz() {
         })
         .then(data => {
             game.data = data;
-            loader.style.display = "none"
-            quizWrapper.style.display = "flex"
+            toggleLoader(true)
             if (game.data.length > 0) {
                 game.name = quiz.name
                 game.pass = quiz.pass
@@ -51,6 +61,13 @@ function generateQuiz() {
                 quizPass.textContent = `The passing grade on this quiz is ${game.pass}%`
                 // convert answers to string array
                 for (let i = 0; i < Object.keys(game.data).length; i++) {
+                    // Validate points
+                    if (!game.data[i].points) {
+                        game.data[i].points = 1
+                    } else {
+                        game.data[i].points = Number(game.data[i].points)
+                    }
+                    // Build Answers Array
                     let newAnswer = []
                     let string = String(game.data[i].answer)
                     string.includes(',')
@@ -68,8 +85,6 @@ function generateQuiz() {
 }
 
 function startQuiz() {
-    console.log(game.data)
-
     setupQuizInfo()
     nextQuestion()
 }
@@ -97,7 +112,7 @@ function submitAnswer(e) {
     }
 
     // Prevent form submission without selection
-    if (!selectedAnswers) {
+    if (selectedAnswers.length === 0 ) {
         redText.textContent = "Please select an answer to continue"
         redText.style.display = "block"
         return
@@ -114,27 +129,27 @@ function submitAnswer(e) {
     }
 
     // Add Points
-    answerCorrect && game.playerData.score++
-    console.log("score", game.playerData.score)
+    if (answerCorrect) game.playerData.score += game.data[currentQuestion].points
 
     // Check if end of quiz or proceed to next question
-    if (game.playerData.question + 1 === Object.keys(game.data).length) {
+    if (game.playerData.question + 1 === Object.keys(game.data).length && selectedAnswers) {
         // End of Quiz
-        console.log("END OF QUIZ")
         endQuiz()
     } else {
         // Next Question
         game.playerData.question++
         nextQuestion()
     }
+    return
 }
 
 function endQuiz() {
     clearScreen()
     let maxScore = 0
-    game.data.points
-        ? maxScore = Object.values(game.data.points).reduce((c, a) => c + a, 0)
-        : maxScore = Object.keys(game.data).length
+    for (let i = 0; i < Object.keys(game.data).length; i++) {
+        maxScore += game.data[i].points
+    }
+
     createElement(
         'h3',
         `Final Score: ${game.playerData.score}/${maxScore}`,
@@ -148,11 +163,23 @@ function endQuiz() {
         quizWrapper
     )
     if (game.playerData.score === maxScore) {
-        outcomeMessage.textContent = "Congratulations!" 
+        outcomeMessage.textContent = "Congratulations!"
         outcomeMessage.classList.add('rainbow')
     } else {
         outcomeMessage.textContent = "Better luck next time."
     }
+
+    // Add Exit/Retry Buttons
+    const exitButtons = createElement("div", "", "button-group", quizWrapper)
+
+    const exit = createElement("a", "Return to List", "app-button", exitButtons)
+    exit.classList.add('primary-button')
+    exit.setAttribute('href', 'quizList.html')
+
+    const retry = createElement("a", "Try Again", "app-button", exitButtons)
+    retry.classList.add('secondary-button')
+    retry.setAttribute('href', parent.document.URL)
+
     return
 }
 
@@ -214,12 +241,52 @@ function createCheckbox(id, text, parent) {
     return option
 }
 
+async function loadImageAndToggleLoader() {
+    if (game.data[game.playerData.question].image) {
+        toggleLoader(false);
+        const img = document.createElement('img');
+        img.alt = "quiz image";
+        img.width = 250;
+        img.classList.add('self-centered');
+
+        try {
+            const response = await fetch(
+                game.data[game.playerData.question].image
+            );
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const imgURL = response.url;
+            img.src = imgURL;
+
+            img.onload = () => {
+                console.log("Image loaded successfully.");
+                toggleLoader(true);
+                quizWrapper.insertBefore(img, quizWrapper.children[1].nextSibling)
+            };
+
+            img.onerror = () => {
+                console.error("Image failed to load.");
+                toggleLoader(true);
+            };
+
+            // Append the image to the quiz wrapper
+        } catch (error) {
+            console.error("Image Error: ", error);
+            toggleLoader(true);
+        }
+    }
+}
+
 function nextQuestion() {
     clearScreen()
 
     // Add Question Details
     createElement("h2", `Question ${game.playerData.question + 1}`, "self-centered", quizWrapper)
     createElement("h3", `${game.data[game.playerData.question].question}`, "self-centered", quizWrapper)
+
+    // handle image loading
+    if (game.data[game.playerData.question].image) loadImageAndToggleLoader();
 
     // Create Form
     const questionForm = document.createElement('form')
@@ -235,7 +302,7 @@ function nextQuestion() {
 
     // Get Question Options Array
     const options = Object.values(game.data[game.playerData.question].options)
-    
+
     // Create Answer Buttons
     switch (game.data[game.playerData.question].type) {
         case 'Checkbox':
@@ -251,6 +318,7 @@ function nextQuestion() {
     questionForm.appendChild(submitButton)
     questionForm.classList.add('quiz-form')
     quizWrapper.appendChild(questionForm)
+
     return
 }
 

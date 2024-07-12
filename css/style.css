@@ -15,6 +15,14 @@ body {
     background-color: whitesmoke;
 }
 
+footer {
+    position:absolute;
+    bottom:5px;
+    left:50%;
+    transform: translate(-50%, 0);
+    
+}
+
 /* --------------- Header --------------- */
 
 header {
@@ -78,6 +86,10 @@ section {
 
 .centered {
     align-items: center;
+}
+
+.self-centered{
+    align-self:center
 }
 
 h2 {
@@ -151,6 +163,16 @@ h2 {
     padding: 0 3px;
     width: 100%;
 }
+
+#quiz-wrapper {
+    display:flex;
+    flex-direction: column;
+}
+
+#quiz-name, #quiz-pass {
+    align-self: center;
+}
+
 
 /* --------------- Buttons & Inputs ---------------- */
 

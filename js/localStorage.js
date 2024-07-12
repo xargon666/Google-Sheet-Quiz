@@ -12,7 +12,6 @@ let quizData = []
 
 console.log("New Test", localStorage.key(0))
 
-
 const submitQuiz = (e) => {
     e.preventDefault()
     let newQuizData = {}
@@ -20,6 +19,7 @@ const submitQuiz = (e) => {
 
     if (quizName.value && quizLink.value && quizPass.value) {
         newQuizData = {
+            id:index,
             name: quizName.value,
             link: quizLink.value,
             pass: quizPass.value

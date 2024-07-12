@@ -6,19 +6,19 @@ Quiz Project Checklist
 - [x] Plan Project
 
 ## Code
-- [ ] Replace the 'quiz selector' with link add feature
+- [x] Replace the 'quiz selector' with link add feature
 	- [x] Access Local Storage for previous quiz data
 	- [x] Create Form
 		- [x] Enter Name
 		- [x] Enter Link
 		- [x] Passing Grade (percentage)
 	- [x] Save form data to localStorage
-	- [ ] Navigate to Quiz
-- [ ] Update Google Apps script for your format
+	- [x] Navigate to Quiz
+- [x] Update Google Apps script for your format
 - [ ] Add Link to Readme for same quiz data and google sheet format
-- [ ] Redo Quiz Code
+- [ ] Redo Quiz Code = In Progress
 	- [ ] Answer's stored in array till end of quiz
-	- [ ] Update for multiple choice Radio Buttons
+	- [x] Update for multiple choice Radio Buttons
 	- [ ] Update for multiple options Checkboxes
 	- [ ] Remove instant feedback - Optional?
 	- [ ] Add a final scrore screen
@@ -27,7 +27,7 @@ Quiz Project Checklist
 		- [ ] List all incorrect question/answers
 
 ## Style
-- [ ] Update Styling
+- [ ] Update Styling = In Progress
 
 ## Test
 - [ ] Add testing with jest

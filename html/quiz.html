@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generator | Quiz</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/loader.css" />
+	<link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <h1>Quiz Generator</h1>
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="quizList.html" class="active">Quizzes</a>
+            <a href="#">About</a>
+        </nav>
+    </header>
+<!-- QUIZ PAGE =============================================================================== -->
+
+    <section>
+        <div class="container">
+            <div id="loader">Loading...</div>
+            <div id="quiz-wrapper" style="display:none;">
+                <h2 id="quiz-name">Quiz Data Not Found</h2>
+                <h4 id="quiz-pass"><strong>Please consult you local site admin</strong></h4>
+                <div class="button-group">
+                    <a href="quizList.html" class="app-button primary-button">Cancel</a>
+                    <button id="start-quiz-button" class="app-button secondary-button">Start the Quiz</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+	<footer>
+		© Christopher Pucknell 2024
+	</footer>
+</body>
+<script type="module" src="../js/generateQuiz.js"></script>
+</html>

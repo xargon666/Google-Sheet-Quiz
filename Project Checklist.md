@@ -15,16 +15,19 @@ Quiz Project Checklist
 	- [x] Save form data to localStorage
 	- [x] Navigate to Quiz
 - [x] Update Google Apps script for your format
-- [ ] Add Link to Readme for same quiz data and google sheet format
+	- [x] Add Options to their own nested object
 - [ ] Redo Quiz Code = In Progress
-	- [ ] Answer's stored in array till end of quiz
+	- [x] Add CSS Loading Screen to replace existing .gif
 	- [x] Update for multiple choice Radio Buttons
-	- [ ] Update for multiple options Checkboxes
+	- [x] Create Submit Answer Code
+	- [ ] Update for Checkbox questions
+	- [ ] Answer's stored in array till end of quiz = Needs Testing
 	- [ ] Remove instant feedback - Optional?
 	- [ ] Add a final scrore screen
 		- [ ] Final Score
 		- [ ] List all correct question/answers
 		- [ ] List all incorrect question/answers
+- [ ] Add in depth instructions and template files
 
 ## Style
 - [ ] Update Styling = In Progress

@@ -16,11 +16,10 @@ body {
 }
 
 footer {
-    position:absolute;
-    bottom:5px;
-    left:50%;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
     transform: translate(-50%, 0);
-    
 }
 
 /* --------------- Header --------------- */
@@ -88,8 +87,8 @@ section {
     align-items: center;
 }
 
-.self-centered{
-    align-self:center
+.self-centered {
+    align-self: center;
 }
 
 h2 {
@@ -115,10 +114,29 @@ h2 {
     margin-bottom: 1rem;
 }
 
+.quiz-form {
+    margin-top: 1rem;
+}
+
+.quiz-form .question-option {
+    margin-bottom:2px;
+    border-bottom: #c7c7c7 1px solid;
+    padding: 15px 0;
+}
+
+.quiz-form input[type=radio] {
+    margin-right: 7px;
+}
+
+.quiz-form input[type=submit]{
+    margin-top:1rem;
+    width:100%;
+}
+
 /* ------------- Text ----------- */
 
 h1 {
-  text-shadow: 2px 2px rgb(109, 4, 4);
+    text-shadow: 2px 2px rgb(109, 4, 4);
 }
 
 h1,
@@ -126,16 +144,21 @@ h2 {
     color: var(--primary-color);
 }
 
+.red-text {
+    font-weight: 1000;
+    color: red
+}
+
 /* ------------- Unique Sections ----------- */
 
 #attribution {
-  margin-top: 1rem;
-  padding-left: 3px;
+    margin-top: 1rem;
+    padding-left: 3px;
 }
 
 #quiz-list a {
-  display:block;
-  width:fit-content
+    display: block;
+    width: fit-content;
 }
 
 /* Quiz Form  */
@@ -165,14 +188,14 @@ h2 {
 }
 
 #quiz-wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
-#quiz-name, #quiz-pass {
+#quiz-name,
+#quiz-pass {
     align-self: center;
 }
-
 
 /* --------------- Buttons & Inputs ---------------- */
 
@@ -232,7 +255,7 @@ h2 {
 }
 
 .primary-button:active {
-  background-color: var(--primary-color);
+    background-color: var(--primary-color);
 }
 
 .secondary-button {
@@ -245,12 +268,12 @@ h2 {
 }
 
 .secondary-button:active {
-  background-color: var(--secondary-color);
+    background-color: var(--secondary-color);
 }
 
 /* Subtle on-click transition */
 .app-button:not(:active) {
-  transition: background-color 175ms ease-in-out;
+    transition: background-color 175ms ease-in-out;
 }
 
 input {
@@ -309,14 +332,14 @@ input[type="number"] {
     }
 
     #quiz-list > a {
-      width:100%;
+        width: 100%;
     }
 
     .button-group {
-      flex-direction:column;
+        flex-direction: column;
     }
 
     .button-group > * {
-      width:100%;
+        width: 100%;
     }
 }

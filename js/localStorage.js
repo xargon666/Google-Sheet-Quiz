@@ -1,4 +1,4 @@
-
+// VARIABLE BLOCK =============================================================
 
 const quizForm = document.getElementById("add-quiz-form")
 const quizFormWrapper = document.getElementById('add-quiz-form-wrapper')
@@ -10,7 +10,7 @@ const quizPass = document.getElementById("quiz-pass")
 
 let quizData = []
 
-console.log("New Test", localStorage.key(0))
+// FUNCTION BLOCK =============================================================
 
 const submitQuiz = (e) => {
     e.preventDefault()
@@ -36,5 +36,7 @@ const submitQuiz = (e) => {
     // Return to Quiz List page
     window.location.href="./quizList.html"
 }
+
+// LAUNCH CODE ================================================================
 
 quizForm.addEventListener("submit", submitQuiz)

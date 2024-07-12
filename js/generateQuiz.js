@@ -69,7 +69,7 @@ function generateQuiz() {
 
 function startQuiz() {
     console.log(game.data)
-    clearScreen()
+
     setupQuizInfo()
     nextQuestion()
 }
@@ -121,18 +121,46 @@ function submitAnswer(e) {
     if (game.playerData.question + 1 === Object.keys(game.data).length) {
         // End of Quiz
         console.log("END OF QUIZ")
+        endQuiz()
     } else {
         // Next Question
         game.playerData.question++
-        clearScreen()
         nextQuestion()
     }
+}
+
+function endQuiz() {
+    clearScreen()
+    let maxScore = 0
+    game.data.points
+        ? maxScore = Object.values(game.data.points).reduce((c, a) => c + a, 0)
+        : maxScore = Object.keys(game.data).length
+    createElement(
+        'h3',
+        `Final Score: ${game.playerData.score}/${maxScore}`,
+        'self-centered',
+        quizWrapper
+    )
+    const outcomeMessage = createElement(
+        'h2',
+        "Quiz Outcome Text",
+        "self-centered",
+        quizWrapper
+    )
+    if (game.playerData.score === maxScore) {
+        outcomeMessage.textContent = "Congratulations!" 
+        outcomeMessage.classList.add('rainbow')
+    } else {
+        outcomeMessage.textContent = "Better luck next time."
+    }
+    return
 }
 
 function setupQuizInfo() {
     const redText = createElement("p", "Red Text", "self-centered", quizInfo)
     redText.classList.add("red-text")
     redText.style.display = "none"
+    return
 }
 
 function createElement(element, text, classList, parent) {
@@ -162,10 +190,32 @@ function createRadioButton(id, text, parent) {
     option.classList.add('question-option')
 
     parent.appendChild(option)
-    return
+    return option
+}
+function createCheckbox(id, text, parent) {
+    const option = document.createElement("div")
+    const checkbox = document.createElement("input")
+    const label = document.createElement("label")
+
+    checkbox.setAttribute("type", "checkbox")
+    checkbox.setAttribute("id", id)
+    checkbox.setAttribute("value", id)
+    checkbox.setAttribute("name", "answer")
+    checkbox.classList.add('question-answer')
+
+    label.setAttribute("for", id)
+    label.innerText = text
+
+    option.appendChild(checkbox)
+    option.appendChild(label)
+    option.classList.add('question-option')
+
+    parent.appendChild(option)
+    return option
 }
 
 function nextQuestion() {
+    clearScreen()
 
     // Add Question Details
     createElement("h2", `Question ${game.playerData.question + 1}`, "self-centered", quizWrapper)
@@ -183,13 +233,16 @@ function nextQuestion() {
     submitButton.classList.add('app-button')
     submitButton.classList.add('secondary-button')
 
+    // Get Question Options Array
+    const options = Object.values(game.data[game.playerData.question].options)
+    
     // Create Answer Buttons
-    switch (game.data.type) {
+    switch (game.data[game.playerData.question].type) {
         case 'Checkbox':
+            options.forEach((option, index) => createCheckbox(index + 1, option, questionForm))
             break;
         default:
             // Multiple Choice
-            const options = Object.values(game.data[game.playerData.question].options)
             options.forEach((option, index) => createRadioButton(index + 1, option, questionForm))
             break;
     }
@@ -198,7 +251,7 @@ function nextQuestion() {
     questionForm.appendChild(submitButton)
     questionForm.classList.add('quiz-form')
     quizWrapper.appendChild(questionForm)
-
+    return
 }
 
 // LAUNCH CODE ================================================================

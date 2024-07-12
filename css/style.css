@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap");
+
 * {
     font-family: roboto, proxima-nova, "proxima nova", sans-serif;
     box-sizing: border-box;
@@ -119,21 +121,51 @@ h2 {
 }
 
 .quiz-form .question-option {
-    margin-bottom:2px;
+    margin-bottom: 2px;
     border-bottom: #c7c7c7 1px solid;
     padding: 15px 0;
 }
 
-.quiz-form input[type=radio] {
+.quiz-form input[type="radio"],
+.quiz-form input[type="checkbox"] {
     margin-right: 7px;
 }
 
-.quiz-form input[type=submit]{
-    margin-top:1rem;
-    width:100%;
+.quiz-form input[type="submit"] {
+    margin-top: 1rem;
+    width: 100%;
 }
 
-/* ------------- Text ----------- */
+/* ------------- Banner Image Animation ----------- */
+
+.banner-wrapper {
+    display: block;
+    height: 260px;
+    flex-shrink: 0;
+    background:green;
+    content:"test"
+}
+
+#banner-image {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    animation: pulse 3s ease 0s infinite;
+}
+
+@keyframes pulse {
+    from {
+        width: 335px;
+    }
+    50% {
+        width: 350px;
+    }
+    100% {
+        width: 335px;
+    }
+}
+
+/* ------------- Text Styling ----------- */
 
 h1 {
     text-shadow: 2px 2px rgb(109, 4, 4);
@@ -144,11 +176,38 @@ h2 {
     color: var(--primary-color);
 }
 
-.red-text {
-    font-weight: 1000;
-    color: red
+h2 {
+    font-size: 2rem;
 }
 
+.red-text {
+    font-weight: 1000;
+    color: red;
+}
+
+.rainbow {
+    font-family: "Holtwood One SC", serif;
+    font-size: 48px;
+    animation: colorRotate 0.5s linear 0s infinite;
+}
+
+@keyframes colorRotate {
+    from {
+        color: #6666ff;
+    }
+    10% {
+        color: #0099ff;
+    }
+    50% {
+        color: #00ff00;
+    }
+    75% {
+        color: #ff3399;
+    }
+    100% {
+        color: #6666ff;
+    }
+}
 /* ------------- Unique Sections ----------- */
 
 #attribution {
@@ -308,7 +367,7 @@ input[type="number"] {
 /* --------------- Break Point ---------------- */
 @media only screen and (max-width: 750px) {
     h2 {
-        font-size: large;
+        font-size: 1.75rem;
     }
 
     header {
@@ -316,7 +375,7 @@ input[type="number"] {
     }
 
     .app-button {
-        font-size: small;
+        font-size: medium;
     }
 
     article {
@@ -339,7 +398,19 @@ input[type="number"] {
         flex-direction: column;
     }
 
+    .button-group {
+        width: 100%;
+    }
     .button-group > * {
         width: 100%;
+        margin-bottom:.5rem;
+    }
+
+    .rainbow {
+        font-size: 32px;
+    }
+
+    #banner-image {
+        width: 250px;
     }
 }

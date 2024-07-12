@@ -1,14 +1,13 @@
 import { getQuizData, quizData } from '../js/getQuizData.js'
 
 // VARIABLE BLOCK =============================================================
-const loaded = false
-const loader = document.getElementById('loader')
+const loader = document.getElementById('loader-section')
 const quizWrapper = document.getElementById('quiz-wrapper')
+const quizSection = document.getElementById('quiz-section')
 const quizName = document.getElementById('quiz-name')
 const quizPass = document.getElementById('quiz-pass')
 const startQuizButton = document.getElementById('start-quiz-button')
 const quizInfo = document.getElementById('quiz-info')
-const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
 const index = parseInt(parent.document.URL.substring(parent.document.URL.indexOf('?') + 1, parent.document.URL.length));
 
@@ -33,10 +32,10 @@ const game = {
 function toggleLoader(toggle) {
     if (toggle) {
         loader.style.display = "none"
-        quizWrapper.style.display = "flex"
+        quizSection.style.display = "flex"
     } else {
         loader.style.display = "block"
-        quizWrapper.style.display = "none"
+        quizSection.style.display = "none"
     }
 }
 

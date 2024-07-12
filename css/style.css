@@ -18,6 +18,9 @@ body {
 }
 
 footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: absolute;
     bottom: 5px;
     left: 50%;
@@ -70,13 +73,30 @@ article {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
     padding: 0 50px;
 }
 
 section {
+    justify-content: center;
     margin: 1rem;
-    width:70%;
+}
+
+#landing-page-section {
+    width: 70%;
+}
+
+#quiz-section {
+    width: 80%;
+}
+
+#quiz-section .container {
+    width: 100%;
+}
+
+
+
+.loader {
+    justify-self: center;
     align-self: center;
 }
 
@@ -139,8 +159,8 @@ h2 {
     display: block;
     height: 260px;
     flex-shrink: 0;
-    background:green;
-    content:"test"
+    background: green;
+    content: "test";
 }
 
 #banner-image {
@@ -207,13 +227,9 @@ h2 {
 }
 /* ------------- Unique Sections ----------- */
 
-#quiz-page{
-    flex-direction: column;
-}
-
-#attribution {
-    margin-top: 1rem;
-    padding-left: 3px;
+#attribution a {
+    color: #333;
+    text-decoration: none;
 }
 
 #quiz-list-container {
@@ -229,7 +245,14 @@ h2 {
 /* Quiz Form  */
 
 #add-quiz-form-section {
-    flex: 2;
+    flex-grow: 2;
+    width: 500px;
+}
+
+#quiz-form-instructions-section {
+    max-width: 400px;
+    flex-grow: 1;
+    flex-shrink: 2;
 }
 
 #add-quiz-form {
@@ -372,25 +395,41 @@ input[type="number"] {
 
 /* --------------- Break Point ---------------- */
 @media only screen and (max-width: 1020px) {
+    article{
+        padding:0;
+    }
+
     .rainbow {
         font-size: 36px;
+    }
+
+    #landing-page-section {
+        width: 90%;
+    }
+
+    #add-quiz-form-section{
+        width:600px 
     }
 }
 
 @media only screen and (max-width: 750px) {
+    #loader-section,
+    #loader-section .container {
+        min-height: 100vh !important;
+    }
 
-    .form-field{
-        display:flex;
+    .form-field {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap:0;
+        gap: 0;
     }
 
     .form-field label {
         text-align: left !important;
         margin-bottom: 5px;
     }
-    
+
     .form-field input {
         height: 2rem;
         margin-bottom: 10px;
@@ -408,19 +447,39 @@ input[type="number"] {
         font-size: medium;
     }
 
-    article, section {
+    article {
+        height: 100vh;
         flex-direction: column;
-        padding:0;
-        width:100%;
+        justify-content: center;
+        align-items: center;
     }
 
-    .instruction {
-        order: 1;
+    article,
+    section {
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        
+    }
+
+    section {
+        height:auto;
+    }
+
+    #add-quiz-form-section {
+        flex-grow: 0;
     }
 
     .main-section {
+        order: 1;
+        margin: 0;
+    }
+
+    .instructions {
         order: 2;
-        margin:0;
+        margin: 0;
+        margin: 1rem 0;
     }
 
     .button-group {
@@ -429,7 +488,7 @@ input[type="number"] {
 
     .button-group > * {
         width: 100%;
-        margin-bottom:.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .rainbow {
@@ -440,11 +499,25 @@ input[type="number"] {
         width: 250px;
     }
 
-    #quiz-list-container, #quiz-list {
-        width: 100% !important;
+    #quiz-list-container,
+    #quiz-list {
+        width: 100%;
     }
 
     footer {
-        font-size:small;
+        font-size: small;
+    }
+
+    #landing-page-section {
+        width: 100%;
+    }
+
+    #quiz-form-instructions-section {
+        min-width: 100%;
+        max-height:300px;
+    }
+
+    #add-quiz-form-section{
+        width:100%;
     }
 }

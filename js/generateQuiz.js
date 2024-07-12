@@ -112,7 +112,7 @@ function submitAnswer(e) {
     }
 
     // Prevent form submission without selection
-    if (selectedAnswers.length === 0 ) {
+    if (selectedAnswers.length === 0) {
         redText.textContent = "Please select an answer to continue"
         redText.style.display = "block"
         return
@@ -216,6 +216,10 @@ function createRadioButton(id, text, parent) {
     option.appendChild(label)
     option.classList.add('question-option')
 
+    option.addEventListener('click', () => {
+        radio.checked = true;
+    })
+
     parent.appendChild(option)
     return option
 }
@@ -236,6 +240,10 @@ function createCheckbox(id, text, parent) {
     option.appendChild(checkbox)
     option.appendChild(label)
     option.classList.add('question-option')
+
+    option.addEventListener('click', () => {
+        checkbox.checked = true;
+    })
 
     parent.appendChild(option)
     return option

@@ -17,7 +17,11 @@ const submitQuiz = (e) => {
     let newQuizData = {}
     let index = localStorage.length
 
-    if (quizName.value && quizLink.value && quizPass.value) {
+    if (
+        quizName.value 
+        && quizLink.value 
+        && quizPass.value
+    ) {
         newQuizData = {
             id:index,
             name: quizName.value,

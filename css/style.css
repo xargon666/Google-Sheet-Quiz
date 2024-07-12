@@ -70,11 +70,14 @@ article {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     padding: 0 50px;
 }
 
 section {
     margin: 1rem;
+    width:70%;
+    align-self: center;
 }
 
 .container {
@@ -204,6 +207,10 @@ h2 {
 }
 /* ------------- Unique Sections ----------- */
 
+#quiz-page{
+    flex-direction: column;
+}
+
 #attribution {
     margin-top: 1rem;
     padding-left: 3px;
@@ -259,11 +266,11 @@ h2 {
 
 .button-group {
     display: flex;
+    justify-content: center;
     margin-top: 10px;
 }
 
 .button-group > * {
-    flex: 1;
     width: 200px;
 }
 
@@ -364,7 +371,31 @@ input[type="number"] {
 }
 
 /* --------------- Break Point ---------------- */
+@media only screen and (max-width: 1020px) {
+    .rainbow {
+        font-size: 36px;
+    }
+}
+
 @media only screen and (max-width: 750px) {
+
+    .form-field{
+        display:flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap:0;
+    }
+
+    .form-field label {
+        text-align: left !important;
+        margin-bottom: 5px;
+    }
+    
+    .form-field input {
+        height: 2rem;
+        margin-bottom: 10px;
+    }
+
     h2 {
         font-size: 1.75rem;
     }
@@ -377,10 +408,10 @@ input[type="number"] {
         font-size: medium;
     }
 
-    article {
+    article, section {
         flex-direction: column;
-        margin:0;
         padding:0;
+        width:100%;
     }
 
     .instruction {
@@ -389,22 +420,20 @@ input[type="number"] {
 
     .main-section {
         order: 2;
+        margin:0;
     }
 
     .button-group {
         flex-direction: column;
     }
 
-    .button-group {
-        width: 100%;
-    }
     .button-group > * {
         width: 100%;
         margin-bottom:.5rem;
     }
 
     .rainbow {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     #banner-image {
@@ -413,7 +442,9 @@ input[type="number"] {
 
     #quiz-list-container, #quiz-list {
         width: 100% !important;
+    }
 
-
+    footer {
+        font-size:small;
     }
 }

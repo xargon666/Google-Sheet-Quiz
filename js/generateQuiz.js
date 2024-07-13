@@ -85,7 +85,7 @@ function generateQuiz() {
 }
 
 function startQuiz() {
-    setupQuizInfo()
+    // resetPlayer()
     nextQuestion()
 }
 
@@ -99,9 +99,9 @@ function clearScreen() {
 function submitAnswer(e) {
     e.preventDefault()
 
-    // Hide Error Text
-    const redText = document.getElementsByClassName('red-text')[0]
-    redText && (redText.style.display = "none")
+    // Remove Error Text
+    const redText = document.getElementById('red-text')
+    if (redText) redText.innerText = ""
 
     // Add selected answers to array
     let selectedAnswers = []
@@ -115,7 +115,6 @@ function submitAnswer(e) {
     // Prevent form submission without selection
     if (selectedAnswers.length === 0) {
         redText.textContent = "Please select an answer to continue"
-        redText.style.display = "block"
         return
     }
 
@@ -182,13 +181,6 @@ function endQuiz() {
     exit.setAttribute('href', 'quizList.html')
 
     return
-}
-
-function setupQuizInfo() {
-    const redText = createElement("p", "Red Text", "self-centered", quizInfo)
-    redText.classList.add("red-text")
-    redText.style.display = "none"
-    return redText
 }
 
 function createElement(element, text, classList, parent) {

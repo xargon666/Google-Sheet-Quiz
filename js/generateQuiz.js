@@ -217,9 +217,9 @@ function createRadioButton(id, text, parent) {
     option.appendChild(label)
     option.classList.add('question-option')
 
-    option.addEventListener('click', () => {
-        radio.checked = true;
-    })
+    radio.addEventListener('click', () => radio.checked = true)
+    label.addEventListener('click', () => radio.checked = true)
+    option.addEventListener('click', () => radio.checked = true)
 
     parent.appendChild(option)
     return option
@@ -242,6 +242,16 @@ function createCheckbox(id, text, parent) {
     option.appendChild(label)
     option.classList.add('question-option')
 
+    checkbox.addEventListener('click', () => {
+        checkbox.checked === false
+            ? checkbox.checked = true
+            : checkbox.checked = false
+    })
+    label.addEventListener('click', () => {
+        checkbox.checked === false
+            ? checkbox.checked = true
+            : checkbox.checked = false
+    })
     option.addEventListener('click', () => {
         checkbox.checked === false
             ? checkbox.checked = true

@@ -4,8 +4,9 @@
         <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Quiz Generator | Home</title>
-	<link rel="stylesheet" type="text/css" href="./css/style.css" />
 	<link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="./css/style-mk2.css" />
+	<link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
 </head>
 
 <body>
@@ -13,7 +14,12 @@
 		<a href="index.html">
 			<h1>Quiz Generator</h1>
 		</a>
-		<nav>
+		<div class="hamburger-container"">
+			<div class="bar1 change"></div>
+			<div class="bar2 change"></div>
+			<div class="bar3 change"></div>
+		  </div>
+		<nav id="top-nav" class="hide">
 			<a href="index.html" class="active">Home</a>
 			<a href="quizList.html">Quizzes</a>
 			<a href="#">About</a>
@@ -21,13 +27,14 @@
 	</header>
 	<!-- LANDING PAGE =============================================================================== -->
 	<article>
-		<section id="landing-page-section">
+		<section id="landing-page-section" class="centered">
 			<div class="container centered">
-				<h2>Welcome to the Quiz Generator</h2>
-				<p style="color:red"><i>A working alternative to Google Sheets to Forms™</i><br><br></p>
+				<h2>Welcome to the <br>
+					Quiz Generator!</h2>
+				<p class="sub-heading">A working alternative to: <br>"Form Builder for Google Sheets™"</p>
 				<div class="banner-wrapper">
 					<a href="quizList.html" style="margin-bottom:1rem;">
-						<img width="350" src="../images/quiz-banner.png" alt="checklist" id="banner-image"/>
+						<img width="145px" src="./images/question.jpg" alt="checklist" id="banner-image"/>
 					</a>
 				</div>
 				<div class="button-group">
@@ -44,5 +51,5 @@
 		© Christopher Pucknell 2024
 	</footer>
 </body>
-
+<script src="./js/hamburger.js"></script>
 </html>

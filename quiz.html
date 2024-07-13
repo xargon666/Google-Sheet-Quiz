@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Generator | Quiz</title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <link rel="stylesheet" type="text/css" href="./css/loader.css" />
 	<link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="./css/style-mk2.css" />
+	<link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
 </head>
+
 <body>
-    <header>
-        <a href="index.html">
-            <h1>Quiz Generator</h1>
-        </a>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="quizList.html" class="active">Quizzes</a>
-            <a href="#">About</a>
-        </nav>
-    </header>
+	<header>
+		<a href="index.html">
+			<h1>Quiz Generator</h1>
+		</a>
+		<div class="hamburger-container"">
+			<div class="bar1 change"></div>
+			<div class="bar2 change"></div>
+			<div class="bar3 change"></div>
+		  </div>
+		<nav id="top-nav" class="hide">
+			<a href="index.html" class="active">Home</a>
+			<a href="quizList.html">Quizzes</a>
+			<a href="#">About</a>
+		</nav>
+	</header>
 <!-- QUIZ PAGE ============================================================================ -->
 <article id="quiz-page">
     <section id="loader-section">

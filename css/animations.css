@@ -1,0 +1,14 @@
+.pulse-animation {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    animation: pulse 3s ease 0s infinite;
+    
+}
+
+@keyframes pulse {
+    0% {width: 70%;}
+    50% {width: 75%;}
+    100% {width: 70%;}
+}
+

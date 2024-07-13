@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Just+Another+Hand&family=Roboto+Slab:wght@700&display=swap');
+
+:root {
+    --primary-color: #ff4742;
+    --secondary-color: #2fee95;
+}
+
+* {
+    font-family: roboto, proxima-nova, "proxima nova", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    height: 50px;
+    margin: .7rem 0;
+    padding-bottom:13px;
+    border-bottom: #644 1px solid;
+}
+
+body > header:first-child{
+    padding-left:1rem;
+}
+body > header > a{
+    text-decoration: none;
+    color: var(--primary-color);
+    text-shadow: 2px 2px rgb(109, 4, 4);
+}
+
+section {
+    padding: 10px;
+}
+
+h2{
+    margin-bottom: 1rem;
+    font-size:2rem;
+    font-family: "Roboto Slab", serif;
+}
+
+.sub-heading{
+    font-family: "Just Another Hand", cursive;
+    font-size:1.75rem;
+}
+
+/* BUTTONS */
+.app-button {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    outline: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+
+    color: #ffffff;
+    font-weight: 800;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1rem;
+
+    touch-action: manipulation;
+    margin-bottom: 5px;
+    padding: 0.4rem 1rem;
+    min-height: 2rem;
+    min-width: fit-content;
+}
+
+.app-button:hover {
+    background: initial;
+    background-position: 0 0;
+    color: #333;
+    outline: 2.5px solid #333;
+}
+
+.button-group{
+    display:flex;
+    flex-direction: column;
+    gap:.5rem;
+    margin:1rem 0;
+}
+
+.primary-button {
+    background: rgb(255, 71, 66);
+    background: linear-gradient(
+        0deg,
+        rgba(255, 71, 66, 1) 22%,
+        rgba(255, 123, 119, 1) 100%
+    );
+}
+
+.primary-button:active {
+    background-color: var(--primary-color);
+}
+
+.secondary-button {
+    background: rgb(8, 170, 97);
+    background: linear-gradient(
+        0deg,
+        rgba(8, 170, 97, 1) 0%,
+        rgba(47, 238, 149, 1) 100%
+    );
+}
+
+.secondary-button:active {
+    background-color: var(--secondary-color);
+}
+
+/* Subtle on-click transition */
+.app-button:not(:active) {
+    transition: background-color 175ms ease-in-out;
+}
+
+/* TEXT STYLING */
+
+body > footer {
+    font-size:small;
+    color: #333;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#attribution a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* UTILITY */
+
+.centered {
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+}
+
+.hide{
+    position: absolute; 
+    top: -9999px;
+    left: -9999px; 
+}
+
+/* Break Point - sm */
+@media (min-width: 640px) {
+}
+
+/* Break Point - lg */
+@media (min-width: 1024px) {
+}

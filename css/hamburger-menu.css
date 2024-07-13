@@ -1,0 +1,84 @@
+.hamburger-container {
+    position:relative;
+    z-index:3;
+    display: inline-block;    
+    cursor: pointer;
+    margin-right:1rem;
+
+    /* Break Point - sm */
+    @media (min-width: 640px) {
+        display: none;
+    }
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 45px;
+    height: 6px;
+    background-color: #333;
+    margin: 8px 1px;
+    transition: 0.4s;
+    z-index: 99;
+}
+
+.change .bar1 {
+    transform: translate(0, 13.5px) rotate(-45deg);
+    background-color: red;
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: translate(0, -13.5px) rotate(45deg);
+    background-color: red
+}
+
+.hamburger-menu{
+    z-index:2;
+    position:fixed;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left:  0;
+    bottom: 0;
+    right: 0;
+    overflow:auto;
+    background:whitesmoke;
+    animation: opacity-change .25s linear
+
+}
+
+.hamburger-menu a {
+    text-decoration: none;
+    font-variant-caps: small-caps;
+    font-weight:1000;
+    margin-bottom:5vh;
+    padding-bottom: 5vh;
+    border-bottom: 1px solid #666;
+    font-size: 2.5rem;
+    color:inherit;
+    animation: opacity-change 1.5s ease-in-out
+}
+
+@keyframes opacity-change {
+    0% {opacity: 0}
+    100% {opacity:1}
+}
+
+.hamburger-menu a.visible {
+    opacity: 1;
+}
+
+
+.hamburger-menu a:active {
+    color:red;
+}
+
+.hamburger-menu > a:last-child{
+    border:none;
+}

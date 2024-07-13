@@ -3,6 +3,7 @@ import { getQuizData, quizData } from '../js/getQuizData.js'
 // VARIABLE BLOCK =============================================================
 const loader = document.getElementById('loader-section')
 const quizWrapper = document.getElementById('quiz-wrapper')
+const quizHead = document.getElementById('quiz-head')
 const quizSection = document.getElementById('quiz-section')
 const quizName = document.getElementById('quiz-name')
 const quizPass = document.getElementById('quiz-pass')
@@ -34,7 +35,7 @@ function toggleLoader(toggle) {
         loader.style.display = "none"
         quizSection.style.display = "flex"
     } else {
-        loader.style.display = "block"
+        loader.style.display = "flex"
         quizSection.style.display = "none"
     }
 }
@@ -89,9 +90,10 @@ function startQuiz() {
 }
 
 function clearScreen() {
-    while (quizWrapper.firstChild) {
-        quizWrapper.removeChild(quizWrapper.firstChild)
+    while (quizHead.firstChild) {
+        quizHead.removeChild(quizHead.firstChild)
     }
+    quizWrapper.removeChild(quizWrapper.lastChild)
 }
 
 function submitAnswer(e) {
@@ -165,19 +167,19 @@ function endQuiz() {
         outcomeMessage.textContent = "Congratulations!"
         outcomeMessage.classList.add('rainbow')
     } else {
-        outcomeMessage.textContent = "Better luck next time."
+        outcomeMessage.textContent = "Better luck next time"
     }
 
     // Add Exit/Retry Buttons
     const exitButtons = createElement("div", "", "button-group", quizWrapper)
 
-    const exit = createElement("a", "Return to List", "app-button", exitButtons)
-    exit.classList.add('primary-button')
-    exit.setAttribute('href', 'quizList.html')
-
     const retry = createElement("a", "Try Again", "app-button", exitButtons)
     retry.classList.add('secondary-button')
     retry.setAttribute('href', parent.document.URL)
+
+    const exit = createElement("a", "Return to List", "app-button", exitButtons)
+    exit.classList.add('primary-button')
+    exit.setAttribute('href', 'quizList.html')
 
     return
 }
@@ -186,7 +188,7 @@ function setupQuizInfo() {
     const redText = createElement("p", "Red Text", "self-centered", quizInfo)
     redText.classList.add("red-text")
     redText.style.display = "none"
-    return
+    return redText
 }
 
 function createElement(element, text, classList, parent) {
@@ -248,7 +250,7 @@ function createCheckbox(id, text, parent) {
     return option
 }
 
-async function loadImageAndToggleLoader() {
+async function loadImageAndToggleLoader(parent) {
     if (game.data[game.playerData.question].image) {
         toggleLoader(false);
         const img = document.createElement('img');
@@ -269,7 +271,7 @@ async function loadImageAndToggleLoader() {
             img.onload = () => {
                 console.log("Image loaded successfully.");
                 toggleLoader(true);
-                quizWrapper.insertBefore(img, quizWrapper.children[1].nextSibling)
+                parent.insertBefore(img, parent.children[1].nextSibling)
             };
 
             img.onerror = () => {
@@ -289,11 +291,11 @@ function nextQuestion() {
     clearScreen()
 
     // Add Question Details
-    createElement("h2", `Question ${game.playerData.question + 1}`, "self-centered", quizWrapper)
-    createElement("h3", `${game.data[game.playerData.question].question}`, "self-centered", quizWrapper)
+    createElement("h2", `Question ${game.playerData.question + 1}`, "self-centered", quizHead)
+    createElement("h3", `${game.data[game.playerData.question].question}`, "self-centered", quizHead)
 
     // handle image loading
-    if (game.data[game.playerData.question].image) loadImageAndToggleLoader();
+    if (game.data[game.playerData.question].image) loadImageAndToggleLoader(quizHead);
 
     // Create Form
     const questionForm = document.createElement('form')

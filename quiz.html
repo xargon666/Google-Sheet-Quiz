@@ -21,7 +21,7 @@
 			<div class="bar3 change"></div>
 		  </div>
 		<nav id="top-nav" class="hide">
-			<a href="index.html" class="active">Home</a>
+			<a href="index.html" >Home</a>
 			<a href="quizList.html">Quizzes</a>
 			<a href="#">About</a>
 		</nav>
@@ -29,18 +29,16 @@
 <!-- QUIZ PAGE ============================================================================ -->
 <article id="quiz-page">
     <section id="loader-section">
-        <div class="container">
             <div id="loader">Loading...</div>
-        </div>
     </section>
-    <section id="quiz-section" style="display:none;">
-        <div class="container">
-            <div id="quiz-wrapper" >
+    <section id="quiz-section" style="display:none;" class="centered">
+        <div id="quiz-wrapper" >
+            <div id="quiz-head">
                 <h2 id="quiz-name">Quiz Data Not Found</h2>
-                <h4 id="quiz-pass"><strong>Please consult you local site admin</strong></h4>
+                <p id="quiz-pass"><strong>Please consult you local site admin</strong></p>
                 <div class="button-group">
-                    <a href="quizList.html" class="app-button primary-button">Cancel</a>
                     <button id="start-quiz-button" class="app-button secondary-button">Start the Quiz</button>
+                    <a href="quizList.html" class="app-button primary-button">Cancel</a>
                 </div>
             </div>
         </div>
@@ -56,5 +54,6 @@
 		© Christopher Pucknell 2024
 	</footer>
 </body>
+<script src="./js/hamburger.js"></script>
 <script type="module" src="./js/generateQuiz.js"></script>
 </html>

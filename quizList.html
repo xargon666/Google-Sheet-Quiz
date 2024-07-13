@@ -20,8 +20,8 @@
                 <div class="bar3 change"></div>
               </div>
             <nav id="top-nav" class="hide">
-                <a href="index.html" class="active">Home</a>
-                <a href="quizList.html">Quizzes</a>
+                <a href="index.html" >Home</a>
+                <a href="quizList.html" class="active">Quizzes</a>
                 <a href="#">About</a>
             </nav>
         </header>
@@ -29,7 +29,7 @@
         <article>
             <!-- Instructions -->
             <section class="instructions">
-                <div class="container">
+                <div class="container centered">
                     <h2>Instructions</h2>
                     <p>Select from the list of available quizzes.</p>
                     <p>
@@ -41,28 +41,27 @@
                     </p>
                 </div>
             </section>
-
+        </article>
+            
             <!-- List -->
-            <section id="quiz-list-section" class="main-section">
-                <div id="quiz-list-container" class="container">
+            <section id="quiz-list-section" class="main-section centered">
                     <h2>Quiz List</h2>
-                    <div id="quiz-list">
+                    <div id="quiz-list" class="button-group">
                         <a
                             id="add-new-quiz-btn"
                             class="app-button secondary-button"
                             href="addQuizForm.html"
-                        >
+                            >
                             Add New Quiz
                         </a>
-                    </div>
                 </div>
             </section>
-        </article>
+
 
         <footer>
             © Christopher Pucknell 2024
         </footer>
     </body>
-
+    <script src="./js/hamburger.js"></script>
     <script type="module" src="./js/createQuizList.js"></script>
 </html>

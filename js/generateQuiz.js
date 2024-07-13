@@ -145,6 +145,11 @@ function submitAnswer(e) {
 
 function endQuiz() {
     clearScreen()
+
+    // Clear Question Count
+    const quizProgress = document.getElementById('question-number')
+    if (quizProgress) quizProgress.innerText = ""
+
     let maxScore = 0
     for (let i = 0; i < Object.keys(game.data).length; i++) {
         maxScore += game.data[i].points
@@ -294,9 +299,16 @@ async function loadImageAndToggleLoader(parent) {
 function nextQuestion() {
     clearScreen()
 
+    const currentQuestionNumber = game.playerData.question + 1
+    const totalQuestionCount = Object.keys(game.data).length
+
     // Add Question Details
-    createElement("h2", `Question ${game.playerData.question + 1}`, "self-centered", quizHead)
+    createElement("h2", `Question ${currentQuestionNumber}`, "self-centered", quizHead)
     createElement("h3", `${game.data[game.playerData.question].question}`, "self-centered", quizHead)
+
+    // Update Quiz Progress Counter
+    const quizProgress = document.getElementById('question-number')
+    if (quizProgress) quizProgress.innerText = `${currentQuestionNumber}/${totalQuestionCount}`
 
     // handle image loading
     if (game.data[game.playerData.question].image) loadImageAndToggleLoader(quizHead);

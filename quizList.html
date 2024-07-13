@@ -26,9 +26,10 @@
             </nav>
         </header>
         <!-- QUIZ LIST PAGE ================================================================================ -->
+         <div class="main-flex-wrapper">
         <article>
             <!-- Instructions -->
-            <section class="instructions">
+            <section class="instructions responsive">
                 <div class="container centered">
                     <h2>Instructions</h2>
                     <p>
@@ -38,10 +39,9 @@
                     </p>
                 </div>
             </section>
-        </article>
             
             <!-- List -->
-            <section id="quiz-list-section" class="main-section centered">
+            <section id="quiz-list-section" class="main-section centered responsive">
                     <h2>Quiz List</h2>
                     <div id="quiz-list" class="button-group">
                         <a
@@ -53,11 +53,13 @@
                         </a>
                 </div>
             </section>
-
+        
+        </article>
 
         <footer>
             © Christopher Pucknell 2024
         </footer>
+    </div>
     </body>
     <script src="./js/hamburger.js"></script>
     <script type="module" src="./js/createQuizList.js"></script>

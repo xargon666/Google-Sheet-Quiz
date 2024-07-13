@@ -73,6 +73,45 @@ form > input[type=submit] {
     height:80vh
 }
 
+.responsive{
+    width:95%;
+}
+
+/* ADD QUIZ FORM */
+
+#add-quiz-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top:1rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.form-field label {
+    margin-bottom: 5px;
+}
+
+.form-field input {
+    height: 2rem;
+    margin-bottom: 10px;
+    width:100%;
+    padding:0 3px;
+}
+
+.instructions {
+    padding: 0 1.25rem;
+}
+
+.instructions > p {
+    font-size:14px;
+}
+
 /* QUIZ FORM */
 
 .quiz-form{

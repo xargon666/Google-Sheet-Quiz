@@ -243,7 +243,9 @@ function createCheckbox(id, text, parent) {
     option.classList.add('question-option')
 
     option.addEventListener('click', () => {
-        checkbox.checked = true;
+        checkbox.checked === false
+            ? checkbox.checked = true
+            : checkbox.checked = false
     })
 
     parent.appendChild(option)

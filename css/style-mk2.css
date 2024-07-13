@@ -13,10 +13,6 @@
     padding: 0;
 }
 
-body {
-    height: 100dvh;
-}
-
 body > header {
     display: flex;
     justify-content: space-between;
@@ -60,6 +56,12 @@ h3 {
 form > input[type=submit] {
     margin-top:1rem;
 }
+
+img {
+    border-radius: 8px;
+    max-width:90%;
+    max-height:90%;
+  }
 
 .sub-heading{
     font-family: "Just Another Hand", cursive;

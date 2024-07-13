@@ -255,7 +255,7 @@ async function loadImageAndToggleLoader(parent) {
         toggleLoader(false);
         const img = document.createElement('img');
         img.alt = "quiz image";
-        img.width = 250;
+        img.width = 200;
         img.classList.add('self-centered');
 
         try {

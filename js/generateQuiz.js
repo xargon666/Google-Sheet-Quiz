@@ -8,7 +8,6 @@ const quizSection = document.getElementById('quiz-section')
 const quizName = document.getElementById('quiz-name')
 const quizPass = document.getElementById('quiz-pass')
 const startQuizButton = document.getElementById('start-quiz-button')
-const quizInfo = document.getElementById('quiz-info')
 
 const index = parseInt(parent.document.URL.substring(parent.document.URL.indexOf('?') + 1, parent.document.URL.length));
 
@@ -99,6 +98,7 @@ function generateQuiz() {
 }
 
 function startQuiz() {
+    quizSection.classList.remove('middle-screen')
     resetPlayerData()
     nextQuestion()
 }
@@ -158,17 +158,23 @@ function submitAnswer(e) {
 }
 
 function endQuiz() {
+    // clear quiz elements
     clearScreen()
+
+    // position elements in middle of screen
+    quizSection.classList.add('middle-screen')
 
     // Clear Question Count
     const quizProgress = document.getElementById('question-number')
     if (quizProgress) quizProgress.innerText = ""
 
+    // Calc Max Score
     let maxScore = 0
     for (let i = 0; i < Object.keys(game.data).length; i++) {
         maxScore += game.data[i].points
     }
 
+    // Create Elements
     createElement(
         'h3',
         `Final Score: ${game.playerData.score}/${maxScore}`,
@@ -181,6 +187,8 @@ function endQuiz() {
         "self-centered",
         quizHead
     )
+
+    // Determine Quiz Result
     if (game.playerData.score === maxScore) {
         outcomeMessage.textContent = "Congratulations!"
         outcomeMessage.classList.add('rainbow')
@@ -363,5 +371,6 @@ function nextQuestion() {
 
 // LAUNCH CODE ================================================================
 
-generateQuiz()
 startQuizButton.addEventListener('click', startQuiz)
+
+generateQuiz()

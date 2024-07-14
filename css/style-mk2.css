@@ -282,6 +282,11 @@ footer {
     text-align:center;
 }
 
+.middle-screen{
+    justify-self: center;
+    flex:1;
+}
+
 .hide{
     position: absolute; 
     top: -9999px;

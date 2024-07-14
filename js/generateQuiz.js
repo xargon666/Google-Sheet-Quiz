@@ -30,6 +30,20 @@ const game = {
 
 // FUNCTION BLOCK =============================================================
 
+function resetPlayerData() {
+    game.playerData = {
+        question: 0,
+        score: 0,
+        questionData: {
+            question: 0,
+            playerAnswer: [],
+            correctAnswer: [],
+            correct: Boolean
+        }
+    }
+    return 
+}
+
 function toggleLoader(toggle) {
     if (toggle) {
         loader.style.display = "none"
@@ -80,12 +94,12 @@ function generateQuiz() {
         })
         .catch(error => {
             // Handle the error here
-            console.error('There has been a problem with your fetch operation:', error);
+            console.error('Error fetching the quiz data:', error);
         });
 }
 
 function startQuiz() {
-    // resetPlayer()
+    resetPlayerData()
     nextQuestion()
 }
 
@@ -159,13 +173,13 @@ function endQuiz() {
         'h3',
         `Final Score: ${game.playerData.score}/${maxScore}`,
         'self-centered',
-        quizWrapper
+        quizHead
     )
     const outcomeMessage = createElement(
         'h2',
         "Quiz Outcome Text",
         "self-centered",
-        quizWrapper
+        quizHead
     )
     if (game.playerData.score === maxScore) {
         outcomeMessage.textContent = "Congratulations!"
@@ -177,9 +191,9 @@ function endQuiz() {
     // Add Exit/Retry Buttons
     const exitButtons = createElement("div", "", "button-group", quizWrapper)
 
-    const retry = createElement("a", "Try Again", "app-button", exitButtons)
+    const retry = createElement("button", "Try Again", "app-button", exitButtons)
     retry.classList.add('secondary-button')
-    retry.setAttribute('href', parent.document.URL)
+    retry.addEventListener('click',startQuiz)
 
     const exit = createElement("a", "Return to List", "app-button", exitButtons)
     exit.classList.add('primary-button')

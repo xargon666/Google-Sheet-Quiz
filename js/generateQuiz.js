@@ -113,6 +113,7 @@ function editQuiz() {
     );
 
     const buttonGroup = createNewElement("div", "", "button-group");
+
     const submit = createSubmitButton(
         "submit",
         "Submit",
@@ -120,10 +121,11 @@ function editQuiz() {
         handleEditQuizSubmit
     );
     buttonGroup.appendChild(submit);
+
     const cancel = createButton("Cancel", "primary-button", handleReload);
     buttonGroup.appendChild(cancel);
-    form.appendChild(buttonGroup);
 
+    form.appendChild(buttonGroup);
     quizBody.appendChild(form);
 
     // Update Form Values

@@ -310,7 +310,7 @@ async function loadImageAndToggleLoader(parent) {
                 toggleLoader(true);
             };
 
-            // Append the image to the quiz wrapper
+        // Append the image to the quiz wrapper
         } catch (error) {
             console.error("Image Error: ", error);
             toggleLoader(true);

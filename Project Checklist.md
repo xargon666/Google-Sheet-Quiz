@@ -21,22 +21,42 @@ Quiz Project Checklist
 	- [x] Update for multiple choice Radio Buttons
 	- [x] Create Submit Answer Code
 	- [x] Update for Checkbox questions
-	- [ ] Answer's stored in array till end of quiz = Needs Testing
 	- [x] Remove instant feedback
-	- [ ] Add a final scrore screen
-		- [x] Final Score
-		- [ ] List all correct question/answers
-		- [ ] List all incorrect question/answers
-- [ ] Add in depth instructions and template files
+- [ ] Quiz End Summary
+	- [x] Compute Final Score
+	- [ ] List High Scores
+	- [ ] Answer's stored in array till end of quiz = Needs Testing
+	- [ ] List all correct/incorrect question/answers
+		- [ ] Incorrect answers section
+		- [ ] Correct answers section
+- [ ] Add high-score section
+	- [ ] Store prev. highscore in localstorage
+	- [ ] Create high score form elements IF new high score
+	- [ ] Update localstorage with new data
+	- [ ] Add link to high score screen on the start quiz screen
 
 ## Style
-- [ ] Update Styling = In Progress
+- [ ] Update Styling
+	- [x] Mobile First Styling
+	- [ ] Update for Desktop
 
 ## Test
 - [ ] Add testing with jest
 
+# Debugging
+- [x] Test on PC
+	- [x] Does the quiz work?
+	- [x] Can new quiz be added and access later?
+- [x] Test on Mobile
+	- [x] Does the quiz work?
+	- [x] Can new quiz be added and access later?
+	- [ ] Localstorage on mobile not working sometimes?
+
 ## Readme
-- [ ] Update Readme with step-by-step instructions for: 
-	- [ ] Setting up Google Sheets 
-	- [ ] Apps Script
+- [ ] Add in depth instructions template files
+	- [x] Create template gooogle sheet
+	- [ ] Write instructions for: 
+		- [ ] inserting code into sheet
+		- [ ] deploying code
+		- [ ] find a way to do this for mobile users
 

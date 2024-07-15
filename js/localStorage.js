@@ -16,7 +16,6 @@ const submitQuiz = (e) => {
     e.preventDefault()
     let newQuizData = {}
     const UUID = crypto.randomUUID();
-    let index = UUID
 
     if (
         quizName.value
@@ -24,7 +23,7 @@ const submitQuiz = (e) => {
         && quizPass.value
     ) {
         newQuizData = {
-            id: index,
+            id: UUID,
             name: quizName.value,
             link: quizLink.value,
             pass: quizPass.value

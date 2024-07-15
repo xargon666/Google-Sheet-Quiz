@@ -34,6 +34,15 @@ Quiz Project Checklist
 	- [ ] Create high score form elements IF new high score
 	- [ ] Update localstorage with new data
 	- [ ] Add link to high score screen on the start quiz screen
+- [ ] localStorage CRUD functions for quiz list
+	- [x] CREATE
+	- [x] READ
+	- [ ] UPDATE
+		- [ ] Redirect to add quiz form / copy of form
+		- [ ] pre-populate with info
+		- [ ] submit to update specific record
+	- [ ] DELETE
+		- [ ] update the same form to have a delete button instead of submit
 
 ## Style
 - [ ] Update Styling

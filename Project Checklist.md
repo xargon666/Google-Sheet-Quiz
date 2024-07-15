@@ -16,7 +16,7 @@ Quiz Project Checklist
 	- [x] Navigate to Quiz
 - [x] Update Google Apps script for your format
 	- [x] Add Options to their own nested object
-- [ ] Redo Quiz Code = In Progress
+- [x] Redo Quiz Code
 	- [x] Add CSS Loading Screen to replace existing .gif
 	- [x] Update for multiple choice Radio Buttons
 	- [x] Create Submit Answer Code
@@ -30,8 +30,6 @@ Quiz Project Checklist
 		- [ ] Incorrect answers section
 		- [ ] Correct answers section
 - [ ] Add high-score section
-	- [ ] Store prev. highscore in localstorage
-	- [ ] Create high score form elements IF new high score
 	- [ ] Update localstorage with new data
 	- [ ] Add link to high score screen on the start quiz screen
 - [ ] localStorage CRUD functions for quiz list

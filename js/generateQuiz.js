@@ -1,3 +1,11 @@
+import {
+    createButton,
+    createCheckbox,
+    createNewElement,
+    createRadioButton,
+    createSubmitButton,
+    createLink,
+} from "./createElements.js";
 import getLocalQuizData from "./getLocalQuizData.js";
 
 // VARIABLE BLOCK =============================================================
@@ -42,6 +50,7 @@ function clearScreen() {
     while (quizBody.firstChild) {
         quizBody.removeChild(quizBody.firstChild);
     }
+    return;
 }
 
 function startQuiz() {
@@ -49,16 +58,73 @@ function startQuiz() {
     clearScreen();
     resetPlayerData();
     nextQuestion();
+    return;
+}
+
+function handleReload() {
+    alert("test1")
+    location.reload();
+    return 
+}
+
+function handleEditQuizSubmit(e) {
+    e.preventDefault;
+    alert("test2")
+    return
 }
 
 function editQuiz() {
     quizSection.classList.remove("middle-screen");
-    console.log("clearing screen...");
     clearScreen();
 
     // Create Form
-    console.log("creating form...");
-    createEditQuizForm();
+    const form = document.createElement("form");
+
+    form.appendChild(
+        createFormField(
+            "text",
+            "quiz-name",
+            "quiz-name",
+            "form-field",
+            "Enter Name...",
+            true
+        )
+    );
+    form.appendChild(
+        createFormField(
+            "text",
+            "quiz-link",
+            "quiz-link",
+            "form-field",
+            "Enter Google Sheets Link...",
+            true
+        )
+    );
+    form.appendChild(
+        createFormField(
+            "number",
+            "quiz-pass",
+            "quiz-pass",
+            "form-field",
+            "Enter Google Sheets Link...",
+            true,
+            "85"
+        )
+    );
+
+    const buttonGroup = createNewElement("div", "", "button-group");
+    const submit = createSubmitButton(
+        "submit",
+        "Submit",
+        "secondary-button",
+        handleEditQuizSubmit
+    );
+    buttonGroup.appendChild(submit);
+    const cancel = createButton("Cancel", "primary-button", handleReload);
+    buttonGroup.appendChild(cancel);
+    form.appendChild(buttonGroup);
+
+    quizBody.appendChild(form);
 
     // Update Form Values
     console.log("updating form...");
@@ -69,6 +135,8 @@ function editQuiz() {
     formName.value = game.name;
     formLink.value = game.link;
     formPass.value = game.pass;
+
+    return;
 }
 
 function deleteQuiz() {
@@ -118,48 +186,6 @@ function createFormField(
     field.appendChild(input);
 
     return field;
-}
-
-function createEditQuizForm() {
-    const form = document.createElement("form");
-
-    form.appendChild(
-        createFormField(
-            "text",
-            "quiz-name",
-            "quiz-name",
-            "form-field",
-            "Enter Name...",
-            true
-        )
-    );
-    form.appendChild(
-        createFormField(
-            "text",
-            "quiz-link",
-            "quiz-link",
-            "form-field",
-            "Enter Google Sheets Link...",
-            true
-        )
-    );
-    form.appendChild(
-        createFormField(
-            "number",
-            "quiz-pass",
-            "quiz-pass",
-            "form-field",
-            "Enter Google Sheets Link...",
-            true,
-            "85"
-        )
-    );
-
-    const buttonGroup = createNewElement("div", "", "button-group");
-    form.appendChild(buttonGroup);
-
-    quizBody.appendChild(form);
-    return;
 }
 
 function lookupSelectedQuizData(quizID) {
@@ -348,89 +374,6 @@ function endQuiz() {
     return;
 }
 
-// CREATE ELEMENT FUNCTIONS ===================================================
-
-function createNewElement(element, text, classList) {
-    const el = document.createElement(element);
-    text && (el.textContent = text);
-    classList && el.classList.add(classList);
-    return el;
-}
-
-function createButton(value, classList, onClick) {
-    const button = document.createElement("button");
-    if (value && classList && onClick) {
-        button.innerText = value;
-        button.classList.add("app-button");
-        button.classList.add(classList);
-        button.addEventListener("click", onClick);
-    }
-    return button;
-}
-
-function createRadioButton(id, text, parent) {
-    const option = document.createElement("div");
-    const radio = document.createElement("input");
-    const label = document.createElement("label");
-
-    radio.setAttribute("type", "radio");
-    radio.setAttribute("id", id);
-    radio.setAttribute("value", id);
-    radio.setAttribute("name", "answer");
-    radio.classList.add("question-answer");
-
-    label.setAttribute("for", id);
-    label.innerText = text;
-
-    option.appendChild(radio);
-    option.appendChild(label);
-    option.classList.add("question-option");
-
-    radio.addEventListener("click", () => (radio.checked = true));
-    label.addEventListener("click", () => (radio.checked = true));
-    option.addEventListener("click", () => (radio.checked = true));
-
-    parent.appendChild(option);
-    return option;
-}
-function createCheckbox(id, text, parent) {
-    const option = document.createElement("div");
-    const checkbox = document.createElement("input");
-    const label = document.createElement("label");
-
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.setAttribute("id", id);
-    checkbox.setAttribute("value", id);
-    checkbox.setAttribute("name", "answer");
-    checkbox.classList.add("question-answer");
-
-    label.setAttribute("for", id);
-    label.innerText = text;
-
-    option.appendChild(checkbox);
-    option.appendChild(label);
-    option.classList.add("question-option");
-
-    checkbox.addEventListener("click", () => {
-        checkbox.checked === false
-            ? (checkbox.checked = true)
-            : (checkbox.checked = false);
-    });
-    label.addEventListener("click", () => {
-        checkbox.checked === false
-            ? (checkbox.checked = true)
-            : (checkbox.checked = false);
-    });
-    option.addEventListener("click", () => {
-        checkbox.checked === false
-            ? (checkbox.checked = true)
-            : (checkbox.checked = false);
-    });
-
-    parent.appendChild(option);
-    return option;
-}
-
 // HANDLE IMAGE LOAD
 
 async function loadImageAndToggleLoader(parent) {
@@ -520,13 +463,12 @@ function nextQuestion() {
     switch (game.data[game.playerData.question].type) {
         case "Checkbox":
             options.forEach((option, index) =>
-                createCheckbox(index + 1, option, questionForm)
+                questionForm.appendChild(createCheckbox(index + 1, option))
             );
             break;
-        default:
-            // Multiple Choice
+        case "Multiple Choice":
             options.forEach((option, index) =>
-                createRadioButton(index + 1, option, questionForm)
+                questionForm.appendChild(createRadioButton(index + 1, option))
             );
             break;
     }

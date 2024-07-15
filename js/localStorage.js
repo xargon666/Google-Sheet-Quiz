@@ -15,15 +15,16 @@ let quizData = []
 const submitQuiz = (e) => {
     e.preventDefault()
     let newQuizData = {}
-    let index = localStorage.length
+    const UUID = crypto.randomUUID();
+    let index = UUID
 
     if (
-        quizName.value 
-        && quizLink.value 
+        quizName.value
+        && quizLink.value
         && quizPass.value
     ) {
         newQuizData = {
-            id:index,
+            id: index,
             name: quizName.value,
             link: quizLink.value,
             pass: quizPass.value
@@ -38,7 +39,7 @@ const submitQuiz = (e) => {
     console.log(localStorage)
 
     // Return to Quiz List page
-    window.location.href="./quizList.html"
+    window.location.href = "./quizList.html"
 }
 
 // LAUNCH CODE ================================================================

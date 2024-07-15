@@ -1,3 +1,5 @@
+import { getQuizData } from "./getQuizData"
+
 // VARIABLE BLOCK =============================================================
 
 const quizForm = document.getElementById("add-quiz-form")
@@ -12,11 +14,11 @@ let quizData = []
 
 // FUNCTION BLOCK =============================================================
 
-const submitQuiz = (e) => {
-    e.preventDefault()
-    let newQuizData = {}
+function getFormData() {
+    // Generate Unique ID
     const UUID = crypto.randomUUID();
 
+    let formData = {}
     if (
         quizName.value
         && quizLink.value
@@ -29,6 +31,25 @@ const submitQuiz = (e) => {
             pass: quizPass.value
         }
     }
+    return formData
+}
+
+function lookupQuiz(id){
+    const selectedQuizData = getQuizData.find((quiz)=>quiz.id === id) 
+    return selectedQuizData
+}
+
+function updateFormValues(quiz){
+    if (quiz) {
+        quizName.value = quiz.name
+        quizLink.value = quiz.link
+        quizPass.value = quiz.pass
+    }
+}
+
+const submitQuiz = (e) => {
+    e.preventDefault()
+    const newQuizData = getFormData()
 
     // QC Data
     // Need to fetch data from link and check it isn't garbage here
@@ -39,6 +60,12 @@ const submitQuiz = (e) => {
 
     // Return to Quiz List page
     window.location.href = "./quizList.html"
+}
+
+const modifyQuiz = (e) => {
+    e.preventDefault()
+    const quizData = getFormData()
+    
 }
 
 // LAUNCH CODE ================================================================

@@ -11,7 +11,7 @@ function createQuizList() {
     if (!quizData) return
     // Safety: Exit function if no data
     if (quizData.length < 1) return
-
+    console.log("quizData",quizData)
     // Create the buttons
     quizData.map((quiz) => {
         if (!quiz.id) return

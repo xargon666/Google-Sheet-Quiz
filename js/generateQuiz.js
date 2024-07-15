@@ -4,7 +4,6 @@ import {
     createNewElement,
     createRadioButton,
     createSubmitButton,
-    createLink,
 } from "./createElements.js";
 import getLocalQuizData from "./getLocalQuizData.js";
 
@@ -62,17 +61,36 @@ function startQuiz() {
 }
 
 function handleReload() {
-    alert("test1")
     location.reload();
-    return 
+    return;
 }
 
 function handleEditQuizSubmit(e) {
-    e.preventDefault;
-    alert("test2")
-    return
+    e.preventDefault();
+    const formName = document.getElementById("quiz-name").value;
+    const formLink = document.getElementById("quiz-link").value;
+    const formPass = document.getElementById("quiz-pass").value;
+
+    const updatedQuizData = {
+        id: quizID,
+        name: formName,
+        link: formLink,
+        pass: formPass,
+    };
+
+    console.log(localStorage)
+
+    // Find Target
+    for (let i = 0; i < localStorage.length; i++) {
+        const item = JSON.parse(localStorage.getItem(i))
+        if (item===null) continue
+        if (item.id === quizID) localStorage.setItem(i,JSON.stringify(updatedQuizData))
+    }
+    handleReload()
+    return;
 }
 
+// EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM
 function editQuiz() {
     quizSection.classList.remove("middle-screen");
     clearScreen();

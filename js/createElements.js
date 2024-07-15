@@ -29,6 +29,7 @@ export function createSubmitButton(type,value,classList,onClick){
 
 export function createButton(value, classList, onClick) {
     const button = document.createElement("button");
+    button.setAttribute('type','button')
     if (value && classList && onClick) {
         button.innerText = value;
         button.classList.add("app-button");

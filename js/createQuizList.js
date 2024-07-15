@@ -1,4 +1,4 @@
-import { getQuizData, quizData } from "./getQuizData.js"
+import getLocalQuizData from "./getLocalQuizData.js"
 
 // VARIABLE BLOCK =============================================================
 
@@ -7,7 +7,8 @@ const quizList = document.getElementById("quiz-list")
 // FUNCTION BLOCK =============================================================
 
 function createQuizList() {
-
+    const quizData = getLocalQuizData()
+    if (!quizData) return
     // Safety: Exit function if no data
     if (quizData.length < 1) return
 
@@ -36,6 +37,6 @@ function goToQuiz(id) {
     window.location.href = `./quiz.html?${id}`
 }
 
+// EXECUTE CODE
 
-getQuizData()
 createQuizList()

@@ -95,7 +95,7 @@ img {
 
 /* ADD QUIZ FORM */
 
-#add-quiz-form {
+form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -110,7 +110,7 @@ img {
 }
 
 .form-field label {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .form-field input {

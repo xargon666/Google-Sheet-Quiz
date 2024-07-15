@@ -1,19 +1,25 @@
-import { getQuizData, quizData } from '../js/getQuizData.js'
+import getLocalQuizData from "./getLocalQuizData.js";
 
 // VARIABLE BLOCK =============================================================
-const loader = document.getElementById('loader-section')
-const quizWrapper = document.getElementById('quiz-wrapper')
-const quizHead = document.getElementById('quiz-head')
-const quizSection = document.getElementById('quiz-section')
-const quizName = document.getElementById('quiz-name')
-const quizPass = document.getElementById('quiz-pass')
-const startQuizButton = document.getElementById('start-quiz-button')
+const loader = document.getElementById("loader-section");
+const quizSection = document.getElementById("quiz-section");
 
-const index = parseInt(parent.document.URL.substring(parent.document.URL.indexOf('?') + 1, parent.document.URL.length));
+const quizHead = document.getElementById("quiz-head");
+const quizName = document.getElementById("quiz-name");
+const quizPass = document.getElementById("quiz-pass");
 
+const quizBody = document.getElementById("quiz-body");
+
+// BUTTONS
+const startQuizButton = document.getElementById("start-quiz-button");
+const editQuizButton = document.getElementById("edit-quiz-button");
+const deleteQuizButton = document.getElementById("delete-quiz-button");
+
+// GAME
 const game = {
-    name: quizData.name,
-    pass: quizData.pass,
+    name: "",
+    link: "",
+    pass: "",
     data: {},
     playerData: {
         question: 0,
@@ -22,12 +28,145 @@ const game = {
             question: 0,
             playerAnswer: [],
             correctAnswer: [],
-            correct: Boolean
-        }
+            correct: Boolean,
+        },
+    },
+};
+
+// FUNCTION BLOCK =============================================================
+
+function clearScreen() {
+    while (quizHead.firstChild) {
+        quizHead.removeChild(quizHead.firstChild);
+    }
+    while (quizBody.firstChild) {
+        quizBody.removeChild(quizBody.firstChild);
     }
 }
 
-// FUNCTION BLOCK =============================================================
+function startQuiz() {
+    quizSection.classList.remove("middle-screen");
+    clearScreen();
+    resetPlayerData();
+    nextQuestion();
+}
+
+function editQuiz() {
+    quizSection.classList.remove("middle-screen");
+    console.log("clearing screen...");
+    clearScreen();
+
+    // Create Form
+    console.log("creating form...");
+    createEditQuizForm();
+
+    // Update Form Values
+    console.log("updating form...");
+    const formName = document.getElementById("quiz-name");
+    const formLink = document.getElementById("quiz-link");
+    const formPass = document.getElementById("quiz-pass");
+
+    formName.value = game.name;
+    formLink.value = game.link;
+    formPass.value = game.pass;
+}
+
+function deleteQuiz() {
+    clearScreen();
+}
+
+// CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM
+function createFormField(
+    type,
+    name,
+    id,
+    className,
+    placeholder,
+    required,
+    value
+) {
+    // LABEL
+    const label = document.createElement("label");
+    label.setAttribute("for", name);
+    let labelText = "";
+    switch (name) {
+        case "quiz-name":
+            labelText = "Quiz Name";
+            break;
+        case "quiz-link":
+            labelText = "Quiz Link";
+            break;
+        case "quiz-pass":
+            labelText = "Pass";
+            break;
+    }
+    label.innerText = labelText;
+
+    // INPUT
+    const input = document.createElement("input");
+    input.setAttribute("type", type);
+    input.setAttribute("name", name);
+    input.setAttribute("id", id);
+    input.setAttribute("placeholder", placeholder);
+    required && input.setAttribute("required", required);
+    value && input.setAttribute("value", value);
+
+    // COMBINE
+    const field = document.createElement("div");
+    field.classList.add(className);
+    field.appendChild(label);
+    field.appendChild(input);
+
+    return field;
+}
+
+function createEditQuizForm() {
+    const form = document.createElement("form");
+
+    form.appendChild(
+        createFormField(
+            "text",
+            "quiz-name",
+            "quiz-name",
+            "form-field",
+            "Enter Name...",
+            true
+        )
+    );
+    form.appendChild(
+        createFormField(
+            "text",
+            "quiz-link",
+            "quiz-link",
+            "form-field",
+            "Enter Google Sheets Link...",
+            true
+        )
+    );
+    form.appendChild(
+        createFormField(
+            "number",
+            "quiz-pass",
+            "quiz-pass",
+            "form-field",
+            "Enter Google Sheets Link...",
+            true,
+            "85"
+        )
+    );
+
+    const buttonGroup = createNewElement("div", "", "button-group");
+    form.appendChild(buttonGroup);
+
+    quizBody.appendChild(form);
+    return;
+}
+
+function lookupSelectedQuizData(quizID) {
+    const localQuizData = getLocalQuizData();
+    const targetQuizData = localQuizData.find((quiz) => quiz.id === quizID);
+    return targetQuizData;
+}
 
 function resetPlayerData() {
     game.playerData = {
@@ -37,264 +176,277 @@ function resetPlayerData() {
             question: 0,
             playerAnswer: [],
             correctAnswer: [],
-            correct: Boolean
-        }
-    }
-    return 
+            correct: Boolean,
+        },
+    };
+    return;
 }
 
 function toggleLoader(toggle) {
     if (toggle) {
-        loader.style.display = "none"
-        quizSection.style.display = "flex"
+        loader.style.display = "none";
+        quizSection.style.display = "flex";
     } else {
-        loader.style.display = "flex"
-        quizSection.style.display = "none"
+        loader.style.display = "flex";
+        quizSection.style.display = "none";
     }
 }
 
 function generateQuiz() {
-    getQuizData()
-    const quiz = quizData.find((quiz) => quiz.id === index)
-    if (!quiz) return
+    const quiz = lookupSelectedQuizData(quizID);
+    console.log("quiz lookup", quiz);
+    if (!quiz) return;
+
     fetch(`${quiz.link}`)
-        .then(response => {
+        .then((response) => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                throw new Error(
+                    "Network response was not ok " + response.statusText
+                );
             }
             return response.json();
         })
-        .then(data => {
+        .then((data) => {
             game.data = data;
-            toggleLoader(true)
+            toggleLoader(true);
             if (game.data.length > 0) {
-                game.name = quiz.name
-                game.pass = quiz.pass
-                quizName.textContent = game.name
-                quizPass.textContent = `The passing grade on this quiz is ${game.pass}%`
+                game.name = quiz.name;
+                game.link = quiz.link;
+                game.pass = quiz.pass;
+                quizName.textContent = game.name;
+                quizPass.textContent = `The passing grade on this quiz is ${game.pass}%`;
                 // convert answers to string array
                 for (let i = 0; i < Object.keys(game.data).length; i++) {
                     // Validate points
                     if (!game.data[i].points) {
-                        game.data[i].points = 1
+                        game.data[i].points = 1;
                     } else {
-                        game.data[i].points = Number(game.data[i].points)
+                        game.data[i].points = Number(game.data[i].points);
                     }
                     // Build Answers Array
-                    let newAnswer = []
-                    let string = String(game.data[i].answer)
-                    string.includes(',')
-                        ? newAnswer = string.split(',')
-                        : newAnswer.push(string)
-                    game.data[i].answer = newAnswer.map(Number)
-
+                    let newAnswer = [];
+                    let string = String(game.data[i].answer);
+                    string.includes(",")
+                        ? (newAnswer = string.split(","))
+                        : newAnswer.push(string);
+                    game.data[i].answer = newAnswer.map(Number);
                 }
             }
         })
-        .catch(error => {
+        .catch((error) => {
             // Handle the error here
-            console.error('Error fetching the quiz data:', error);
+            console.error("Error fetching the quiz data:", error);
+            return;
         });
 }
 
-function startQuiz() {
-    quizSection.classList.remove('middle-screen')
-    resetPlayerData()
-    nextQuestion()
-}
-
-function clearScreen() {
-    while (quizHead.firstChild) {
-        quizHead.removeChild(quizHead.firstChild)
-    }
-    quizWrapper.removeChild(quizWrapper.lastChild)
-}
-
 function submitAnswer(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     // Remove Error Text
-    const redText = document.getElementById('red-text')
-    if (redText) redText.innerText = ""
+    const redText = document.getElementById("red-text");
+    if (redText) redText.innerText = "";
 
     // Add selected answers to array
-    let selectedAnswers = []
-    const answers = document.getElementsByName('answer')
+    let selectedAnswers = [];
+    const answers = document.getElementsByName("answer");
     for (let i = 0; i < answers.length; i++) {
         if (answers[i].checked === true) {
-            selectedAnswers.push(Number(answers[i].value))
+            selectedAnswers.push(Number(answers[i].value));
         }
     }
 
     // Prevent form submission without selection
     if (selectedAnswers.length === 0) {
-        redText.textContent = "Please select an answer to continue"
-        return
+        redText.textContent = "Please select an answer to continue";
+        return;
     }
 
     // Confirm if answer is correct
-    const currentQuestion = game.playerData.question
-    const questionAnswer = game.data[currentQuestion].answer
+    const currentQuestion = game.playerData.question;
+    const questionAnswer = game.data[currentQuestion].answer;
 
     // Check Answers
-    let answerCorrect = true
+    let answerCorrect = true;
     for (let i = 0; i < questionAnswer.length; i++) {
-        if (!selectedAnswers.includes(questionAnswer[i])) answerCorrect = false
+        if (!selectedAnswers.includes(questionAnswer[i])) answerCorrect = false;
     }
 
     // Add Points
-    if (answerCorrect) game.playerData.score += game.data[currentQuestion].points
+    if (answerCorrect)
+        game.playerData.score += game.data[currentQuestion].points;
 
     // Check if end of quiz or proceed to next question
-    if (game.playerData.question + 1 === Object.keys(game.data).length && selectedAnswers) {
+    if (
+        game.playerData.question + 1 === Object.keys(game.data).length &&
+        selectedAnswers
+    ) {
         // End of Quiz
-        endQuiz()
+        endQuiz();
     } else {
         // Next Question
-        game.playerData.question++
-        nextQuestion()
+        game.playerData.question++;
+        nextQuestion();
     }
-    return
+    return;
 }
 
 function endQuiz() {
     // clear quiz elements
-    clearScreen()
+    clearScreen();
 
     // position elements in middle of screen
-    quizSection.classList.add('middle-screen')
+    quizSection.classList.add("middle-screen");
 
     // Clear Question Count
-    const quizProgress = document.getElementById('question-number')
-    if (quizProgress) quizProgress.innerText = ""
+    const quizProgress = document.getElementById("question-number");
+    if (quizProgress) quizProgress.innerText = "";
 
     // Calc Max Score
-    let maxScore = 0
+    let maxScore = 0;
     for (let i = 0; i < Object.keys(game.data).length; i++) {
-        maxScore += game.data[i].points
+        maxScore += game.data[i].points;
     }
 
     // Create Elements
-    createElement(
-        'h3',
-        `Final Score: ${game.playerData.score}/${maxScore}`,
-        'self-centered',
-        quizHead
-    )
-    const outcomeMessage = createElement(
-        'h2',
+    quizHead.appendChild(
+        createNewElement(
+            "h3",
+            `Final Score: ${game.playerData.score}/${maxScore}`,
+            "self-centered"
+        )
+    );
+
+    const outcomeMessage = createNewElement(
+        "h2",
         "Quiz Outcome Text",
-        "self-centered",
-        quizHead
-    )
+        "self-centered"
+    );
+    quizHead.appendChild(outcomeMessage);
 
     // Determine Quiz Result
     if (game.playerData.score === maxScore) {
-        outcomeMessage.textContent = "Congratulations!"
-        outcomeMessage.classList.add('rainbow')
+        outcomeMessage.textContent = "Congratulations!";
+        outcomeMessage.classList.add("rainbow");
     } else {
-        outcomeMessage.textContent = "Better luck next time"
+        outcomeMessage.textContent = "Better luck next time";
     }
 
     // Add Exit/Retry Buttons
-    const exitButtons = createElement("div", "", "button-group", quizWrapper)
+    const exitButtons = createNewElement("div", "", "button-group");
+    quizBody.appendChild(exitButtons);
 
-    const retry = createElement("button", "Try Again", "app-button", exitButtons)
-    retry.classList.add('secondary-button')
-    retry.addEventListener('click',startQuiz)
+    exitButtons.appendChild(
+        createButton("Try Again", "secondary-button", startQuiz)
+    );
 
-    const exit = createElement("a", "Return to List", "app-button", exitButtons)
-    exit.classList.add('primary-button')
-    exit.setAttribute('href', 'quizList.html')
+    const exit = createNewElement("a", "Return to List", "app-button");
+    exit.classList.add("primary-button");
+    exit.setAttribute("href", "quizList.html");
+    exitButtons.appendChild(exit);
 
-    return
+    return;
 }
 
-function createElement(element, text, classList, parent) {
-    const el = document.createElement(element)
-    text && (el.textContent = text)
-    classList && (el.classList.add(classList))
-    parent.appendChild(el)
-    return el
+// CREATE ELEMENT FUNCTIONS ===================================================
+
+function createNewElement(element, text, classList) {
+    const el = document.createElement(element);
+    text && (el.textContent = text);
+    classList && el.classList.add(classList);
+    return el;
+}
+
+function createButton(value, classList, onClick) {
+    const button = document.createElement("button");
+    if (value && classList && onClick) {
+        button.innerText = value;
+        button.classList.add("app-button");
+        button.classList.add(classList);
+        button.addEventListener("click", onClick);
+    }
+    return button;
 }
 
 function createRadioButton(id, text, parent) {
-    const option = document.createElement("div")
-    const radio = document.createElement("input")
-    const label = document.createElement("label")
+    const option = document.createElement("div");
+    const radio = document.createElement("input");
+    const label = document.createElement("label");
 
-    radio.setAttribute("type", "radio")
-    radio.setAttribute("id", id)
-    radio.setAttribute("value", id)
-    radio.setAttribute("name", "answer")
-    radio.classList.add('question-answer')
+    radio.setAttribute("type", "radio");
+    radio.setAttribute("id", id);
+    radio.setAttribute("value", id);
+    radio.setAttribute("name", "answer");
+    radio.classList.add("question-answer");
 
-    label.setAttribute("for", id)
-    label.innerText = text
+    label.setAttribute("for", id);
+    label.innerText = text;
 
-    option.appendChild(radio)
-    option.appendChild(label)
-    option.classList.add('question-option')
+    option.appendChild(radio);
+    option.appendChild(label);
+    option.classList.add("question-option");
 
-    radio.addEventListener('click', () => radio.checked = true)
-    label.addEventListener('click', () => radio.checked = true)
-    option.addEventListener('click', () => radio.checked = true)
+    radio.addEventListener("click", () => (radio.checked = true));
+    label.addEventListener("click", () => (radio.checked = true));
+    option.addEventListener("click", () => (radio.checked = true));
 
-    parent.appendChild(option)
-    return option
+    parent.appendChild(option);
+    return option;
 }
 function createCheckbox(id, text, parent) {
-    const option = document.createElement("div")
-    const checkbox = document.createElement("input")
-    const label = document.createElement("label")
+    const option = document.createElement("div");
+    const checkbox = document.createElement("input");
+    const label = document.createElement("label");
 
-    checkbox.setAttribute("type", "checkbox")
-    checkbox.setAttribute("id", id)
-    checkbox.setAttribute("value", id)
-    checkbox.setAttribute("name", "answer")
-    checkbox.classList.add('question-answer')
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.setAttribute("id", id);
+    checkbox.setAttribute("value", id);
+    checkbox.setAttribute("name", "answer");
+    checkbox.classList.add("question-answer");
 
-    label.setAttribute("for", id)
-    label.innerText = text
+    label.setAttribute("for", id);
+    label.innerText = text;
 
-    option.appendChild(checkbox)
-    option.appendChild(label)
-    option.classList.add('question-option')
+    option.appendChild(checkbox);
+    option.appendChild(label);
+    option.classList.add("question-option");
 
-    checkbox.addEventListener('click', () => {
+    checkbox.addEventListener("click", () => {
         checkbox.checked === false
-            ? checkbox.checked = true
-            : checkbox.checked = false
-    })
-    label.addEventListener('click', () => {
+            ? (checkbox.checked = true)
+            : (checkbox.checked = false);
+    });
+    label.addEventListener("click", () => {
         checkbox.checked === false
-            ? checkbox.checked = true
-            : checkbox.checked = false
-    })
-    option.addEventListener('click', () => {
+            ? (checkbox.checked = true)
+            : (checkbox.checked = false);
+    });
+    option.addEventListener("click", () => {
         checkbox.checked === false
-            ? checkbox.checked = true
-            : checkbox.checked = false
-    })
+            ? (checkbox.checked = true)
+            : (checkbox.checked = false);
+    });
 
-    parent.appendChild(option)
-    return option
+    parent.appendChild(option);
+    return option;
 }
+
+// HANDLE IMAGE LOAD
 
 async function loadImageAndToggleLoader(parent) {
     if (game.data[game.playerData.question].image) {
         toggleLoader(false);
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.alt = "quiz image";
         img.width = 200;
-        img.classList.add('self-centered');
+        img.classList.add("self-centered");
 
         try {
             const response = await fetch(
                 game.data[game.playerData.question].image
             );
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error("Network response was not ok");
             }
             const imgURL = response.url;
             img.src = imgURL;
@@ -302,7 +454,7 @@ async function loadImageAndToggleLoader(parent) {
             img.onload = () => {
                 console.log("Image loaded successfully.");
                 toggleLoader(true);
-                parent.insertBefore(img, parent.children[1].nextSibling)
+                parent.insertBefore(img, parent.children[1].nextSibling);
             };
 
             img.onerror = () => {
@@ -310,7 +462,7 @@ async function loadImageAndToggleLoader(parent) {
                 toggleLoader(true);
             };
 
-        // Append the image to the quiz wrapper
+            // Append the image to the quiz wrapper
         } catch (error) {
             console.error("Image Error: ", error);
             toggleLoader(true);
@@ -319,58 +471,83 @@ async function loadImageAndToggleLoader(parent) {
 }
 
 function nextQuestion() {
-    clearScreen()
+    clearScreen();
 
-    const currentQuestionNumber = game.playerData.question + 1
-    const totalQuestionCount = Object.keys(game.data).length
+    const currentQuestionNumber = game.playerData.question + 1;
+    const totalQuestionCount = Object.keys(game.data).length;
 
     // Add Question Details
-    createElement("h2", `Question ${currentQuestionNumber}`, "self-centered", quizHead)
-    createElement("h3", `${game.data[game.playerData.question].question}`, "self-centered", quizHead)
-
+    quizHead.appendChild(
+        createNewElement(
+            "h2",
+            `Question ${currentQuestionNumber}`,
+            "self-centered"
+        )
+    );
+    quizHead.appendChild(
+        createNewElement(
+            "h3",
+            `${game.data[game.playerData.question].question}`,
+            "self-centered",
+            quizHead
+        )
+    );
     // Update Quiz Progress Counter
-    const quizProgress = document.getElementById('question-number')
-    if (quizProgress) quizProgress.innerText = `${currentQuestionNumber}/${totalQuestionCount}`
+    const quizProgress = document.getElementById("question-number");
+    if (quizProgress)
+        quizProgress.innerText = `${currentQuestionNumber}/${totalQuestionCount}`;
 
     // handle image loading
-    if (game.data[game.playerData.question].image) loadImageAndToggleLoader(quizHead);
+    if (game.data[game.playerData.question].image)
+        loadImageAndToggleLoader(quizHead);
 
     // Create Form
-    const questionForm = document.createElement('form')
-    questionForm.addEventListener('submit', submitAnswer)
+    const questionForm = document.createElement("form");
+    questionForm.addEventListener("submit", submitAnswer);
 
     // Create Form Submit Button
-    const submitButton = document.createElement('input')
-    submitButton.setAttribute('type', 'submit')
-    submitButton.setAttribute('value', 'Submit')
-    submitButton.setAttribute('id', 'submit-answer-button')
-    submitButton.classList.add('app-button')
-    submitButton.classList.add('secondary-button')
+    const submitButton = document.createElement("input");
+    submitButton.setAttribute("type", "submit");
+    submitButton.setAttribute("value", "Submit");
+    submitButton.setAttribute("id", "submit-answer-button");
+    submitButton.classList.add("app-button");
+    submitButton.classList.add("secondary-button");
 
     // Get Question Options Array
-    const options = Object.values(game.data[game.playerData.question].options)
+    const options = Object.values(game.data[game.playerData.question].options);
 
     // Create Answer Buttons
     switch (game.data[game.playerData.question].type) {
-        case 'Checkbox':
-            options.forEach((option, index) => createCheckbox(index + 1, option, questionForm))
+        case "Checkbox":
+            options.forEach((option, index) =>
+                createCheckbox(index + 1, option, questionForm)
+            );
             break;
         default:
             // Multiple Choice
-            options.forEach((option, index) => createRadioButton(index + 1, option, questionForm))
+            options.forEach((option, index) =>
+                createRadioButton(index + 1, option, questionForm)
+            );
             break;
     }
 
     // Add Submit Button, Append Form
-    questionForm.appendChild(submitButton)
-    questionForm.classList.add('quiz-form')
-    quizWrapper.appendChild(questionForm)
+    questionForm.appendChild(submitButton);
+    questionForm.classList.add("quiz-form");
+    quizBody.appendChild(questionForm);
 
-    return
+    return;
 }
+
+// ADD EVENT LISTENERS
+startQuizButton.addEventListener("click", startQuiz);
+editQuizButton.addEventListener("click", editQuiz);
+deleteQuizButton.addEventListener("click", deleteQuiz);
 
 // LAUNCH CODE ================================================================
 
-startQuizButton.addEventListener('click', startQuiz)
+const idIndex = parent.document.URL.indexOf("?");
+const idLen = parent.document.URL.length;
+const quizID = parent.document.URL.substring(idIndex + 1, idLen);
 
-generateQuiz()
+generateQuiz();

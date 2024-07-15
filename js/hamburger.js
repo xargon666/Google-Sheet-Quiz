@@ -1,4 +1,3 @@
-
 const hamburgerContainer = document.getElementsByClassName('hamburger-container')[0]
 const nav = document.getElementById('top-nav')
 

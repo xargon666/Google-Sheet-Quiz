@@ -23,7 +23,7 @@ Quiz Project Checklist
 	- [x] Update for Checkbox questions
 	- [x] Remove instant feedback
 - [ ] Quiz End Summary
-	- [x] Compute Final Score
+	- [ ] Compute Final Score
 	- [ ] List High Scores
 	- [ ] Answer's stored in array till end of quiz = Needs Testing
 	- [ ] List all correct/incorrect question/answers
@@ -35,13 +35,13 @@ Quiz Project Checklist
 - [ ] localStorage CRUD functions for quiz list
 	- [x] CREATE
 	- [x] READ
-	- [ ] UPDATE
+	- [x] UPDATE
 		- [x] Find Unique ID solution
-		- [ ] Redirect to add quiz form / copy of form
-		- [ ] pre-populate with info
-		- [ ] submit to update specific record
-	- [ ] DELETE
-		- [ ] update the same form to have a delete button instead of submit
+		- [x] Redirect to add quiz form / copy of form
+		- [x] pre-populate with info
+		- [x] submit to update specific record
+	- [x] DELETE
+		- [x] update the same form to have a delete button instead of submit
 
 ## Style
 - [ ] Update Styling

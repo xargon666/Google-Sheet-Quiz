@@ -34,8 +34,7 @@ function submitQuiz(e) {
     // Need to fetch data from link and check it isn't garbage here
 
     // Submit Data to Local Storage
-    localStorage.setItem(localStorage.length, JSON.stringify(newQuizData))
-    console.log(localStorage)
+    localStorage.setItem(UUID, JSON.stringify(newQuizData))
 
     // Return to Quiz List page
     window.location.href = "./quizList.html"

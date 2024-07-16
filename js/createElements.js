@@ -1,45 +1,45 @@
 // CREATE ELEMENT FUNCTIONS ===================================================
 
-export function createLink(text,link,classList){
-    if (!link) return
-    const anchor = document.createElement('a')
-    anchor.innerText = text
-    anchor.setAttribute('href',link)
-    anchor.classList.add(classList)
-    anchor.classList.add('app-button')
-    return anchor
+export function createLink(text, link, classList) {
+    if (!link) return;
+    const anchor = document.createElement("a");
+    anchor.innerText = text;
+    anchor.setAttribute("href", link);
+    anchor.classList.add(classList);
+    anchor.classList.add("app-button");
+    return anchor;
 }
 
 export function createNewElement(element, text, classList) {
+    if (!element) return;
     const el = document.createElement(element);
-    text && (el.textContent = text);
+    text && (el.innerText = text);
     classList && el.classList.add(classList);
     return el;
 }
 
-export function createSubmitButton(type,value,classList,onClick){
-    const input = document.createElement('input')
-    input.setAttribute('type',type)
-    input.value = value
-    input.classList.add(classList)
-    input.classList.add('app-button')
-    input.addEventListener('click',onClick)
-    return input
+export function createSubmitButton(type, value, classList, onClick) {
+    const input = document.createElement("input");
+    input.setAttribute("type", type);
+    input.innerText = value;
+    input.classList.add(classList);
+    input.classList.add("app-button");
+    input.addEventListener("click", onClick);
+    return input;
 }
 
-export function createButton(value, classList, onClick) {
+export function createButton(text, classList, onClick) {
     const button = document.createElement("button");
-    button.setAttribute('type','button')
-    if (value && classList && onClick) {
-        button.innerText = value;
-        button.classList.add("app-button");
-        button.classList.add(classList);
-        button.addEventListener("click", onClick);
-    }
+    button.setAttribute("type", "button");
+    if (!text || !classList || !onClick) return;
+    button.innerText = text;
+    button.classList.add("app-button");
+    button.classList.add(classList);
+    button.addEventListener("click", onClick);
     return button;
 }
 
-export  function createRadioButton(id, text) {
+export function createRadioButton(id, text) {
     const option = document.createElement("div");
     const radio = document.createElement("input");
     const label = document.createElement("label");

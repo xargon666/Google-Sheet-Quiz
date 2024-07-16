@@ -1,6 +1,7 @@
 import {
     createButton,
     createCheckbox,
+    createLink,
     createNewElement,
     createRadioButton,
     createSubmitButton,
@@ -12,15 +13,7 @@ const loader = document.getElementById("loader-section");
 const quizSection = document.getElementById("quiz-section");
 
 const quizHead = document.getElementById("quiz-head");
-const quizName = document.getElementById("quiz-name");
-const quizPass = document.getElementById("quiz-pass");
-
 const quizBody = document.getElementById("quiz-body");
-
-// BUTTONS
-const startQuizButton = document.getElementById("start-quiz-button");
-const editQuizButton = document.getElementById("edit-quiz-button");
-const deleteQuizButton = document.getElementById("delete-quiz-button");
 
 // GAME
 const game = {
@@ -78,23 +71,21 @@ function handleEditQuizSubmit(e) {
         pass: formPass,
     };
 
-    console.log(localStorage)
-
     // Find Target
     for (let i = 0; i < localStorage.length; i++) {
-        const item = JSON.parse(localStorage.getItem(i))
-        if (item===null) continue
-        if (item.id === quizID) localStorage.setItem(i,JSON.stringify(updatedQuizData))
+        const item = JSON.parse(localStorage.getItem(i));
+        if (item === null) continue;
+        if (item.id === quizID)
+            localStorage.setItem(i, JSON.stringify(updatedQuizData));
     }
-    handleReload()
+    handleReload();
     return;
 }
 
 // EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM
-function editQuiz() {
+function editQuizScreen() {
     quizSection.classList.remove("middle-screen");
     clearScreen();
-
     // Create Form
     const form = document.createElement("form");
 
@@ -140,7 +131,7 @@ function editQuiz() {
     );
     buttonGroup.appendChild(submit);
 
-    const cancel = createButton("Cancel", "primary-button", handleReload);
+    const cancel = createButton("Cancel", "primary-button", createStartScreen);
     buttonGroup.appendChild(cancel);
 
     form.appendChild(buttonGroup);
@@ -159,8 +150,33 @@ function editQuiz() {
     return;
 }
 
-function deleteQuiz() {
+function handleDelete() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        if (!item) continue;
+        if (item.id === quizID) {
+            localStorage.removeItem(localStorage.key(i));
+            location.href = "quizList.html";
+            break;
+        }
+    }
+    return;
+}
+
+function deleteQuizScreen() {
     clearScreen();
+    quizHead.appendChild(
+        createNewElement("h2", `Delete ${game.name}`, "red-text")
+    );
+    quizHead.appendChild(createNewElement("h3", "Are you sure?", ""));
+    const buttonGroup = createNewElement("div", "", "button-group");
+    buttonGroup.appendChild(
+        createButton("Delete", "primary-button", handleDelete)
+    );
+    buttonGroup.appendChild(
+        createButton("Cancel", "secondary-button", createStartScreen)
+    );
+    quizBody.appendChild(buttonGroup);
 }
 
 // CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM
@@ -208,12 +224,6 @@ function createFormField(
     return field;
 }
 
-function lookupSelectedQuizData(quizID) {
-    const localQuizData = getLocalQuizData();
-    const targetQuizData = localQuizData.find((quiz) => quiz.id === quizID);
-    return targetQuizData;
-}
-
 function resetPlayerData() {
     game.playerData = {
         question: 0,
@@ -238,52 +248,93 @@ function toggleLoader(toggle) {
     }
 }
 
-function generateQuiz() {
-    const quiz = lookupSelectedQuizData(quizID);
-    console.log("quiz lookup", quiz);
+// FETCH QUIZ DATA
+async function generateQuiz() {
+    const localQuizData = getLocalQuizData();
+    const quiz = localQuizData.find((quiz) => quiz.id === quizID);
     if (!quiz) return;
+    game.name = quiz.name;
+    game.link = quiz.link;
+    game.pass = quiz.pass;
 
-    fetch(`${quiz.link}`)
+    const response = await fetch(`${quiz.link}`)
         .then((response) => {
-            if (!response.ok) {
+            if (!response.ok)
                 throw new Error(
-                    "Network response was not ok " + response.statusText
+                    `Bad Response: ${response.statusText}\n Response Code: ${response.status}`
                 );
-            }
             return response.json();
         })
-        .then((data) => {
-            game.data = data;
-            toggleLoader(true);
-            if (game.data.length > 0) {
-                game.name = quiz.name;
-                game.link = quiz.link;
-                game.pass = quiz.pass;
-                quizName.textContent = game.name;
-                quizPass.textContent = `The passing grade on this quiz is ${game.pass}%`;
-                // convert answers to string array
-                for (let i = 0; i < Object.keys(game.data).length; i++) {
-                    // Validate points
-                    if (!game.data[i].points) {
-                        game.data[i].points = 1;
-                    } else {
-                        game.data[i].points = Number(game.data[i].points);
-                    }
-                    // Build Answers Array
-                    let newAnswer = [];
-                    let string = String(game.data[i].answer);
-                    string.includes(",")
-                        ? (newAnswer = string.split(","))
-                        : newAnswer.push(string);
-                    game.data[i].answer = newAnswer.map(Number);
-                }
-            }
-        })
+        .then((data) => data)
         .catch((error) => {
-            // Handle the error here
-            console.error("Error fetching the quiz data:", error);
-            return;
+            console.error("Fetch Error", error);
+            return {};
         });
+
+    if (response) {
+        game.data = response;
+        toggleLoader(true);
+        if (game.data.length > 0) {
+            // convert answers to string array
+            for (let i = 0; i < Object.keys(game.data).length; i++) {
+                // Update points
+                if (!game.data[i].points) {
+                    game.data[i].points = 1;
+                } else {
+                    game.data[i].points = Number(game.data[i].points);
+                }
+                // Build Answers Array
+                let newAnswer = [];
+                let string = String(game.data[i].answer);
+                string.includes(",")
+                    ? (newAnswer = string.split(","))
+                    : newAnswer.push(string);
+                game.data[i].answer = newAnswer.map(Number);
+            }
+        }
+    }
+}
+
+function createStartScreen() {
+    clearScreen();
+    const quizDataMissing = Object.keys(game.data).length === 0;
+    quizSection.classList.add("middle-screen");
+    // QUIZ HEAD
+    quizHead.appendChild(
+        createNewElement(
+            "h2",
+            quizDataMissing 
+                ? `Quiz Data Missing!\n ${game.name}` 
+                : game.name,
+                quizDataMissing ? "red-text" : ""
+        )
+    );
+    quizHead.appendChild(
+        createNewElement(
+            "p",
+            quizDataMissing
+                ? "Select Edit Quiz to fix the quiz link or select Delete Quiz to remove this entry."
+                : `The passing grade on this quiz is ${game.pass}%`,
+            ""
+        )
+    );
+
+    // QUIZ BODY
+    const buttonGroup = createNewElement("div", "", "button-group");
+    !quizDataMissing && buttonGroup.appendChild(
+        createButton("Start Quiz", "secondary-button", startQuiz)
+    );
+    buttonGroup.appendChild(
+        createButton("Edit Quiz", quizDataMissing ? "secondary-button": "primary-button", editQuizScreen)
+    );
+    buttonGroup.appendChild(
+        createButton("Delete Quiz", "primary-button", deleteQuizScreen)
+    );
+    buttonGroup.appendChild(
+        createLink("Cancel", "quizList.html", "primary-button")
+    );
+
+    quizBody.appendChild(buttonGroup);
 }
 
 function submitAnswer(e) {
@@ -466,6 +517,7 @@ function nextQuestion() {
 
     // Create Form
     const questionForm = document.createElement("form");
+    questionForm.classList.add("quiz-form");
     questionForm.addEventListener("submit", submitAnswer);
 
     // Create Form Submit Button
@@ -501,15 +553,11 @@ function nextQuestion() {
     return;
 }
 
-// ADD EVENT LISTENERS
-startQuizButton.addEventListener("click", startQuiz);
-editQuizButton.addEventListener("click", editQuiz);
-deleteQuizButton.addEventListener("click", deleteQuiz);
-
 // LAUNCH CODE ================================================================
 
 const idIndex = parent.document.URL.indexOf("?");
 const idLen = parent.document.URL.length;
 const quizID = parent.document.URL.substring(idIndex + 1, idLen);
 
-generateQuiz();
+await generateQuiz();
+createStartScreen();

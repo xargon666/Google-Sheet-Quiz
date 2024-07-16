@@ -1,7 +1,7 @@
 Google-Sheet-Quiz
 ====================
 
-A Quiz Generator and free alternative to "Form Builder for Google Sheets™"
+A Quiz Generator, and a free alternative to "Form Builder for Google Sheets™"
 
 ## About
 This is a vanilla HTML/CSS/JS project, making use of Google Sheets to store question data.

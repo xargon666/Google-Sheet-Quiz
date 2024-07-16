@@ -154,6 +154,7 @@ function handleDelete() {
     for (let i = 0; i < localStorage.length; i++) {
         const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         if (!item) continue;
+        if (item.id === 'demo') alert('The demo quiz can never be deleted!')
         if (item.id === quizID) {
             localStorage.removeItem(localStorage.key(i));
             location.href = "quizList.html";

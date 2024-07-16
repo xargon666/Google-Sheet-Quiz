@@ -303,10 +303,8 @@ function createStartScreen() {
     quizHead.appendChild(
         createNewElement(
             "h2",
-            quizDataMissing 
-                ? `Quiz Data Missing!\n ${game.name}` 
-                : game.name,
-                quizDataMissing ? "red-text" : ""
+            quizDataMissing ? `Quiz Data Missing!\n ${game.name}` : game.name,
+            quizDataMissing ? "red-text" : ""
         )
     );
     quizHead.appendChild(
@@ -321,11 +319,16 @@ function createStartScreen() {
 
     // QUIZ BODY
     const buttonGroup = createNewElement("div", "", "button-group");
-    !quizDataMissing && buttonGroup.appendChild(
-        createButton("Start Quiz", "secondary-button", startQuiz)
-    );
+    !quizDataMissing &&
+        buttonGroup.appendChild(
+            createButton("Start Quiz", "secondary-button", startQuiz)
+        );
     buttonGroup.appendChild(
-        createButton("Edit Quiz", quizDataMissing ? "secondary-button": "primary-button", editQuizScreen)
+        createButton(
+            "Edit Quiz",
+            quizDataMissing ? "secondary-button" : "primary-button",
+            editQuizScreen
+        )
     );
     buttonGroup.appendChild(
         createButton("Delete Quiz", "primary-button", deleteQuizScreen)

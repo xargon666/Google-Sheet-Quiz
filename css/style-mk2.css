@@ -178,6 +178,10 @@ text-align: left ;
     font-weight: 1000;
     color:red;
 }
+.green-text{
+    font-weight: 1000;
+    color:var(--secondary-color)
+}
 
 /* BUTTONS */
 .app-button {

@@ -8,14 +8,20 @@ import {
 } from "./createElements.js";
 import getLocalQuizData from "./getLocalQuizData.js";
 
-// VARIABLE BLOCK =============================================================
+// *****************************************************************************
+// VARIABLE BLOCK 
+// *****************************************************************************
 const loader = document.getElementById("loader-section");
 const quizSection = document.getElementById("quiz-section");
 
 const quizHead = document.getElementById("quiz-head");
 const quizBody = document.getElementById("quiz-body");
 
-// GAME
+const idIndex = parent.document.URL.indexOf("?");
+const idLen = parent.document.URL.length;
+const quizID = parent.document.URL.substring(idIndex + 1, idLen);
+
+// GAME DATA
 const game = {
     name: "",
     link: "",
@@ -33,8 +39,9 @@ const game = {
     },
 };
 
-// FUNCTION BLOCK =============================================================
-
+// *****************************************************************************
+// FUNCTION BLOCK 
+// *****************************************************************************
 function clearScreen() {
     while (quizHead.firstChild) {
         quizHead.removeChild(quizHead.firstChild);
@@ -58,6 +65,24 @@ function handleReload() {
     return;
 }
 
+// RESET PLAYER DATA
+function resetPlayerData() {
+    game.playerData = {
+        question: 0,
+        score: 0,
+        questionData: {
+            question: 0,
+            playerAnswer: [],
+            correctAnswer: [],
+            correct: Boolean,
+        },
+    };
+    return;
+}
+// ============================================================================== 
+// CRUD FUNCTIONS
+// ============================================================================== 
+// HANDLE EDIT QUIZ
 function handleEditQuizSubmit(e) {
     e.preventDefault();
     const formName = document.getElementById("quiz-name").value;
@@ -82,7 +107,7 @@ function handleEditQuizSubmit(e) {
     return;
 }
 
-// EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM EDIT QUIZ FORM
+// LOAD EDIT QUIZ SCREEN
 function editQuizScreen() {
     quizSection.classList.remove("middle-screen");
     clearScreen();
@@ -150,11 +175,12 @@ function editQuizScreen() {
     return;
 }
 
+// HANDLE DELETE
 function handleDelete() {
     for (let i = 0; i < localStorage.length; i++) {
         const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         if (!item) continue;
-        if (item.id === 'demo') alert('The demo quiz can never be deleted!')
+        if (item.id === "demo") alert("The demo quiz can never be deleted!");
         if (item.id === quizID) {
             localStorage.removeItem(localStorage.key(i));
             location.href = "quizList.html";
@@ -164,6 +190,7 @@ function handleDelete() {
     return;
 }
 
+// LOAD DELETE QUIZ SCREEN
 function deleteQuizScreen() {
     clearScreen();
     quizHead.appendChild(
@@ -180,7 +207,7 @@ function deleteQuizScreen() {
     quizBody.appendChild(buttonGroup);
 }
 
-// CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM CREATE FORM
+// CREATE FORM FIELD 
 function createFormField(
     type,
     name,
@@ -225,20 +252,7 @@ function createFormField(
     return field;
 }
 
-function resetPlayerData() {
-    game.playerData = {
-        question: 0,
-        score: 0,
-        questionData: {
-            question: 0,
-            playerAnswer: [],
-            correctAnswer: [],
-            correct: Boolean,
-        },
-    };
-    return;
-}
-
+// LOADING SCREEN
 function toggleLoader(toggle) {
     if (toggle) {
         loader.style.display = "none";
@@ -247,7 +261,9 @@ function toggleLoader(toggle) {
         loader.style.display = "flex";
         quizSection.style.display = "none";
     }
+    return
 }
+
 
 // FETCH QUIZ DATA
 async function generateQuiz() {
@@ -294,8 +310,10 @@ async function generateQuiz() {
             }
         }
     }
+    return
 }
 
+// CREATE START SCREEN
 function createStartScreen() {
     clearScreen();
     const quizDataMissing = Object.keys(game.data).length === 0;
@@ -339,8 +357,13 @@ function createStartScreen() {
     );
 
     quizBody.appendChild(buttonGroup);
+    return;
 }
 
+// ============================================================================*
+// QUIZ LOGIC
+// ============================================================================*
+// SUBMIT QUESTION ANSWER
 function submitAnswer(e) {
     e.preventDefault();
 
@@ -392,6 +415,7 @@ function submitAnswer(e) {
     return;
 }
 
+// END QUIZ
 function endQuiz() {
     // clear quiz elements
     clearScreen();
@@ -403,17 +427,26 @@ function endQuiz() {
     const quizProgress = document.getElementById("question-number");
     if (quizProgress) quizProgress.innerText = "";
 
-    // Calc Max Score
+    // Calc Max Score & Passing Score
     let maxScore = 0;
-    for (let i = 0; i < Object.keys(game.data).length; i++) {
+    for (let i = 0; i < Object.keys(game.data).length; i++)
         maxScore += game.data[i].points;
-    }
+    const passingScore = Math.floor(maxScore * (game.pass / 100));
 
-    // Create Elements
+    // Final Score Text
     quizHead.appendChild(
         createNewElement(
             "h3",
             `Final Score: ${game.playerData.score}/${maxScore}`,
+            "self-centered"
+        )
+    );
+
+    // Passing Grade Text
+    quizHead.appendChild(
+        createNewElement(
+            "h3",
+            `Passing Score: ${passingScore} (${game.pass}%)`,
             "self-centered"
         )
     );
@@ -427,8 +460,11 @@ function endQuiz() {
 
     // Determine Quiz Result
     if (game.playerData.score === maxScore) {
-        outcomeMessage.textContent = "Congratulations!";
+        outcomeMessage.textContent = "Incredible!\nMaximum Score!";
         outcomeMessage.classList.add("rainbow");
+    } else if (game.playerData.score >= passingScore) {
+        outcomeMessage.textContent = "Congratulations!";
+        outcomeMessage.classList.add("green-text");
     } else {
         outcomeMessage.textContent = "Better luck next time";
     }
@@ -450,8 +486,8 @@ function endQuiz() {
 }
 
 // HANDLE IMAGE LOAD
-
 async function loadImageAndToggleLoader(parent) {
+    // Brutal code to engage loader while loading large images
     if (game.data[game.playerData.question].image) {
         toggleLoader(false);
         const img = document.createElement("img");
@@ -486,8 +522,10 @@ async function loadImageAndToggleLoader(parent) {
             toggleLoader(true);
         }
     }
+    return;
 }
 
+// NEXT QUESTION
 function nextQuestion() {
     clearScreen();
 
@@ -556,12 +594,8 @@ function nextQuestion() {
 
     return;
 }
-
-// LAUNCH CODE ================================================================
-
-const idIndex = parent.document.URL.indexOf("?");
-const idLen = parent.document.URL.length;
-const quizID = parent.document.URL.substring(idIndex + 1, idLen);
-
+// *****************************************************************************
+// LAUNCH CODE 
+// *****************************************************************************
 await generateQuiz();
 createStartScreen();

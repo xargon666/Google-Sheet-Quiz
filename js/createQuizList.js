@@ -7,11 +7,13 @@ const quizList = document.getElementById("quiz-list");
 // FUNCTION BLOCK =============================================================
 
 function createQuizList() {
+    console.log("Pulling Quiz Data...")
     const quizData = getLocalQuizData();
     if (!quizData || quizData.length < 1)
         throw new Error("Error", "No Quiz Data");
     try {
         quizData.map((quiz) => {
+            console.log("Creating quiz list...")
             // Create Buttons
             const el = document.createElement("a");
             el.classList.add("app-button");
@@ -27,10 +29,11 @@ function createQuizList() {
     } catch (e) {
         console.error(e)
     }
+    return
 }
 
 function goToQuiz(id) {
-    window.location.href = `./quiz.html?${id}`;
+    return window.location.href = `./quiz.html?${id}`;
 }
 
 // EXECUTE CODE

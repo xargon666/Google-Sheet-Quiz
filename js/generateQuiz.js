@@ -9,7 +9,7 @@ import {
 import getLocalQuizData from "./getLocalQuizData.js";
 
 // *****************************************************************************
-// VARIABLE BLOCK 
+// VARIABLE BLOCK
 // *****************************************************************************
 const loader = document.getElementById("loader-section");
 const quizSection = document.getElementById("quiz-section");
@@ -40,7 +40,7 @@ const game = {
 };
 
 // *****************************************************************************
-// FUNCTION BLOCK 
+// FUNCTION BLOCK
 // *****************************************************************************
 function clearScreen() {
     while (quizHead.firstChild) {
@@ -79,9 +79,9 @@ function resetPlayerData() {
     };
     return;
 }
-// ============================================================================== 
+// ==============================================================================
 // CRUD FUNCTIONS
-// ============================================================================== 
+// ==============================================================================
 // HANDLE EDIT QUIZ
 function handleEditQuizSubmit(e) {
     e.preventDefault();
@@ -97,11 +97,20 @@ function handleEditQuizSubmit(e) {
     };
 
     // Find Target
+
     for (let i = 0; i < localStorage.length; i++) {
-        const item = JSON.parse(localStorage.getItem(i));
+        const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         if (item === null) continue;
         if (item.id === quizID)
-            localStorage.setItem(i, JSON.stringify(updatedQuizData));
+            try {
+                localStorage.removeItem(localStorage.key(i));
+                localStorage.setItem(
+                    localStorage.key(i),
+                    JSON.stringify(updatedQuizData)
+                );
+            } catch (e) {
+                console.error(`Error: ${e}`);
+            }
     }
     handleReload();
     return;
@@ -207,7 +216,7 @@ function deleteQuizScreen() {
     quizBody.appendChild(buttonGroup);
 }
 
-// CREATE FORM FIELD 
+// CREATE FORM FIELD
 function createFormField(
     type,
     name,
@@ -261,9 +270,8 @@ function toggleLoader(toggle) {
         loader.style.display = "flex";
         quizSection.style.display = "none";
     }
-    return
+    return;
 }
-
 
 // FETCH QUIZ DATA
 async function generateQuiz() {
@@ -310,7 +318,7 @@ async function generateQuiz() {
             }
         }
     }
-    return
+    return;
 }
 
 // CREATE START SCREEN
@@ -595,7 +603,7 @@ function nextQuestion() {
     return;
 }
 // *****************************************************************************
-// LAUNCH CODE 
+// LAUNCH CODE
 // *****************************************************************************
 await generateQuiz();
 createStartScreen();

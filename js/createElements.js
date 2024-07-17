@@ -21,7 +21,7 @@ export function createNewElement(element, text, classList) {
 export function createSubmitButton(type, value, classList, onClick) {
     const input = document.createElement("input");
     input.setAttribute("type", type);
-    input.innerText = value;
+    input.value = value
     input.classList.add(classList);
     input.classList.add("app-button");
     input.addEventListener("click", onClick);

@@ -7,14 +7,11 @@ const quizList = document.getElementById("quiz-list");
 // FUNCTION BLOCK =============================================================
 
 function createQuizList() {
-    console.log("Pulling Quiz Data...")
     const quizData = getLocalQuizData();
-    console.log("Quiz Data Pulled: ",quizData)
     if (!quizData || quizData.length < 1)
         throw new Error("Error", "No Quiz Data");
     try {
         quizData.map((quiz) => {
-            console.log("Creating quiz list...")
             // Create Buttons
             const el = document.createElement("a");
             el.classList.add("app-button");

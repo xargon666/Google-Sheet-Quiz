@@ -3,20 +3,24 @@ export default function getLocalQuizData() {
 
     // Loop through local storage to get new quiz data
     // This loop will only execute when localStorage is not empty
+    let demoID
     for (let i = 0; i < localStorage.length; i++) {
         const item = JSON.parse(localStorage.getItem(localStorage.key(i)));
         // Ignore Init Item
         if (item?.lastHeard) {
             continue;
-        // Remove Demo Quiz
+        // Skip Demo
         } else if (item?.id === "demo") {
-            localStorage.removeItem(localStorage.key(i))
+            demoID = i
         } else {
             quizData.push(item);
         }
     }
 
-    // Add Demo Quiz if nothing in list
+    // Remove Demo
+    if (demoID) localStorage.removeItem(localStorage.key(demoID))
+
+    // If nothing in list, add demo back
     if (quizData.length < 1 && !localStorage.getItem("demo")) {
         const demo = {
             id: "demo",

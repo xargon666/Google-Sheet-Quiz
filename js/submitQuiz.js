@@ -29,13 +29,15 @@ function submitQuiz(e) {
     // Generate Unique ID
     const UUID = crypto.randomUUID();
     newQuizData.id = UUID
+    console.log(typeof("type test",newQuizData.id))
+    console.log(newQuizData)
 
     // QC Data
     // Need to fetch data from link and check it isn't garbage here
 
     // Submit Data to Local Storage
     localStorage.setItem(UUID, JSON.stringify(newQuizData))
-
+    console.log("test local:" ,localStorage)
     // Return to Quiz List page
     window.location.href = "./quizList.html"
 

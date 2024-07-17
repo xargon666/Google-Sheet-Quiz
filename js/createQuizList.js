@@ -9,6 +9,7 @@ const quizList = document.getElementById("quiz-list");
 function createQuizList() {
     console.log("Pulling Quiz Data...")
     const quizData = getLocalQuizData();
+    console.log("Quiz Data Pulled: ",quizData)
     if (!quizData || quizData.length < 1)
         throw new Error("Error", "No Quiz Data");
     try {

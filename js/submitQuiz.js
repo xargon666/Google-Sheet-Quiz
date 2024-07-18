@@ -37,7 +37,6 @@ function submitQuiz(e) {
 
     // Submit Data to Local Storage
     localStorage.setItem(UUID, JSON.stringify(newQuizData))
-    console.log("test local:" ,localStorage)
     // Return to Quiz List page
     window.location.href = "./quizList.html"
 

@@ -11,6 +11,8 @@ function createQuizList() {
     if (!quizData || quizData.length < 1)
         throw new Error("Error", "No Quiz Data");
     try {
+        // sort and create elements
+        quizData.sort().reverse();
         quizData.map((quiz) => {
             // Create Buttons
             const el = document.createElement("a");

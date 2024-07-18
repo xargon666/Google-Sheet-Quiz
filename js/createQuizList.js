@@ -11,8 +11,9 @@ function createQuizList() {
     if (!quizData || quizData.length < 1)
         throw new Error("Error", "No Quiz Data");
     try {
-        // sort and create elements
-        quizData.sort().reverse();
+        // Sort data
+        quizData.sort((a,b)=>b.name.localeCompare(a.name))
+        // Create link elements from data
         quizData.map((quiz) => {
             // Create Buttons
             const el = document.createElement("a");

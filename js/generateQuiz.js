@@ -13,6 +13,7 @@ import getLocalQuizData from "./getLocalQuizData.js";
 // *****************************************************************************
 const loader = document.getElementById("loader-section");
 const quizSection = document.getElementById("quiz-section");
+const quizInfoSection = document.getElementById("quiz-info-section");
 
 const quizHead = document.getElementById("quiz-head");
 const quizBody = document.getElementById("quiz-body");
@@ -297,7 +298,7 @@ async function generateQuiz() {
         });
 
     if (response) {
-        console.log("Processing Quiz Data...")
+        console.log("Processing Quiz Data...");
         game.data = response;
         toggleLoader(true);
         if (game.data.length > 0) {
@@ -491,6 +492,34 @@ function endQuiz() {
     exit.setAttribute("href", "quizList.html");
     exitButtons.appendChild(exit);
 
+    // Quiz Question Summary
+    const correctAnswersContainer = createNewElement(
+        "div",
+        "",
+        "answers-container"
+    );
+    const incorrectAnswersContainer = createNewElement(
+        "div",
+        "",
+        "answers-container"
+    );
+    const arrowCorrect = createNewElement("div", "", "arrow");
+    const arrowIncorrect = createNewElement("div", "", "arrow");
+    const correctAnswerHeader = createNewElement('span','Correct Answers','answer-header')
+    const incorrectAnswerHeader = createNewElement('span','Incorrect Answers','answer-header')
+
+    arrowCorrect.classList.add("down-arrow");
+    arrowIncorrect.classList.add("down-arrow");
+
+        correctAnswerHeader.classList.add('green-text')
+        incorrectAnswerHeader.classList.add('red-text')
+
+    quizInfoSection.appendChild(correctAnswersContainer);
+    quizInfoSection.appendChild(incorrectAnswersContainer);
+    correctAnswersContainer.appendChild(arrowCorrect);
+    incorrectAnswersContainer.appendChild(arrowIncorrect);
+    correctAnswersContainer.appendChild(correctAnswerHeader)
+    incorrectAnswersContainer.appendChild(incorrectAnswerHeader)
     return;
 }
 

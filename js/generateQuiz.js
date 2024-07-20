@@ -297,6 +297,7 @@ async function generateQuiz() {
         });
 
     if (response) {
+        console.log("Processing Quiz Data...")
         game.data = response;
         toggleLoader(true);
         if (game.data.length > 0) {

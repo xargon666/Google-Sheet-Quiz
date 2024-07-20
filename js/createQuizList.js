@@ -9,7 +9,7 @@ const quizList = document.getElementById("quiz-list");
 function createQuizList() {
     const quizData = getLocalQuizData();
     if (!quizData || quizData.length < 1)
-        throw new Error("Error", "No Quiz Data");
+        throw new Error("No Quiz Data");
     try {
         // Sort data
         quizData.sort((a,b)=>b.name.localeCompare(a.name))

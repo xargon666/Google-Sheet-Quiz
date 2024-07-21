@@ -727,7 +727,7 @@ function handleArrowClickOpen(e) {
                                     true
                                 )
                             if (correctAnswer) checkboxRow.classList.add('correct-answer')
-                            if (correctAnswer && playerSelected) radioRow.classList.add('correct-answer-selected')
+                            if (correctAnswer && playerSelected) checkboxRow.classList.add('correct-answer-selected')
                             if (!correctAnswer && playerSelected) checkboxRow.classList.add('incorrect-answer-selected')
                             answersRow.appendChild(checkboxRow)
                         }

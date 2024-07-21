@@ -4,6 +4,7 @@
 :root {
     --primary-color: #ff4742;
     --secondary-color: #2fee95;
+    --hard-green:#1dcc3a;
 }
 
 * {
@@ -147,6 +148,30 @@ form {
     margin-right: 7px;
 }
 
+.answer-row .question-option {
+    margin-bottom: 2px;
+    padding: 5px 0;
+}
+
+.answer-row .question-option input[type="checkbox"] {
+    margin-right: 7px;
+}
+
+.correct-answer {
+    color: var(--hard-green);
+    font-weight: 550;
+}
+
+.correct-answer > label {
+    color: var(--hard-green);
+    font-weight: 550;
+}
+
+.correct-answer-selected > label::after {
+    margin-left: 0.5rem;
+    content: "✅";
+}
+
 #quiz-body {
     display: flex;
     justify-content: center;
@@ -177,12 +202,21 @@ form {
 }
 
 .red-text {
+    font-weight: 550;
+    color: red;
+}
+.red-text-bold {
     font-weight: 1000;
     color: red;
 }
-.green-text {
+.green-text-bold {
     font-weight: 1000;
-    color: var(--secondary-color);
+    color: var(--hard-green);
+}
+
+.green-text {
+    font-weight: 550;
+    color: var(--hard-green);
 }
 
 /* BUTTONS */
@@ -262,7 +296,7 @@ footer {
 
 /* TEXT STYLING */
 
-.bold-text{
+.bold-text {
     font-weight: 1000;
 }
 
@@ -324,40 +358,46 @@ footer {
     width: 100%;
     margin-bottom: 1rem;
     padding: 1rem;
-    border: 1px solid #bbb;
+    outline: 1px solid #bbb;
     border-radius: 10px;
-    overflow:hidden;
-    transition: height .69s ease-out;
+    overflow: hidden;
+    transition: height 0.69s ease-out;
 }
-
-
 
 .answer-header {
     display: grid;
     grid-template-columns: 1fr 50px;
     grid-template-rows: 1fr;
     gap: 10px 0px;
-    grid-template-areas: 
-    "answers-title arrow";
+    grid-template-areas: "answers-title arrow";
     text-align: center;
     margin: 0;
     padding: 0;
 }
 
-.answer-title{
+.answer-title {
     grid-area: answers-title;
     font-size: 1.5rem;
     font-family: "roboto slab", "sans-serif";
     margin-right: -40px;
-    }
+}
 
-.answer-row{
+.answers-container > .answer-row:nth-child(2){
+    margin-top: 1rem;
+}
+
+.answer-row {
     margin-bottom: 2rem;
+    
 }
 
 .arrow {
     grid-area: arrow;
     z-index: 2;
+    margin-top:5px;
+    margin-left:7px;
+    width: 0;
+    height: 0;
 }
 
 .arrow:hover {
@@ -365,18 +405,14 @@ footer {
 }
 
 .down-arrow {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 25px solid #bbb;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #bbb;
 }
 
 .up-arrow {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
     border-bottom: 20px solid #bbb;
 }
 

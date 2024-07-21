@@ -160,6 +160,8 @@ form {
     margin-right: 7px;
 }
 
+.answer-row > .question-option > label
+
 .correct-answer {
     color: var(--hard-green);
     font-weight: 550;

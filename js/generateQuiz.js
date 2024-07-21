@@ -624,8 +624,8 @@ function handleArrowClickOpen(e) {
                         const playerSelected = targetPlayerData.playerAnswer.includes(j+1)
                         const correctAnswer = targetQuestionData.answer.includes(j+1)
                         const radioRow = createRadioButton(
-                                `${Object.values(targetQuestionData.options)[targetQuestionData.answer[0] - 1]}`,
-                                `${Object.values(targetQuestionData.options)[targetQuestionData.answer[0] - 1]}`,
+                                `${Object.values(targetQuestionData.options)[j]}`,
+                                `${Object.values(targetQuestionData.options)[j]}`,
                                 nameGroup,
                                 playerSelected,
                                 true

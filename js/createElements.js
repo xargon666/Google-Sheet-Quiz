@@ -63,7 +63,7 @@ export function createRadioButton(id, text) {
 
     return option;
 }
-export function createCheckbox(id, text) {
+export function createCheckbox(id, text, isChecked=false) {
     const option = document.createElement("div");
     const checkbox = document.createElement("input");
     const label = document.createElement("label");
@@ -80,6 +80,8 @@ export function createCheckbox(id, text) {
     option.appendChild(checkbox);
     option.appendChild(label);
     option.classList.add("question-option");
+
+    if (isChecked) checkbox.checked = true
 
     checkbox.addEventListener("click", () => {
         checkbox.checked === false

@@ -22,6 +22,9 @@ const idIndex = parent.document.URL.indexOf("?");
 const idLen = parent.document.URL.length;
 const quizID = parent.document.URL.substring(idIndex + 1, idLen);
 
+let correctAnswerContainerOriginalHeight = 0;
+let incorrectAnswerContainerOriginalHeight = 0;
+
 // GAME DATA
 const game = {
     name: "",
@@ -31,12 +34,7 @@ const game = {
     playerData: {
         question: 0,
         score: 0,
-        questionData: {
-            question: 0,
-            playerAnswer: [],
-            correctAnswer: [],
-            correct: Boolean,
-        },
+        questionData: [],
     },
 };
 
@@ -71,12 +69,7 @@ function resetPlayerData() {
     game.playerData = {
         question: 0,
         score: 0,
-        questionData: {
-            question: 0,
-            playerAnswer: [],
-            correctAnswer: [],
-            correct: Boolean,
-        },
+        questionData: [],
     };
     return;
 }
@@ -109,9 +102,7 @@ function handleEditQuizSubmit(e) {
                     localStorage.key(i),
                     JSON.stringify(updatedQuizData)
                 );
-            } catch (e) {
-                console.error(`Error: ${e}`);
-            }
+            } catch (e) {}
     }
     handleReload();
     return;
@@ -173,7 +164,7 @@ function editQuizScreen() {
     quizBody.appendChild(form);
 
     // Update Form Values
-    console.log("updating form...");
+
     const formName = document.getElementById("quiz-name");
     const formLink = document.getElementById("quiz-link");
     const formPass = document.getElementById("quiz-pass");
@@ -293,12 +284,10 @@ async function generateQuiz() {
         })
         .then((data) => data)
         .catch((error) => {
-            console.error("Fetch Error", error);
             return {};
         });
 
     if (response) {
-        console.log("Processing Quiz Data...");
         game.data = response;
         toggleLoader(true);
         if (game.data.length > 0) {
@@ -377,43 +366,58 @@ function createStartScreen() {
 function submitAnswer(e) {
     e.preventDefault();
 
+    // add questionData it playerData
+    let questionDataObject = {
+        question: game.playerData.question,
+        playerAnswer: [],
+        correctAnswer: [],
+        correct: true,
+    };
+
     // Remove Error Text
     const redText = document.getElementById("red-text");
     if (redText) redText.innerText = "";
 
     // Add selected answers to array
-    let selectedAnswers = [];
     const answers = document.getElementsByName("answer");
     for (let i = 0; i < answers.length; i++) {
         if (answers[i].checked === true) {
-            selectedAnswers.push(Number(answers[i].value));
+            questionDataObject.playerAnswer.push(Number(answers[i].value));
         }
     }
 
     // Prevent form submission without selection
-    if (selectedAnswers.length === 0) {
+    if (questionDataObject.playerAnswer.length === 0) {
         redText.textContent = "Please select an answer to continue";
         return;
     }
 
     // Confirm if answer is correct
-    const currentQuestion = game.playerData.question;
-    const questionAnswer = game.data[currentQuestion].answer;
+    questionDataObject.correctAnswer =
+        game.data[questionDataObject.question].answer;
 
     // Check Answers
-    let answerCorrect = true;
-    for (let i = 0; i < questionAnswer.length; i++) {
-        if (!selectedAnswers.includes(questionAnswer[i])) answerCorrect = false;
+    for (let i = 0; i < questionDataObject.correctAnswer.length; i++) {
+        if (
+            !questionDataObject.playerAnswer.includes(
+                questionDataObject.correctAnswer[i]
+            )
+        )
+            questionDataObject.correct = false;
     }
 
     // Add Points
-    if (answerCorrect)
-        game.playerData.score += game.data[currentQuestion].points;
+    if (questionDataObject.correct) {
+        game.playerData.score += game.data[questionDataObject.question].points;
+    }
+
+    // Save Question Data
+    game.playerData.questionData.push(questionDataObject);
 
     // Check if end of quiz or proceed to next question
     if (
         game.playerData.question + 1 === Object.keys(game.data).length &&
-        selectedAnswers
+        questionDataObject.playerAnswer
     ) {
         // End of Quiz
         endQuiz();
@@ -503,24 +507,235 @@ function endQuiz() {
         "",
         "answers-container"
     );
+
+    const correctAnswersHeader = createNewElement("div", "", "answer-header");
+    const incorrectAnswersHeader = createNewElement("div", "", "answer-header");
+
+    const correctAnswersTitle = createNewElement(
+        "span",
+        "Correct Answers",
+        "answer-title"
+    );
+    const incorrectAnswersTitle = createNewElement(
+        "span",
+        "Incorrect Answers",
+        "answer-title"
+    );
+
     const arrowCorrect = createNewElement("div", "", "arrow");
     const arrowIncorrect = createNewElement("div", "", "arrow");
-    const correctAnswerHeader = createNewElement('span','Correct Answers','answer-header')
-    const incorrectAnswerHeader = createNewElement('span','Incorrect Answers','answer-header')
+
+    correctAnswersContainer.setAttribute("id", "correct-answers-container");
+    incorrectAnswersContainer.setAttribute("id", "incorrect-answers-container");
 
     arrowCorrect.classList.add("down-arrow");
     arrowIncorrect.classList.add("down-arrow");
 
-        correctAnswerHeader.classList.add('green-text')
-        incorrectAnswerHeader.classList.add('red-text')
+    correctAnswersHeader.classList.add("green-text");
+    incorrectAnswersHeader.classList.add("red-text");
 
+    // Add Arrorw onClick Handlers
+    arrowCorrect.addEventListener("click", handleArrowClickOpen);
+    arrowIncorrect.addEventListener("click", handleArrowClickOpen);
+
+    // Add Arrows to Headers
+    correctAnswersHeader.appendChild(arrowCorrect);
+    incorrectAnswersHeader.appendChild(arrowIncorrect);
+
+    // Add Titles to Headers
+    correctAnswersHeader.appendChild(correctAnswersTitle);
+    incorrectAnswersHeader.appendChild(incorrectAnswersTitle);
+
+    // Add Headers to Container
+    correctAnswersContainer.appendChild(correctAnswersHeader);
+    incorrectAnswersContainer.appendChild(incorrectAnswersHeader);
+
+    // Add Containers to Section
     quizInfoSection.appendChild(correctAnswersContainer);
     quizInfoSection.appendChild(incorrectAnswersContainer);
-    correctAnswersContainer.appendChild(arrowCorrect);
-    incorrectAnswersContainer.appendChild(arrowIncorrect);
-    correctAnswersContainer.appendChild(correctAnswerHeader)
-    incorrectAnswersContainer.appendChild(incorrectAnswerHeader)
+
     return;
+}
+
+function handleArrowClickClose(e) {
+    const currentContainer = e.target.parentNode.parentNode;
+    const answerRows = document.getElementsByClassName("answer-row");
+
+    // update arrow appearance and onClick
+    e.target.classList.remove("up-arrow");
+    e.target.classList.add("down-arrow");
+    e.target.removeEventListener("click", handleArrowClickClose);
+    e.target.addEventListener("click", handleArrowClickOpen);
+
+    // reset height (used by transition)
+    switch (currentContainer.id) {
+        case "incorrect-answers-container":
+            currentContainer.style.height = `${incorrectAnswerContainerOriginalHeight}px`;
+            break;
+        case "correct-answers-container":
+            currentContainer.style.height = `${correctAnswerContainerOriginalHeight}px`;
+            break;
+        default:
+            break;
+    }
+
+    // add delay for transition
+    setTimeout(() => {
+        while (answerRows.length > 0) {
+            currentContainer.removeChild(answerRows[0]);
+        }
+    }, 700); // delay for 700ms
+}
+
+function handleArrowClickOpen(e) {
+    // flip arrow, remove click handler
+    e.target.classList.remove("down-arrow");
+    e.target.classList.add("up-arrow");
+    e.target.removeEventListener("click", handleArrowClickOpen);
+
+    const correctAnswersContainer = document.getElementById(
+        "correct-answers-container"
+    );
+    const incorrectAnswersContainer = document.getElementById(
+        "incorrect-answers-container"
+    );
+
+    switch (e.target.parentNode.parentNode.id) {
+        case "correct-answers-container":
+            // set orig height for transition, pass to onClick handler
+            correctAnswerContainerOriginalHeight = correctAnswersContainer.scrollHeight;
+            correctAnswersContainer.style.height = `${correctAnswerContainerOriginalHeight}px`;
+            e.target.addEventListener("click", handleArrowClickClose);
+
+            for (let i = 0; i < game.playerData.questionData.length; i++) {
+                if (!game.playerData.questionData[i].correct) continue;
+                if (!game.playerData.questionData[i])
+                    throw new Error(`Player Question Data Missing index:${i}`);
+
+                const questionNumber = game.playerData.questionData[i].question;
+                const targetQuestionData = game.data[questionNumber];
+
+                // ============================================================
+                // Add Answer Rows
+                // ============================================================
+                // Add Question Text
+                const answersRow = createNewElement("div", "", "answer-row");
+                answersRow.appendChild(
+                    createNewElement(
+                        "p",
+                        `Question ${questionNumber + 1}: ${targetQuestionData.question}`,
+                        "bold-text"
+                    )
+                );
+
+                // Add Answers Text
+                switch (targetQuestionData.type) {
+                    case "Multiple Choice":
+                        answersRow.appendChild(
+                            createNewElement(
+                                "p",
+                                `Answer: ${Object.values(targetQuestionData.options)[targetQuestionData.answer[0] - 1]}`,
+                                ""
+                            )
+                        );
+                        correctAnswersContainer.appendChild(answersRow);
+                        break;
+
+                    case "Checkbox":
+                        for (let j = 0;j < targetQuestionData.answer.length;j++) {
+                            answersRow.appendChild(
+                                createNewElement(
+                                    "p",
+                                    `Answer ${j + 1}: ${
+                                        Object.values(
+                                            targetQuestionData.options
+                                        )[targetQuestionData.answer[j] - 1]
+                                    }`,
+                                    ""
+                                )
+                            );
+                        }
+                        correctAnswersContainer.appendChild(answersRow);
+                        break;
+                    default:
+                        throw new Error("Unknown question type");
+                }
+            }
+
+            const newHeight = correctAnswersContainer.scrollHeight;
+            correctAnswersContainer.style.height = `${newHeight}px`;
+
+            break;
+
+        case "incorrect-answers-container":
+            incorrectAnswerContainerOriginalHeight = incorrectAnswersContainer.scrollHeight;
+            incorrectAnswersContainer.style.height = `${correctAnswerContainerOriginalHeight}px`;
+            e.target.addEventListener("click", handleArrowClickClose);
+
+            for (let i = 0; i < game.playerData.questionData.length; i++) {
+                if (game.playerData.questionData[i].correct) continue;
+                if (!game.playerData.questionData[i])
+                    throw new Error(`Player Question Data Missing index:${i}`);
+
+                const questionNumber = game.playerData.questionData[i].question;
+                const targetQuestionData = game.data[questionNumber];
+                const targetPlayerData = game.playerData.questionData.find(
+                    ((q) => q.question === questionNumber)
+                );
+
+                // ============================================================
+                // Add Answer Rows
+                // ============================================================
+                // Add Question Text
+                const answersRow = createNewElement("div", "", "answer-row");
+                answersRow.appendChild(
+                    createNewElement(
+                        "p",
+                        `Question ${questionNumber + 1}: ${
+                            targetQuestionData.question
+                        }`,
+                        "bold-text"
+                    )
+                );
+
+                // Add Answers Text
+                switch (targetQuestionData.type) {
+                    case "Multiple Choice":
+                        answersRow.appendChild(
+                            createNewElement(
+                                "p",
+                                `Answer: ${Object.values(targetQuestionData.options)[targetPlayerData.answer[0] - 1]}`,
+                                ""
+                            )
+                        );
+                        correctAnswersContainer.appendChild(answersRow);
+                        break;
+
+                    case "Checkbox":
+                        for (let j = 0;j < targetQuestionData.options.length;j++) {
+                            answersRow.appendChild(
+                                createCheckbox(
+                                    j,
+                                    targetQuestionData.options[j],
+                                    targetPlayerData.playerAnswer.includes(targetQuestionData.answer[j])
+                                )
+                            );
+                        }
+                        correctAnswersContainer.appendChild(answersRow);
+                        break;
+                    
+                    default:
+                        throw new Error("Unknown question type");
+                }
+                incorrectAnswersContainer.appendChild(answersRow);
+            }
+            break;
+
+        default:
+            throw new Error(
+                `onClick parent id ${e.target.parentNode.id} not handled`
+            );
+    }
 }
 
 // HANDLE IMAGE LOAD
@@ -544,19 +759,16 @@ async function loadImageAndToggleLoader(parent) {
             img.src = imgURL;
 
             img.onload = () => {
-                console.log("Image loaded successfully.");
                 toggleLoader(true);
                 parent.insertBefore(img, parent.children[1].nextSibling);
             };
 
             img.onerror = () => {
-                console.error("Image failed to load.");
                 toggleLoader(true);
             };
 
             // Append the image to the quiz wrapper
         } catch (error) {
-            console.error("Image Error: ", error);
             toggleLoader(true);
         }
     }
@@ -637,3 +849,4 @@ function nextQuestion() {
 // *****************************************************************************
 await generateQuiz();
 createStartScreen();
+// endQuiz();

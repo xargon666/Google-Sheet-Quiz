@@ -262,6 +262,10 @@ footer {
 
 /* TEXT STYLING */
 
+.bold-text{
+    font-weight: 1000;
+}
+
 footer {
     font-size: small;
     text-align: center;
@@ -322,28 +326,50 @@ footer {
     padding: 1rem;
     border: 1px solid #bbb;
     border-radius: 10px;
+    overflow:hidden;
+    transition: height .69s ease-out;
+}
+
+
+
+.answer-header {
     display: grid;
     grid-template-columns: 1fr 50px;
     grid-template-rows: 1fr;
     gap: 10px 0px;
-    grid-template-areas: "answers-head arrorw";
+    grid-template-areas: 
+    "answers-title arrow";
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-.answer-header {
-    grid-area: answers-head;
-    text-align:center;
-    margin:0;
-    padding:0;
-    font-size:1.2rem;
-    font-family: 'roboto slab', 'sans-serif';
+.answer-title{
+    grid-area: answers-title;
+    font-size: 1.5rem;
+    font-family: "roboto slab", "sans-serif";
+    margin-right: -40px;
+    }
+
+.answer-row{
+    margin-bottom: 2rem;
+}
+
+.arrow {
+    grid-area: arrow;
+    z-index: 2;
+}
+
+.arrow:hover {
+    cursor: pointer;
 }
 
 .down-arrow {
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 20px solid #bbb;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 25px solid #bbb;
 }
 
 .up-arrow {
@@ -352,14 +378,6 @@ footer {
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid #bbb;
-}
-
-.arrorw {
-    grid-area: arrow;
-}
-
-.arrow:hover {
-    cursor: pointer;
 }
 
 .quiz-info-section {

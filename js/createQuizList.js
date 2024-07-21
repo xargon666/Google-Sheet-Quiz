@@ -1,11 +1,7 @@
 import getLocalQuizData from "./getLocalQuizData.js";
-
 // VARIABLE BLOCK =============================================================
-
 const quizList = document.getElementById("quiz-list");
-
 // FUNCTION BLOCK =============================================================
-
 function createQuizList() {
     const quizData = getLocalQuizData();
     if (!quizData || quizData.length < 1)
@@ -15,11 +11,12 @@ function createQuizList() {
         quizData.sort((a,b)=>b.name.localeCompare(a.name))
         // Create link elements from data
         quizData.map((quiz) => {
+            if (quiz?.lastHeard) false;
             // Create Buttons
             const el = document.createElement("a");
             el.classList.add("app-button");
             el.classList.add("primary-button");
-            if (quiz.name.length > 100) {
+            if (quiz?.name?.length > 100) {
                 el.textContent = quiz.name.slice(0, 108) + "...";
             } else {
                 el.textContent = quiz.name;
@@ -28,15 +25,11 @@ function createQuizList() {
             quizList.insertBefore(el, quizList.firstChild);
         });
     } catch (e) {
-        console.error(e)
     }
     return
 }
-
 function goToQuiz(id) {
     return window.location.href = `./quiz.html?${id}`;
 }
-
 // EXECUTE CODE
-
 createQuizList();

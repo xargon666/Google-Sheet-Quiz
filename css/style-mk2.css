@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Just+Another+Hand&family=Roboto+Slab:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&family=Roboto+Slab:wght@700&display=swap");
 
 :root {
     --primary-color: #ff4742;
     --secondary-color: #2fee95;
+    --hard-green:#1dcc3a;
 }
 
 * {
@@ -15,12 +16,12 @@
 
 html {
     height: 100%;
-  }
-  body {
+}
+body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-  }
+}
 
 body > header {
     display: flex;
@@ -28,34 +29,34 @@ body > header {
     align-items: center;
     background: white;
     height: 50px;
-    margin: .7rem 0;
-    padding-bottom:13px;
+    margin: 0.7rem 0;
+    padding-bottom: 13px;
     border-bottom: #644 1px solid;
 }
 
-body > header:first-child{
-    padding-left:1rem;
+body > header:first-child {
+    padding-left: 1rem;
 }
-body > header > a{
+body > header > a {
     text-decoration: none;
     color: var(--primary-color);
     text-shadow: 2px 2px rgb(109, 4, 4);
 }
 
 body > article {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    flex:1;
+    flex: 1;
 }
 
 section {
     padding: 10px;
 }
 
-h2{
+h2 {
     margin-bottom: 1rem;
-    font-size:2rem;
+    font-size: 2rem;
     font-family: "Roboto Slab", serif;
 }
 
@@ -63,34 +64,34 @@ h3 {
     margin-bottom: 1rem;
 }
 
-form > input[type=submit] {
-    margin-top:1rem;
+form > input[type="submit"] {
+    margin-top: 1rem;
 }
 
 img {
     border-radius: 8px;
-    max-width:90%;
-    max-height:90%;
-  }
-
-.sub-heading{
-    font-family: "Just Another Hand", cursive;
-    font-size:1.75rem;
+    max-width: 90%;
+    max-height: 90%;
 }
 
-#loader-section{
-    display:flex;
+.sub-heading {
+    font-family: "Just Another Hand", cursive;
+    font-size: 1.75rem;
+}
+
+#loader-section {
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    height:80vh
+    height: 80vh;
 }
 
-.responsive{
-    width:95%;
+.responsive {
+    width: 95%;
 }
 
 .relative-container {
-    position:relative;
+    position: relative;
 }
 
 /* ADD QUIZ FORM */
@@ -99,7 +100,7 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top:1rem;
+    margin-top: 1rem;
 }
 
 .form-field {
@@ -116,8 +117,8 @@ form {
 .form-field input {
     height: 2rem;
     margin-bottom: 10px;
-    width:100%;
-    padding:0 3px;
+    width: 100%;
+    padding: 0 3px;
 }
 
 .instructions {
@@ -125,13 +126,13 @@ form {
 }
 
 .instructions > p {
-    font-size:14px;
+    font-size: 14px;
 }
 
 /* MAIN QUIZ FORM */
 
-.quiz-form{
-    width:90%;
+.quiz-form {
+    width: 90%;
     justify-self: center;
     align-self: center;
 }
@@ -147,40 +148,75 @@ form {
     margin-right: 7px;
 }
 
-#quiz-body{
-    display:flex;
+.answer-row .question-option {
+    margin-bottom: 2px;
+    padding: 5px 0;
+}
+
+.answer-row .question-option input[type="checkbox"] {
+    margin-right: 7px;
+}
+
+.correct-answer {
+    color: var(--hard-green);
+    font-weight: 550;
+}
+
+.correct-answer > label {
+    color: var(--hard-green);
+    font-weight: 550;
+}
+
+.correct-answer-selected > label::after {
+    margin-left: 0.5rem;
+    content: "✅";
+}
+
+#quiz-body {
+    display: flex;
     justify-content: center;
 }
 
 /* QUIZ */
 
 #quiz-wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
-#quiz-section, #quiz-wrapper{
-    width:100%
+#quiz-section,
+#quiz-info-section,
+#quiz-wrapper {
+    width: 100%;
 }
 
 .question-option {
-text-align: left ;
+    text-align: left;
 }
 
-#quiz-info-section{
-    display:flex;
+#quiz-info-section {
+    display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
 }
 
-.red-text{
-    font-weight: 1000;
-    color:red;
+.red-text {
+    font-weight: 550;
+    color: red;
 }
-.green-text{
+.red-text-bold {
     font-weight: 1000;
-    color:var(--secondary-color)
+    color: red;
+}
+.green-text-bold {
+    font-weight: 1000;
+    color: var(--hard-green);
+}
+
+.green-text {
+    font-weight: 550;
+    color: var(--hard-green);
 }
 
 /* BUTTONS */
@@ -204,7 +240,7 @@ text-align: left ;
     min-height: 2rem;
     min-width: fit-content;
 
-    width:100%;
+    width: 100%;
 }
 
 .app-button:hover {
@@ -214,12 +250,12 @@ text-align: left ;
     outline: 2.5px solid #333;
 }
 
-.button-group{
-    display:flex;
+.button-group {
+    display: flex;
     flex-direction: column;
-    gap:.5rem;
-    margin:1rem 0;
-    width:100%;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    width: 100%;
 }
 
 .primary-button {
@@ -254,14 +290,18 @@ text-align: left ;
 }
 
 footer {
-    width:100%;
+    width: 100%;
     padding-bottom: 5px;
 }
 
 /* TEXT STYLING */
 
+.bold-text {
+    font-weight: 1000;
+}
+
 footer {
-    font-size:small;
+    font-size: small;
     text-align: center;
     color: #333;
 }
@@ -278,11 +318,21 @@ footer {
 }
 
 @keyframes colorRotate {
-    from {color: #6666ff;}
-    10% {color: #0099ff;}
-    50% {color: #00ff00;}
-    75% {color: #ff3399;}
-    100% {color: #6666ff;}
+    from {
+        color: #6666ff;
+    }
+    10% {
+        color: #0099ff;
+    }
+    50% {
+        color: #00ff00;
+    }
+    75% {
+        color: #ff3399;
+    }
+    100% {
+        color: #6666ff;
+    }
 }
 
 /* UTILITY */
@@ -290,18 +340,84 @@ footer {
 .centered {
     justify-content: center;
     align-items: center;
-    text-align:center;
+    text-align: center;
 }
 
-.middle-screen{
+.middle-screen {
     justify-self: center;
-    flex:1;
+    flex: 1;
 }
 
-.hide{
-    position: absolute; 
+.hide {
+    position: absolute;
     top: -9999px;
-    left: -9999px; 
+    left: -9999px;
+}
+
+.answers-container {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    outline: 1px solid #bbb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height 0.69s ease-out;
+}
+
+.answer-header {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    grid-template-rows: 1fr;
+    gap: 10px 0px;
+    grid-template-areas: "answers-title arrow";
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.answer-title {
+    grid-area: answers-title;
+    font-size: 1.5rem;
+    font-family: "roboto slab", "sans-serif";
+    margin-right: -40px;
+}
+
+.answers-container > .answer-row:nth-child(2){
+    margin-top: 1rem;
+}
+
+.answer-row {
+    margin-bottom: 2rem;
+    
+}
+
+.arrow {
+    grid-area: arrow;
+    z-index: 2;
+    margin-top:5px;
+    margin-left:7px;
+    width: 0;
+    height: 0;
+}
+
+.arrow:hover {
+    cursor: pointer;
+}
+
+.down-arrow {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #bbb;
+}
+
+.up-arrow {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 20px solid #bbb;
+}
+
+.quiz-info-section {
+    width: 100%;
 }
 
 /* Break Point - sm */

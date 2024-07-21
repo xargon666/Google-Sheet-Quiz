@@ -156,6 +156,9 @@ form {
 .answer-row .question-option input[type="checkbox"] {
     margin-right: 7px;
 }
+.answer-row .question-option input[type="radio"] {
+    margin-right: 7px;
+}
 
 .correct-answer {
     color: var(--hard-green);
@@ -170,6 +173,10 @@ form {
 .correct-answer-selected > label::after {
     margin-left: 0.5rem;
     content: "✅";
+}
+.incorrect-answer-selected > label::after {
+    margin-left: 0.5rem;
+    content: "❌";
 }
 
 #quiz-body {

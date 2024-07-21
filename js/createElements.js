@@ -39,7 +39,7 @@ export function createButton(text, classList, onClick) {
     return button;
 }
 
-export function createRadioButton(id, text) {
+export function createRadioButton(id, text, name='answer', isChecked=false, isDisabled=false) {
     const option = document.createElement("div");
     const radio = document.createElement("input");
     const label = document.createElement("label");
@@ -47,8 +47,11 @@ export function createRadioButton(id, text) {
     radio.setAttribute("type", "radio");
     radio.setAttribute("id", id);
     radio.setAttribute("value", id);
-    radio.setAttribute("name", "answer");
+    if (name) radio.setAttribute("name", name);
     radio.classList.add("question-answer");
+
+    if (isChecked) {radio.checked = true}
+    if (isDisabled) {radio.disabled = true}
 
     label.setAttribute("for", id);
     label.innerText = text;
@@ -57,9 +60,11 @@ export function createRadioButton(id, text) {
     option.appendChild(label);
     option.classList.add("question-option");
 
-    radio.addEventListener("click", () => (radio.checked = true));
-    label.addEventListener("click", () => (radio.checked = true));
-    option.addEventListener("click", () => (radio.checked = true));
+    if (!isDisabled){
+        radio.addEventListener("click", () => (radio.checked = true));
+        label.addEventListener("click", () => (radio.checked = true));
+        option.addEventListener("click", () => (radio.checked = true));
+    }
 
     return option;
 }
@@ -74,6 +79,9 @@ export function createCheckbox(id, text, isChecked=false, isDisabled=false) {
     checkbox.setAttribute("name", "answer");
     checkbox.classList.add("question-answer");
 
+    if (isChecked) checkbox.checked = true
+    if (isDisabled) checkbox.disabled = true
+
     label.setAttribute("for", id);
     label.innerText = text;
 
@@ -81,23 +89,23 @@ export function createCheckbox(id, text, isChecked=false, isDisabled=false) {
     option.appendChild(label);
     option.classList.add("question-option");
 
-    if (isChecked) checkbox.checked = true
-    if (isDisabled) checkbox.disabled = true
-    checkbox.addEventListener("click", () => {
-        checkbox.checked === false
+    if (!isDisabled){
+        checkbox.addEventListener("click", () => {
+            checkbox.checked === false
             ? (checkbox.checked = true)
             : (checkbox.checked = false);
-    });
-    label.addEventListener("click", () => {
-        checkbox.checked === false
+        });
+        label.addEventListener("click", () => {
+            checkbox.checked === false
             ? (checkbox.checked = true)
             : (checkbox.checked = false);
-    });
-    option.addEventListener("click", () => {
-        checkbox.checked === false
+        });
+        option.addEventListener("click", () => {
+            checkbox.checked === false
             ? (checkbox.checked = true)
             : (checkbox.checked = false);
-    });
+        });
+    }
 
     return option;
 }

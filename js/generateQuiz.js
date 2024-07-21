@@ -711,14 +711,13 @@ function handleArrowClickOpen(e) {
                                 true
                             ) 
                             if (correctAnswer) radioRow.classList.add('green-text')
-                            if (correctAnswer && playerSelected) radioRow.classList.add('correct-answer-selected')
-                            if (!correctAnswer && playerSelected) radioRow.classList.add('incorrect-answer-selected')
-                            answersRow.appendChild(radioRow);
-                        }
-                        break;
+                                if (!correctAnswer && playerSelected) radioRow.classList.add('incorrect-answer-selected')
+                                    answersRow.appendChild(radioRow);
+                            }
+                            break;
 
-                    case "Checkbox":
-                        for (let j = 0; j < optionsCount; j++) {
+                            case "Checkbox":
+                                for (let j = 0; j < optionsCount; j++) {
                             const playerSelected = targetPlayerData.playerAnswer.includes(j+1)
                             const correctAnswer = targetQuestionData.answer.includes(j+1)
                             const checkboxRow = createCheckbox(
@@ -728,6 +727,7 @@ function handleArrowClickOpen(e) {
                                     true
                                 )
                             if (correctAnswer) checkboxRow.classList.add('correct-answer')
+                            if (correctAnswer && playerSelected) radioRow.classList.add('correct-answer-selected')
                             if (!correctAnswer && playerSelected) checkboxRow.classList.add('incorrect-answer-selected')
                             answersRow.appendChild(checkboxRow)
                         }

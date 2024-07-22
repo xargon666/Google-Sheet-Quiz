@@ -4,7 +4,10 @@
 :root {
     --primary-color: #ff4742;
     --secondary-color: #2fee95;
-    --hard-green:#1dcc3a;
+    --hard-green: #1dcc3a;
+    --link-hover: #f88;
+    --link-active: #faa;
+    --salmon-patte:rgb(255, 204, 204);
 }
 
 * {
@@ -17,11 +20,20 @@
 html {
     height: 100%;
 }
+
 body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: white;
+
+    /* Break Point - sm */
+    @media (min-width: 640px) {
+        background-color: rgb(248, 231, 239);
+    }
 }
+
+/* Header Stuff */
 
 body > header {
     display: flex;
@@ -29,9 +41,9 @@ body > header {
     align-items: center;
     background: white;
     height: 50px;
-    margin: 0.7rem 0;
-    padding-bottom: 13px;
-    border-bottom: #644 1px solid;
+    padding: 13px 0;
+    margin-bottom: 1.5rem;
+    outline: #644 2px solid;
 }
 
 body > header:first-child {
@@ -43,15 +55,73 @@ body > header > a {
     text-shadow: 2px 2px rgb(109, 4, 4);
 }
 
+body > header > nav {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    display:flex;
+    gap:0;    
+    
+    /* Break Point - sm */
+    @media (min-width: 640px) {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-right: 1rem;
+    }
+}
+
+body > header > nav > .active {
+    background-color: var(--link-active);
+    color:white;
+}
+
+body > header > nav > a {
+    height: 100%;
+    padding:1rem 0.5rem;
+    background-color: white;
+    text-decoration: none;
+    color: #444
+}
+
+body > header > nav > a:hover {
+    background-color: var(--link-hover);
+    color:white;
+}
+
+/* Article */
+
 body > article {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
+
+    @media (min-width: 640px) {
+        padding: 0 2rem;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap:2rem;
+    }
 }
 
+/* Section */
+
 section {
-    padding: 10px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+
+    /* Break Point - sm */
+@media (min-width: 640px) {
+    outline: 2px var(--salmon-patte) solid;
+}
+
+/* Break Point - lg */
+@media (min-width: 1024px) {
+}
+
 }
 
 h2 {
@@ -88,6 +158,15 @@ img {
 
 .responsive {
     width: 95%;
+
+    /* Break Point - sm */
+    @media (min-width: 640px) {
+        max-width: 1000px;
+    }
+
+    /* Break Point - lg */
+    @media (min-width: 1024px) {
+    }
 }
 
 .relative-container {
@@ -120,13 +199,60 @@ form {
     width: 100%;
     padding: 0 3px;
 }
-
-.instructions {
-    padding: 0 1.25rem;
+#instructions > p {
+    font-size: 16px;
 }
 
-.instructions > p {
-    font-size: 14px;
+#instructions {
+    transition: width .3s linear, height .3s linear;
+    overflow: hidden;
+}
+
+#instructions > * {
+    transition: color 5s linear;
+}
+
+#instructions > p {
+    margin-bottom:.5rem;
+}
+
+.maxi {
+    width: 250px;
+    height: 200px;
+}
+
+.maxi > * {
+    display:block;
+    animation: fade-in-text 2s;
+}
+
+@keyframes fade-in-text {
+    0% {color:white;}
+    100%{color:black}
+}
+
+.mini {
+    padding:0;
+    min-width:auto;
+    width: 36px !important;
+    height:36px !important;
+    outline:white 2px solid;
+    border-radius:100%;
+}
+
+.mini > * {
+    display:none;
+    color:white !important; 
+}
+
+.mini::after {
+    content:"❔";
+    font-size: 1.4rem;
+    text-align: center;
+    width:2rem;
+    height:2rem;
+    background-color: rgb(39, 39, 255);
+    border-radius: 100%;
 }
 
 /* MAIN QUIZ FORM */
@@ -160,9 +286,7 @@ form {
     margin-right: 7px;
 }
 
-.answer-row > .question-option > label
-
-.correct-answer {
+.answer-row > .question-option > label .correct-answer {
     color: var(--hard-green);
     font-weight: 550;
 }
@@ -265,6 +389,11 @@ form {
     gap: 0.5rem;
     margin: 1rem 0;
     width: 100%;
+
+    /* Break Point - sm */
+    @media (min-width: 640px) {
+        width: auto;
+    }
 }
 
 .primary-button {
@@ -347,6 +476,8 @@ footer {
 /* UTILITY */
 
 .centered {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -391,20 +522,19 @@ footer {
     margin-right: -40px;
 }
 
-.answers-container > .answer-row:nth-child(2){
+.answers-container > .answer-row:nth-child(2) {
     margin-top: 1rem;
 }
 
 .answer-row {
     margin-bottom: 2rem;
-    
 }
 
 .arrow {
     grid-area: arrow;
     z-index: 2;
-    margin-top:5px;
-    margin-left:7px;
+    margin-top: 5px;
+    margin-left: 7px;
     width: 0;
     height: 0;
 }

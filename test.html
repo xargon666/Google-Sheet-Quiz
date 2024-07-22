@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition Example</title>
+    <style>
+        div {
+            background-color:red;
+            color:white;
+            text-align: center;
+        }
+        
+        .maxi  {
+            width: 200px;
+            transition: .1s linear width;
+        }
+
+        .mini {
+            width: 36px;
+            transition: .1s linear width;
+        }
+
+        #btn{
+            position:absolute;
+            top:4rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="myDiv" class="maxi">
+        ?
+    </div>
+    <button id="btn" onclick="removeMiniClass()">Remove mini class</button>
+
+    <script>
+        function removeMiniClass(e) {
+            const myDiv = document.getElementById('myDiv')
+            if (myDiv.className.includes('mini')){
+                myDiv.classList.remove('mini');
+                myDiv.classList.add('maxi');
+            } else {
+                myDiv.classList.remove('maxi');
+                myDiv.classList.add('mini');
+            }
+        }
+    </script>
+</body>
+</html>

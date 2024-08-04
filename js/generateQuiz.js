@@ -1,3 +1,4 @@
+import config from "./config.js";
 import {
     createButton,
     createCheckbox,
@@ -22,9 +23,6 @@ const idIndex = parent.document.URL.indexOf("?");
 const idLen = parent.document.URL.length;
 const quizID = parent.document.URL.substring(idIndex + 1, idLen);
 
-let correctAnswerContainerOriginalHeight = 0;
-let incorrectAnswerContainerOriginalHeight = 0;
-
 // GAME DATA
 const game = {
     name: "",
@@ -34,7 +32,12 @@ const game = {
     playerData: {
         question: 0,
         score: 0,
-        questionData: [],
+        questionData: {
+            question: 0,
+            playerAnswer: [],
+            correctAnswer: [],
+            correct: Boolean,
+        },
     },
 };
 
@@ -42,20 +45,12 @@ const game = {
 // FUNCTION BLOCK
 // *****************************************************************************
 function clearScreen() {
-    
-    // clear head
     while (quizHead.firstChild) {
         quizHead.removeChild(quizHead.firstChild);
     }
-    // clear body
     while (quizBody.firstChild) {
         quizBody.removeChild(quizBody.firstChild);
     }
-    // clear info
-    while (quizInfoSection.firstChild){
-        quizInfoSection.removeChild(quizInfoSection.firstChild)
-    }
-
     return;
 }
 
@@ -77,7 +72,12 @@ function resetPlayerData() {
     game.playerData = {
         question: 0,
         score: 0,
-        questionData: [],
+        questionData: {
+            question: 0,
+            playerAnswer: [],
+            correctAnswer: [],
+            correct: Boolean,
+        },
     };
     return;
 }
@@ -110,7 +110,9 @@ function handleEditQuizSubmit(e) {
                     localStorage.key(i),
                     JSON.stringify(updatedQuizData)
                 );
-            } catch (e) {}
+            } catch (e) {
+                console.error(`Error: ${e}`);
+            }
     }
     handleReload();
     return;
@@ -172,7 +174,7 @@ function editQuizScreen() {
     quizBody.appendChild(form);
 
     // Update Form Values
-
+    console.log("updating form...");
     const formName = document.getElementById("quiz-name");
     const formLink = document.getElementById("quiz-link");
     const formPass = document.getElementById("quiz-pass");
@@ -203,7 +205,7 @@ function handleDelete() {
 function deleteQuizScreen() {
     clearScreen();
     quizHead.appendChild(
-        createNewElement("h2", `Delete ${game.name}`, "red-text-bold")
+        createNewElement("h2", `Delete ${game.name}`, "red-text")
     );
     quizHead.appendChild(createNewElement("h3", "Are you sure?", ""));
     const buttonGroup = createNewElement("div", "", "button-group");
@@ -281,7 +283,8 @@ async function generateQuiz() {
     game.name = quiz.name;
     game.link = quiz.link;
     game.pass = quiz.pass;
-
+    if (config.ENVIRONMENT === 'development') game.link = '../demoData.json'
+    
     const response = await fetch(`${quiz.link}`)
         .then((response) => {
             if (!response.ok)
@@ -292,10 +295,12 @@ async function generateQuiz() {
         })
         .then((data) => data)
         .catch((error) => {
+            console.error("Fetch Error", error);
             return {};
         });
 
     if (response) {
+        console.log("Processing Quiz Data...");
         game.data = response;
         toggleLoader(true);
         if (game.data.length > 0) {
@@ -330,7 +335,7 @@ function createStartScreen() {
         createNewElement(
             "h2",
             quizDataMissing ? `Quiz Data Missing!\n ${game.name}` : game.name,
-            quizDataMissing && "red-text"
+            quizDataMissing ? "red-text" : ""
         )
     );
     quizHead.appendChild(
@@ -374,58 +379,43 @@ function createStartScreen() {
 function submitAnswer(e) {
     e.preventDefault();
 
-    // add questionData it playerData
-    let questionDataObject = {
-        question: game.playerData.question,
-        playerAnswer: [],
-        correctAnswer: [],
-        correct: true,
-    };
-
     // Remove Error Text
     const redText = document.getElementById("red-text");
     if (redText) redText.innerText = "";
 
     // Add selected answers to array
+    let selectedAnswers = [];
     const answers = document.getElementsByName("answer");
     for (let i = 0; i < answers.length; i++) {
         if (answers[i].checked === true) {
-            questionDataObject.playerAnswer.push(Number(answers[i].value));
+            selectedAnswers.push(Number(answers[i].value));
         }
     }
 
     // Prevent form submission without selection
-    if (questionDataObject.playerAnswer.length === 0) {
+    if (selectedAnswers.length === 0) {
         redText.textContent = "Please select an answer to continue";
         return;
     }
 
     // Confirm if answer is correct
-    questionDataObject.correctAnswer =
-        game.data[questionDataObject.question].answer;
+    const currentQuestion = game.playerData.question;
+    const questionAnswer = game.data[currentQuestion].answer;
 
     // Check Answers
-    for (let i = 0; i < questionDataObject.correctAnswer.length; i++) {
-        if (
-            !questionDataObject.playerAnswer.includes(
-                questionDataObject.correctAnswer[i]
-            )
-        )
-            questionDataObject.correct = false;
+    let answerCorrect = true;
+    for (let i = 0; i < questionAnswer.length; i++) {
+        if (!selectedAnswers.includes(questionAnswer[i])) answerCorrect = false;
     }
 
     // Add Points
-    if (questionDataObject.correct) {
-        game.playerData.score += game.data[questionDataObject.question].points;
-    }
-
-    // Save Question Data
-    game.playerData.questionData.push(questionDataObject);
+    if (answerCorrect)
+        game.playerData.score += game.data[currentQuestion].points;
 
     // Check if end of quiz or proceed to next question
     if (
         game.playerData.question + 1 === Object.keys(game.data).length &&
-        questionDataObject.playerAnswer
+        selectedAnswers
     ) {
         // End of Quiz
         endQuiz();
@@ -436,12 +426,14 @@ function submitAnswer(e) {
     }
     return;
 }
-// =============================================================================
+
 // END QUIZ
-// =============================================================================
 function endQuiz() {
     // clear quiz elements
     clearScreen();
+
+    // position elements in middle of screen
+    quizSection.classList.add("middle-screen");
 
     // Clear Question Count
     const quizProgress = document.getElementById("question-number");
@@ -449,7 +441,8 @@ function endQuiz() {
 
     // Calc Max Score & Passing Score
     let maxScore = 0;
-    for (let i = 0; i < Object.keys(game.data).length; i++) maxScore += game.data[i].points;
+    for (let i = 0; i < Object.keys(game.data).length; i++)
+        maxScore += game.data[i].points;
     const passingScore = Math.floor(maxScore * (game.pass / 100));
 
     // Final Score Text
@@ -479,7 +472,7 @@ function endQuiz() {
 
     // Determine Quiz Result
     if (game.playerData.score === maxScore) {
-        outcomeMessage.textContent = "Incredible!\n\nMaximum Score!";
+        outcomeMessage.textContent = "Incredible!\nMaximum Score!";
         outcomeMessage.classList.add("rainbow");
     } else if (game.playerData.score >= passingScore) {
         outcomeMessage.textContent = "Congratulations!";
@@ -502,253 +495,34 @@ function endQuiz() {
     exitButtons.appendChild(exit);
 
     // Quiz Question Summary
-    const correctAnswersContainer = createNewElement("div","","answers-container");
-    const incorrectAnswersContainer = createNewElement("div","","answers-container");
-
-    const correctAnswersHeader = createNewElement("div", "", "answer-header");
-    const incorrectAnswersHeader = createNewElement("div", "", "answer-header");
-
-    const correctAnswersTitle = createNewElement("span","Correct Answers","answer-title");
-    const incorrectAnswersTitle = createNewElement("span","Incorrect Answers","answer-title");
-
+    const correctAnswersContainer = createNewElement(
+        "div",
+        "",
+        "answers-container"
+    );
+    const incorrectAnswersContainer = createNewElement(
+        "div",
+        "",
+        "answers-container"
+    );
     const arrowCorrect = createNewElement("div", "", "arrow");
     const arrowIncorrect = createNewElement("div", "", "arrow");
-
-    correctAnswersContainer.setAttribute("id", "correct-answers-container");
-    incorrectAnswersContainer.setAttribute("id", "incorrect-answers-container");
+    const correctAnswerHeader = createNewElement('span','Correct Answers','answer-header')
+    const incorrectAnswerHeader = createNewElement('span','Incorrect Answers','answer-header')
 
     arrowCorrect.classList.add("down-arrow");
     arrowIncorrect.classList.add("down-arrow");
 
-    correctAnswersHeader.classList.add("green-text-bold");
-    incorrectAnswersHeader.classList.add("red-text-bold");
+    correctAnswerHeader.classList.add('green-text')
+    incorrectAnswerHeader.classList.add('red-text')
 
-    // Add Arrorw onClick Handlers
-    arrowCorrect.addEventListener("click", handleArrowClickOpen);
-    arrowIncorrect.addEventListener("click", handleArrowClickOpen);
-
-    // Add Arrows to Headers
-    correctAnswersHeader.appendChild(arrowCorrect);
-    incorrectAnswersHeader.appendChild(arrowIncorrect);
-
-    // Add Titles to Headers
-    correctAnswersHeader.appendChild(correctAnswersTitle);
-    incorrectAnswersHeader.appendChild(incorrectAnswersTitle);
-
-    // Add Headers to Container
-    correctAnswersContainer.appendChild(correctAnswersHeader);
-    incorrectAnswersContainer.appendChild(incorrectAnswersHeader);
-
-    // Add Containers to Section
     quizInfoSection.appendChild(correctAnswersContainer);
     quizInfoSection.appendChild(incorrectAnswersContainer);
-
+    correctAnswersContainer.appendChild(arrowCorrect);
+    incorrectAnswersContainer.appendChild(arrowIncorrect);
+    correctAnswersContainer.appendChild(correctAnswerHeader)
+    incorrectAnswersContainer.appendChild(incorrectAnswerHeader)
     return;
-}
-
-function handleArrowClickClose(e) {
-    const currentContainer = e.target.parentNode.parentNode;
-    const answerRows = currentContainer.getElementsByClassName("answer-row");
-
-    // update arrow appearance and onClick
-    e.target.classList.remove("up-arrow");
-    e.target.classList.add("down-arrow");
-    e.target.removeEventListener("click", handleArrowClickClose);
-    e.target.addEventListener("click", handleArrowClickOpen);
-
-    // reset height (used by transition)
-    switch (currentContainer.id) {
-        case "incorrect-answers-container":
-            currentContainer.style.height = `${incorrectAnswerContainerOriginalHeight}px`;
-            break;
-        case "correct-answers-container":
-            currentContainer.style.height = `${correctAnswerContainerOriginalHeight}px`;
-            break;
-        default:
-            throw new Error('Unknown container identifier')
-    }
-
-    // add delay for transition
-    setTimeout(() => {
-        while (answerRows.length > 0) currentContainer.removeChild(answerRows[0])
-        currentContainer.style.height = 'auto';
-    }, 700); // delay for 700ms
-}
-
-function handleArrowClickOpen(e) {
-    // flip arrow, remove click handler
-    e.target.classList.remove("down-arrow");
-    e.target.classList.add("up-arrow");
-    e.target.removeEventListener("click", handleArrowClickOpen);
-
-    const correctAnswersContainer = document.getElementById("correct-answers-container");
-    const incorrectAnswersContainer = document.getElementById("incorrect-answers-container");
-
-    switch (e.target.parentNode.parentNode.id) {
-        case "correct-answers-container":
-            // set orig height for transition, pass to onClick handler
-            correctAnswerContainerOriginalHeight = correctAnswersContainer.scrollHeight;
-            correctAnswersContainer.style.height = `${correctAnswerContainerOriginalHeight}px`;
-            e.target.addEventListener("click", handleArrowClickClose);
-
-            for (let i = 0; i < game.playerData.questionData.length; i++) {
-                if (!game.playerData.questionData[i].correct) continue;
-                if (!game.playerData.questionData[i])
-                    throw new Error(`Player Question Data Missing index:${i}`);
-
-                const questionNumber = game.playerData.questionData[i].question;
-                const targetQuestionData = game.data[questionNumber];
-                const targetPlayerData = game.playerData.questionData.find(
-                    ((q) => q.question === questionNumber)
-                );
-                // ============================================================
-                // Add Answer Rows
-                // ============================================================
-                const answersRow = createNewElement("div", "", "answer-row");
-                
-                // Add Question Text
-                answersRow.appendChild(
-                    createNewElement(
-                        "p",
-                        `Question ${questionNumber + 1}: ${targetQuestionData.question}`,
-                        "bold-text"
-                    )
-                );
-
-                // Add Answers Text
-                const optionsCount = Object.keys(targetQuestionData.options).length
-                switch (targetQuestionData.type) {
-                    case "Multiple Choice":
-                        const nameGroup = `group${i}`
-                        for (let j = 0; j < optionsCount; j++){
-                        const playerSelected = targetPlayerData.playerAnswer.includes(j+1)
-                        const correctAnswer = targetQuestionData.answer.includes(j+1)
-                        const radioRow = createRadioButton(
-                                `${Object.values(targetQuestionData.options)[j]}`,
-                                `${Object.values(targetQuestionData.options)[j]}`,
-                                nameGroup,
-                                playerSelected,
-                                true
-                            )
-                        if (correctAnswer) radioRow.classList.add('correct-answer')
-                        if (correctAnswer && playerSelected) radioRow.classList.add('correct-answer-selected')
-                            answersRow.appendChild(radioRow)
-                    }
-                    correctAnswersContainer.appendChild(answersRow);
-                    break;
-                    
-                    case "Checkbox":
-                        for (let j = 0;j < Object.values(targetQuestionData.options).length;j++) {
-                            const playerSelected = targetPlayerData.playerAnswer.includes(j+1)
-                            const correctAnswer = targetQuestionData.answer.includes(j+1)
-                            const checkboxRow = createCheckbox(
-                                Object.values(targetQuestionData.options)[j],
-                                Object.values(targetQuestionData.options)[j],
-                                playerSelected,
-                                true
-                            )
-                            if (correctAnswer) checkboxRow.classList.add('correct-answer')
-                            if (correctAnswer && playerSelected) radioRow.classList.add('correct-answer-selected')
-                            answersRow.appendChild(checkboxRow);
-                        }
-                        correctAnswersContainer.appendChild(answersRow);
-                        break;
-                    default:
-                        throw new Error("Unknown question type");
-                }
-            }
-            
-            correctAnswersContainer.style.height = `${correctAnswersContainer.scrollHeight}px`;
-
-            break;
-        
-        // (*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)
-        // INCORRECT ANSWERS BLOCK
-        // (*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)(*&)
-        case "incorrect-answers-container":
-            incorrectAnswerContainerOriginalHeight = incorrectAnswersContainer.scrollHeight;
-            incorrectAnswersContainer.style.height = `${incorrectAnswerContainerOriginalHeight}px`;
-            e.target.addEventListener("click", handleArrowClickClose);
-            
-            // Loop Through Game Questions
-            for (let i = 0; i < game.playerData.questionData.length; i++) {
-                // skip correct answers
-                if (game.playerData.questionData[i].correct) continue;
-                if (!game.playerData.questionData[i])
-                    throw new Error(`Player Question Data Missing index:${i}`);
-                
-                const questionNumber = game.playerData.questionData[i].question;
-                const targetQuestionData = game.data[questionNumber];
-                const targetPlayerData = game.playerData.questionData.find(q => q.question === questionNumber);
-
-                // ===============================================
-                // Add Answer Rows
-                // ===============================================
-                const answersRow = createNewElement("div", "", "answer-row");
-                
-                // Add Question Text
-                answersRow.appendChild(
-                    createNewElement(
-                        "p",
-                        `Question ${questionNumber + 1}: ${targetQuestionData.question}`,
-                        "bold-text"
-                    )
-                );
-
-                // Add Answers Text
-                const optionsCount = Object.keys(targetQuestionData.options).length
-                switch (targetQuestionData.type) {
-                    case "Multiple Choice":
-                        const nameGroup = `group${i}`
-                        for (let j = 0; j < optionsCount; j++){
-                            const playerSelected = targetPlayerData.playerAnswer[0] === j+1;
-                            const correctAnswer = targetQuestionData.answer[0] === j+1;
-                            const radioRow = createRadioButton(
-                                `${Object.values(targetQuestionData.options)[j]}`,
-                                `${Object.values(targetQuestionData.options)[j]}`,
-                                nameGroup,
-                                playerSelected,
-                                true
-                            ) 
-                            if (correctAnswer) radioRow.classList.add('green-text')
-                                if (!correctAnswer && playerSelected) radioRow.classList.add('incorrect-answer-selected')
-                                    answersRow.appendChild(radioRow);
-                            }
-                            break;
-
-                            case "Checkbox":
-                                for (let j = 0; j < optionsCount; j++) {
-                            const playerSelected = targetPlayerData.playerAnswer.includes(j+1)
-                            const correctAnswer = targetQuestionData.answer.includes(j+1)
-                            const checkboxRow = createCheckbox(
-                                    Object.values(targetQuestionData.options)[j],
-                                    Object.values(targetQuestionData.options)[j],
-                                    playerSelected,
-                                    true
-                                )
-                            if (correctAnswer) checkboxRow.classList.add('correct-answer')
-                            if (correctAnswer && playerSelected) checkboxRow.classList.add('correct-answer-selected')
-                            if (!correctAnswer && playerSelected) checkboxRow.classList.add('incorrect-answer-selected')
-                            answersRow.appendChild(checkboxRow)
-                        }
-                        break;
-                    
-                    default:
-                        throw new Error("Unknown question type");
-                }
-
-                incorrectAnswersContainer.appendChild(answersRow);
-            }
-            
-            incorrectAnswersContainer.style.height = `${incorrectAnswersContainer.scrollHeight}px`;
-
-            break;
-
-        default:
-            throw new Error(
-                `onClick parent id ${e.target.parentNode.id} not handled`
-            );
-    }
 }
 
 // HANDLE IMAGE LOAD
@@ -772,16 +546,19 @@ async function loadImageAndToggleLoader(parent) {
             img.src = imgURL;
 
             img.onload = () => {
+                console.log("Image loaded successfully.");
                 toggleLoader(true);
                 parent.insertBefore(img, parent.children[1].nextSibling);
             };
 
             img.onerror = () => {
+                console.error("Image failed to load.");
                 toggleLoader(true);
             };
 
             // Append the image to the quiz wrapper
         } catch (error) {
+            console.error("Image Error: ", error);
             toggleLoader(true);
         }
     }
@@ -791,10 +568,6 @@ async function loadImageAndToggleLoader(parent) {
 // NEXT QUESTION
 function nextQuestion() {
     clearScreen();
-
-    // add red text
-    const redText = quizInfoSection.appendChild(createNewElement('span','','red-text'))
-    redText.setAttribute('id',"red-text")
 
     const currentQuestionNumber = game.playerData.question + 1;
     const totalQuestionCount = Object.keys(game.data).length;

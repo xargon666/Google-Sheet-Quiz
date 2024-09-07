@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Quiz Generator | Home</title>
 		<link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
-		<link rel="stylesheet" type="text/css" href="./css/style-mk2.css" />
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
 		<link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
 	</head>
 
@@ -25,7 +25,13 @@
 				<a href="about.html">About</a>
 			</nav>
 		</header>
-		<!-- LANDING PAGE =============================================================================== -->
+		<!-- LANDING PAGE ======================================= -->
+		<aside class="sidebar">
+			<a href="index.html" class="active">Home</a>
+			<a href="quizList.html">Quizzes</a>
+            <a href="submitQuizForm.html">Add New Quiz</a>
+			<a href="about.html">About</a>
+		</aside>
 		<article>
 			<section id="landing-page-section" class="responsive" >
 				<div class="container centered">
@@ -37,7 +43,7 @@
 							<img width="145px" src="./images/question.jpg" alt="checklist" id="banner-image"/>
 						</a>
 					</div>
-					<div class="button-group">
+					<div class="button-group" id="landing-button-group">
 						<a class='app-button primary-button' href='quizList.html' ;">Available Quizzes</a>
 						<a class='app-button secondary-button' href='submitQuizForm.html' ;">Add New Quiz</a>
 					</div>

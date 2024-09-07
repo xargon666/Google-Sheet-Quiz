@@ -3,7 +3,6 @@
     left: 50%;
     transform: translate(-50%);
     animation: pulse 3s ease 0s infinite;
-    
 }
 
 @keyframes pulse {

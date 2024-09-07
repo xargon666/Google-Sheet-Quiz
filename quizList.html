@@ -1,64 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Quiz Generator | List</title>
-        <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="./css/style-mk2.css" />
-        <link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
-    </head>
-    
-    <body>
-        <header>
-            <a href="index.html">
-                <h1>Quiz Generator</h1>
-            </a>
-            <div class="hamburger-container"">
-                <div class="bar1 change"></div>
-                <div class="bar2 change"></div>
-                <div class="bar3 change"></div>
-              </div>
-            <nav id="top-nav" class="hide">
-                <a href="index.html" >Home</a>
-                <a href="quizList.html" class="active">Quizzes</a>
-                <a href="about.html">About</a>
-            </nav>
-        </header>
-        <!-- QUIZ LIST PAGE ================================================================================ -->
-        <article>
-            <!-- Instructions -->
-            <section class="instructions responsive">
-                <div class="container centered">
-                    <h2>Instructions</h2>
-                    <p>
-                        Select a quiz from the list below.
-                    <br>
-                        To add more, select <b>Add New Quiz</b>.
-                    </p>
-                </div>
-            </section>
-            
-            <!-- List -->
-            <section id="quiz-list-section" class="main-section centered responsive">
-                    <h2>Quiz List</h2>
-                    <div id="quiz-list" class="button-group">
-                        <a
-                            id="add-new-quiz-btn"
-                            class="app-button secondary-button"
-                            href="submitQuizForm.html"
-                            >
-                            Add New Quiz
-                        </a>
-                </div>
-            </section>
-        
-        </article>
 
-        <footer>
-            © Christopher Pucknell 2024
-        </footer>
-    </body>
-    <script src="./js/hamburger.js"></script>
-    <script type="module" src="./js/createQuizList.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Generator | List</title>
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
+</head>
+
+<body>
+    <header>
+        <a href="index.html">
+            <h1>Quiz Generator</h1>
+        </a>
+        <div class="hamburger-container"">
+                <div class=" bar1 change"></div>
+        <div class="bar2 change"></div>
+        <div class="bar3 change"></div>
+        </div>
+        <nav id="top-nav" class="hide">
+            <a href="index.html">Home</a>
+            <a href="quizList.html" class="active">Quizzes</a>
+            <a href="about.html">About</a>
+        </nav>
+    </header>
+    <!-- QUIZ LIST PAGE ================================================================================ -->
+    <aside class="sidebar">
+        <a href="index.html" class="active">Home</a>
+        <a href="quizList.html">Quizzes</a>
+        <a href="submitQuizForm.html">Add New Quiz</a>
+        <a href="about.html">About</a>
+    </aside>
+    <article>
+        <!-- List -->
+        <section id="quiz-list-section" class="main-section centered responsive">
+            <h2>Quiz List</h2>
+            <p>
+                Select a quiz from the list below, or select <b>Add New Quiz</b> to add your own.
+            </p>
+            <div id="quiz-list-button-group" class="button-group">
+                <a id="add-new-quiz-btn" class="app-button secondary-button" href="submitQuizForm.html">
+                    Add New Quiz
+                </a>
+            </div>
+        </section>
+    </article>
+
+    <footer>
+        © Christopher Pucknell 2024
+    </footer>
+</body>
+<script src="./js/hamburger.js"></script>
+<script type="module" src="./js/createQuizList.js"></script>
+
 </html>

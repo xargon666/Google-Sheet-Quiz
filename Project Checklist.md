@@ -22,13 +22,12 @@ Quiz Project Checklist
 	- [x] Create Submit Answer Code
 	- [x] Update for Checkbox questions
 	- [x] Remove instant feedback
-- [ ] Quiz End Summary
-	- [ ] Compute Final Score
-	- [ ] List High Scores
-	- [ ] Answer's stored in array till end of quiz = Needs Testing
-	- [ ] List all correct/incorrect question/answers
-		- [ ] Incorrect answers section
-		- [ ] Correct answers section
+- [x] Quiz End Summary
+	- [x] Calc Final Score
+	- [x] Answer's stored in array till end of quiz = Needs Testing
+	- [x] List all correct/incorrect question/answers
+		- [x] Incorrect answers section
+		- [x] Correct answers section
 - [ ] Add high-score section
 	- [ ] Update localstorage with new data
 	- [ ] Add link to high score screen on the start quiz screen
@@ -44,9 +43,9 @@ Quiz Project Checklist
 		- [x] update the same form to have a delete button instead of submit
 
 ## Style
-- [ ] Update Styling
+- [x] Update Styling
 	- [x] Mobile First Styling
-	- [ ] Update for Desktop
+	- [x] Update for Desktop
 
 ## Test
 - [ ] Add testing with jest
@@ -58,13 +57,13 @@ Quiz Project Checklist
 - [x] Test on Mobile
 	- [x] Does the quiz work?
 	- [x] Can new quiz be added and access later?
-	- [ ] Localstorage on mobile not working sometimes?
+	- [x] Localstorage on mobile not working sometimes?
 
 ## Readme
-- [ ] Add in depth instructions template files
+- [x] Add in depth instructions template files
 	- [x] Create template gooogle sheet
-	- [ ] Write instructions for: 
-		- [ ] inserting code into sheet
-		- [ ] deploying code
-		- [ ] find a way to do this for mobile users
+	- [x] Write instructions for: 
+		- [x] inserting code into sheet
+		- [x] deploying code
+		- [x] find a way to do this for mobile users
 

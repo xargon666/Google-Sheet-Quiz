@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Quiz Generator | Form</title>
         <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="./css/style-mk2.css" />
+        <link rel="stylesheet" type="text/css" href="./css/style.css" />
         <link rel="stylesheet" type="text/css" href="./css/hamburger-menu.css">
     </head>
     
@@ -26,21 +26,31 @@
             </nav>
         </header>
         <!-- QUIZ FORM PAGE ==================================================================================== -->
-        <article>
+		<aside class="sidebar">
+			<a href="index.html" class="active">Home</a>
+			<a href="quizList.html">Quizzes</a>
+            <a href="submitQuizForm.html">Add New Quiz</a>
+			<a href="about.html">About</a>
+		</aside>
+        <article id="submit-new-quiz-article">
             <!-- Instructions -->
             <section id="quiz-form-instructions-section" class="instructions">
                     <h2>Instructions</h2>
-                    <p>
-                        Enter the name of your quiz, a link to the data, <br>and the
-                        passing grade.<br><br>
-                        The data link must meet the requirements to correctly
+                    <p> Enter the following details:
+                        <ul>
+                            <li>Your new Quiz Name</li>
+                            <li>A link to your Googlesheets data</li>
+                            <li>Your desired Passing Grade</li>
+                        </ul>
+                        <br>
+                        Quiz data must meet set formatting requirements to correctly
                         import quiz data from your Google Sheet. <br><br>
-                        Full instructions can be found on the GitHub page for
-                        this site.
+                        Full instructions for setting up the quiz data can be found on the <a href="https://github.com/xargon666/Google-Sheet-Quiz">github page</a>.
                     </p>
             </section>
             <!-- Form -->
             <section id="add-quiz-form-section" class="main-section responsive">
+                <h2>Add Your New Quiz</h2>
                     <form id="add-quiz-form">
                         <div class="form-field">
                             <label for="quiz-name">Quiz Name</label>

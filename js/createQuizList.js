@@ -1,6 +1,6 @@
 import getLocalQuizData from "./getLocalQuizData.js";
 // VARIABLE BLOCK =============================================================
-const quizList = document.getElementById("quiz-list");
+const quizList = document.getElementById("quiz-list-button-group");
 // FUNCTION BLOCK =============================================================
 function createQuizList() {
     const quizData = getLocalQuizData();

@@ -71,7 +71,7 @@ You can also download or clone this repo, and run the site locally straight out 
 
 ![Step 12 image](https://github.com/xargon666/Google-Sheet-Quiz/blob/tutorial/12.png?raw=true)
 
-13. Navigate to the quiz app and add a new quiz. Enter your new link in the 'Google Sheets Link' field.
+13. Navigate to the quiz app and add a new quiz. Enter your new link in the 'Google Sheets Link' field on the **Add New Quiz** page on the site.
 
 ![Step 13 image](https://github.com/xargon666/Google-Sheet-Quiz/blob/tutorial/13.png?raw=true)
 
@@ -81,11 +81,14 @@ Enjoy your new quiz!
 
 ### Adding a Quiz on Mobile
 
-To add on mobile, I reccomend following the above steps on a desktop computer, then sending the link from the desktop device to your phone via cross platform app.
+Adding a quiz on mobile can be done, but it's trickier due to the lack of certain features in the  Googlesheet mobile app.
 
-You can do this in many ways. For Example: 
+I reccomend following the above steps on a desktop computer, then when you get to **Step 13** send the link from the desktop device to your phone via a cross platform app.
+
+You could do this in many ways, for example: 
 - Send a Whatsapp message to yourself.
 - Use a note taking app like Google Keep.
 
 ## Attribution
 - This project is a fork of [subhranshuchoudhury's Google-Sheet-Quiz Project](https://github.com/subhranshuchoudhury/Google-Sheet-Quiz)
+- I created the favicon on [Icons8](https://icons8.com/).

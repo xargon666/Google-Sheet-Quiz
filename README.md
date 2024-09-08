@@ -20,6 +20,8 @@ Google-Sheet-Quiz is a Quiz Generator that serves as a free alternative to "Form
 
 [Find the site online](https://googlequizgenerator.netlify.app/) hosted on [Netlify](https://www.netlify.com/).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/92c8df78-8b96-4d54-bc47-33aa2cf23ef7/deploy-status)](https://app.netlify.com/sites/googlequizgenerator/deploys)
+
 You can also download or clone this repo, and run the site locally straight out of the box.
 
 ## Adding a Quiz

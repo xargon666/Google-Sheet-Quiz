@@ -526,6 +526,7 @@ footer {
     outline: 1px solid #bbb;
     border-radius: 10px;
     overflow: hidden;
+    /* TRANSITION ANIMATION */
     transition: height 0.69s ease-out;
 }
 

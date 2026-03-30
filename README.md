@@ -25,7 +25,7 @@ Google-Sheet-Quiz is a Quiz Generator that serves as a free alternative to "Form
 You can also download or clone this repo, and run the site locally straight out of the box.
 
 ## Adding a Quiz
-1. Create a New Google Sheet using headers found in [the template](). Enter your quiz data including: questions, answers, and correct answers. Images and Points are optional (defaults to 1 point per question).
+1. Create a New Google Sheet using headers found in [the template](https://docs.google.com/spreadsheets/d/1aTwATnXOSykPxTHgZpgK9i5bmTmZ7Bz9QwxZPww_uTM/edit?usp=sharing). Enter your quiz data including: questions, answers, and correct answers. Images and Points are optional (defaults to 1 point per question).
   
 ![Step 1 image](https://github.com/xargon666/Google-Sheet-Quiz/blob/tutorial/01.png?raw=true)
 

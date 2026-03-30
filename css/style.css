@@ -43,6 +43,8 @@ body > header {
     padding: 13px 0;
     margin-bottom: 1.5rem;
     outline: #644 2px solid;
+    position: sticky;
+    width:100%;
 }
 
 body > header:first-child {

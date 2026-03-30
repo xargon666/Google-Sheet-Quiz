@@ -46,6 +46,7 @@ body > header {
     margin-bottom: 1.5rem;
     outline: #644 2px solid;
     position: sticky;
+    top:0px;
     width:100%;
 }
 

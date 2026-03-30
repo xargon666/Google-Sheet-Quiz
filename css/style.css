@@ -26,12 +26,12 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color:white;
-
+    background-color:white; 
+    
     /* Break Point - sm */
     @media (min-width: 780px) {
         /* background-color: rgb(248, 231, 239); */
-        background-color:var(--light-salmon)
+        background-color:var(--light-salmon) 
     }
 }
 
@@ -67,7 +67,7 @@ body > header > nav {
     gap: 0;
 
     /* Break Point - sm */
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         position: relative;
         top: auto;
         left: auto;
@@ -103,7 +103,7 @@ body > header > nav > a {
     border-right: black 2px solid;
     overflow-x: hidden;
 
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         display: flex;
     }
 }
@@ -129,7 +129,7 @@ body > article {
     align-items: center;
     flex: 1;
 
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         padding: 0 2rem;
         margin-left: 162px;
         flex-direction: row;
@@ -146,7 +146,7 @@ section {
     border-radius: 15px;
 
     /* Break Point - sm */
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         outline: 2px var(--salmon-patte) solid;
     }
 
@@ -196,7 +196,7 @@ img {
     width: 95%;
 
     /* Break Point - sm */
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         max-width: 700px;
     }
 
@@ -400,25 +400,25 @@ form {
     width: 100%;
 
     /* Break Point - sm */
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         width: auto;
     }
 }
 
 .button-group > a {
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         min-width: 260px;
     }
 }
 
 #landing-button-group {
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         flex-direction: row;
     }
 }
 
 #landing-button-group > a {
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         min-width: 180px;
     }
 }
@@ -456,7 +456,7 @@ form {
 
 footer {
     padding-bottom: 5px;
-    @media (min-width:640px){
+    @media (min-width:780px){
         margin-left:162px;
     }
 }
@@ -586,7 +586,7 @@ footer {
 }
 
 /* Break Point - sm */
-@media (min-width: 640px) {
+@media (min-width: 780px) {
 }
 
 /* Break Point - lg */
@@ -601,13 +601,13 @@ li {
     padding: 1.5rem 2.5rem;
     max-width: 414px;
 
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         max-width: 700px;
     }
 }
 
 #quiz-list-button-group > a {
-    @media (min-width: 640px) {
+    @media (min-width: 780px) {
         min-width: 400px;
     }
 }

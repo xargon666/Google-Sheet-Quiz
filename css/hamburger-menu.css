@@ -6,7 +6,7 @@
     margin:1rem;
     
     /* Break Point - sm */
-    @media (min-width: 640px) {
+    @media (min-width:780px){ 
         display: none;
     }
 }

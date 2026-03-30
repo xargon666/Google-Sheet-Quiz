@@ -30,7 +30,7 @@ body {
 
     /* Break Point - sm */
     @media (min-width: 780px) {
-/*         background-color: rgb(248, 231, 239); */
+        /* background-color: rgb(248, 231, 239); */
         background-color:var(--light-salmon)
     }
 }
